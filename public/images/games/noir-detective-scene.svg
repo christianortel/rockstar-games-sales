@@ -1,0 +1,19 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#050608"/>
+  <rect width="1600" height="900" fill="url(#paint0_linear)"/>
+  <circle cx="1220" cy="190" r="160" fill="#D0C09A" fill-opacity="0.16"/>
+  <rect x="960" y="230" width="320" height="420" rx="12" fill="#0D1117" fill-opacity="0.8"/>
+  <path d="M990 290H1240" stroke="#D0C09A" stroke-opacity="0.3" stroke-width="4"/>
+  <path d="M990 360H1210" stroke="#7891B5" stroke-opacity="0.25" stroke-width="3"/>
+  <path d="M990 430H1240" stroke="#D0C09A" stroke-opacity="0.18" stroke-width="3"/>
+  <path d="M990 500H1190" stroke="#7891B5" stroke-opacity="0.2" stroke-width="3"/>
+  <text x="120" y="175" fill="#EEE3C8" fill-opacity="0.95" font-family="Arial Black, sans-serif" font-size="94" letter-spacing="6">L.A. NOIRE</text>
+  <text x="120" y="230" fill="#D7CAB0" fill-opacity="0.82" font-family="Trebuchet MS, sans-serif" font-size="24" letter-spacing="5">NOIR DETECTIVE / CASE FILES / CATALOG PRESTIGE</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="260" y1="80" x2="1320" y2="840" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#181E28"/>
+      <stop offset="0.55" stop-color="#10141B"/>
+      <stop offset="1" stop-color="#040405"/>
+    </linearGradient>
+  </defs>
+</svg>

@@ -1,0 +1,10 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1400" fill="#05070A"/><rect width="900" height="1400" fill="url(#a)"/>
+  <rect x="566" y="226" width="196" height="280" fill="#11161D" fill-opacity="0.72" stroke="#D0C09A" stroke-opacity="0.18"/>
+  <path d="M0 1046L210 974L442 1006L654 952L900 1024V1400H0V1046Z" fill="#0A0D11"/>
+  <text x="58" y="146" fill="#D0C09A" font-family="Georgia, serif" font-size="30" letter-spacing="7">NOIR DETECTIVE / EVIDENCE BOARD</text>
+  <text x="56" y="382" fill="#F1E8D8" font-family="Georgia, serif" font-size="132" letter-spacing="4">L.A.</text>
+  <text x="56" y="504" fill="#D0C09A" font-family="Georgia, serif" font-size="126" letter-spacing="4">NOIRE</text>
+  <text x="60" y="1232" fill="#E1D6BF" fill-opacity="0.8" font-family="Trebuchet MS, sans-serif" font-size="28" letter-spacing="5">SMOKE / CASE FILES / PRESTIGE CATALOG ODDITY</text>
+  <defs><linearGradient id="a" x1="120" y1="100" x2="742" y2="1320" gradientUnits="userSpaceOnUse"><stop stop-color="#192029"/><stop offset="0.5" stop-color="#0B0E13"/><stop offset="1" stop-color="#040405"/></linearGradient></defs>
+</svg>

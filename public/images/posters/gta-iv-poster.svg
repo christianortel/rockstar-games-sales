@@ -1,0 +1,11 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1400" fill="#090B11"/><rect width="900" height="1400" fill="url(#a)"/>
+  <path d="M612 224H690V980H612V224Z" fill="#7E8EAA" fill-opacity="0.16"/><path d="M712 174H790V980H712V174Z" fill="#7E8EAA" fill-opacity="0.1"/>
+  <path d="M0 1060L190 982L436 1022L676 956L900 1028V1400H0V1060Z" fill="#0B0D12"/>
+  <text x="58" y="148" fill="#89B6FF" font-family="Arial Black, sans-serif" font-size="28" letter-spacing="6">LIBERTY CITY / STEEL SKIES</text>
+  <text x="56" y="346" fill="white" font-family="Arial Black, sans-serif" font-size="118" letter-spacing="4">GRAND</text>
+  <text x="56" y="460" fill="white" font-family="Arial Black, sans-serif" font-size="118" letter-spacing="4">THEFT</text>
+  <text x="56" y="574" fill="white" font-family="Arial Black, sans-serif" font-size="118" letter-spacing="4">AUTO IV</text>
+  <text x="60" y="1230" fill="#D8E6FF" fill-opacity="0.78" font-family="Trebuchet MS, sans-serif" font-size="28" letter-spacing="5">HARD EDGES / HD TRANSITION / GREY-ERA LIBERTY</text>
+  <defs><linearGradient id="a" x1="130" y1="90" x2="740" y2="1324" gradientUnits="userSpaceOnUse"><stop stop-color="#162130"/><stop offset="0.52" stop-color="#10141A"/><stop offset="1" stop-color="#050505"/></linearGradient></defs>
+</svg>

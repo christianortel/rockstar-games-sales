@@ -1,0 +1,10 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1400" fill="#090A0E"/><rect width="900" height="1400" fill="url(#a)"/>
+  <circle cx="704" cy="220" r="178" fill="#FF7A38" fill-opacity="0.18"/><circle cx="602" cy="290" r="108" fill="#41D0FF" fill-opacity="0.14"/>
+  <path d="M0 1042L210 972L430 1004L656 946L900 1022V1400H0V1042Z" fill="#0D0D12"/>
+  <text x="58" y="146" fill="#FF7A38" font-family="Arial Black, sans-serif" font-size="28" letter-spacing="7">STREET RACER / AFTER-HOURS GLOW</text>
+  <text x="56" y="352" fill="#FF7A38" font-family="Arial Black, sans-serif" font-size="92" letter-spacing="5">MIDNIGHT</text>
+  <text x="56" y="458" fill="white" font-family="Arial Black, sans-serif" font-size="112" letter-spacing="5">CLUB 3</text>
+  <text x="60" y="1232" fill="#FFE0CF" fill-opacity="0.82" font-family="Trebuchet MS, sans-serif" font-size="28" letter-spacing="5">NEON STREETS / CUSTOM CARS / CONSOLE RACER SWAGGER</text>
+  <defs><linearGradient id="a" x1="120" y1="100" x2="742" y2="1320" gradientUnits="userSpaceOnUse"><stop stop-color="#1C1220"/><stop offset="0.48" stop-color="#111117"/><stop offset="1" stop-color="#040405"/></linearGradient></defs>
+</svg>

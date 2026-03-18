@@ -1,0 +1,7 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="160" rx="28" fill="#07101E"/>
+  <rect x="10" y="10" width="220" height="140" rx="22" stroke="#6FC8FF" stroke-opacity="0.28"/>
+  <path d="M52 34C64 48 68 66 68 80C68 94 64 112 52 126" stroke="white" stroke-width="10" stroke-linecap="round"/>
+  <path d="M84 34C96 48 100 66 100 80C100 94 96 112 84 126" stroke="#6FC8FF" stroke-width="10" stroke-linecap="round"/>
+  <text x="118" y="96" fill="white" font-family="Arial Black, sans-serif" font-size="44" letter-spacing="4">PS5</text>
+</svg>

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "ttwo-investor-feb-2026",
+    "sourceName": "Take-Two Investor Presentation - February 2026",
+    "sourceUrl": "https://ir.take2games.com/static-files/98e1567f-07f8-4e07-9444-2cd954cabe57",
+    "sourceType": "investor_relations",
+    "trustTier": 1,
+    "accessedAt": "2026-03-17",
+    "attributionRequired": false,
+    "notes": "Official February 2026 investor presentation with franchise and title sell-in milestones for Grand Theft Auto and Red Dead Redemption."
+  },
+  {
+    "id": "ttwo-q3-2026-release",
+    "sourceName": "Take-Two Q3 Fiscal 2026 Results Release",
+    "sourceUrl": "https://www.take2games.com/ir/news/take-two-interactive-software-inc-reports-results-fiscal-third-4",
+    "sourceType": "investor_relations",
+    "trustTier": 1,
+    "accessedAt": "2026-03-17",
+    "attributionRequired": false,
+    "notes": "Official Q3 FY2026 earnings release used for as-of cadence and validation of Rockstar title prominence in net bookings."
+  },
+  {
+    "id": "rockstar-games-catalog",
+    "sourceName": "Rockstar Games Catalog",
+    "sourceUrl": "https://www.rockstargames.com/games",
+    "sourceType": "official_catalog",
+    "trustTier": 1,
+    "accessedAt": "2026-03-17",
+    "attributionRequired": false,
+    "notes": "Official catalog used for title names, ownership, and product-line validation."
+  },
+  {
+    "id": "take-two-ir-home",
+    "sourceName": "Take-Two Investor Relations",
+    "sourceUrl": "https://www.take2games.com/ir",
+    "sourceType": "investor_relations",
+    "trustTier": 1,
+    "accessedAt": "2026-03-17",
+    "attributionRequired": false,
+    "notes": "Investor hub used to validate latest available presentation and earnings releases."
+  },
+  {
+    "id": "mobygames-catalog",
+    "sourceName": "MobyGames Platform Release Catalog",
+    "sourceUrl": "https://www.mobygames.com/",
+    "sourceType": "metadata_api",
+    "trustTier": 2,
+    "accessedAt": "2026-03-17",
+    "attributionRequired": true,
+    "notes": "Tier 2 structured metadata reference for platform release history when not explicitly exposed in investor relations materials."
+  },
+  {
+    "id": "manual-model-v1",
+    "sourceName": "Manual Modeling Layer v1",
+    "sourceUrl": "https://example.com/manual-model-v1",
+    "sourceType": "manual_model",
+    "trustTier": 3,
+    "accessedAt": "2026-03-17",
+    "attributionRequired": false,
+    "notes": "Internal modeling layer used for platform and regional splits where Rockstar and Take-Two have not disclosed exact values."
+  }
+]

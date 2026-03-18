@@ -1,0 +1,8 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="160" rx="28" fill="#09111E"/>
+  <rect x="10" y="10" width="220" height="140" rx="22" stroke="#6FA8FF" stroke-opacity="0.3"/>
+  <path d="M54 40H74C88 40 98 49 98 62C98 74 88 84 74 84H66V118H54V40Z" fill="white"/>
+  <path d="M118 46H134V104H186V118H118V46Z" fill="#6FA8FF"/>
+  <text x="46" y="30" fill="#A8CBFF" fill-opacity="0.88" font-family="Arial Black, sans-serif" font-size="18" letter-spacing="3">PLAYSTATION</text>
+  <text x="138" y="78" fill="white" font-family="Arial Black, sans-serif" font-size="42" letter-spacing="4">PS1</text>
+</svg>

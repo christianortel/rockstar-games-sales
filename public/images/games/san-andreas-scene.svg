@@ -1,0 +1,17 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#0D0806"/>
+  <rect width="1600" height="900" fill="url(#paint0_linear)"/>
+  <circle cx="1260" cy="200" r="220" fill="#F0B95F" fill-opacity="0.22"/>
+  <path d="M0 690L310 610L560 640L820 560L1050 620L1280 540L1600 650V900H0V690Z" fill="#20110C"/>
+  <path d="M1010 430H1170L1270 650H930L1010 430Z" fill="#090605"/>
+  <path d="M960 620H1240" stroke="#5FB673" stroke-opacity="0.24" stroke-width="6"/>
+  <text x="120" y="175" fill="#FFD79B" fill-opacity="0.95" font-family="Arial Black, sans-serif" font-size="88" letter-spacing="6">SAN ANDREAS</text>
+  <text x="120" y="230" fill="#E7D4AC" fill-opacity="0.8" font-family="Trebuchet MS, sans-serif" font-size="24" letter-spacing="5">SUNFADE / STATE-SPANNING SCALE / STREET LEGEND</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="180" y1="100" x2="1310" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#341B11"/>
+      <stop offset="0.55" stop-color="#18100C"/>
+      <stop offset="1" stop-color="#050404"/>
+    </linearGradient>
+  </defs>
+</svg>

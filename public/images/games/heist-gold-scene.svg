@@ -1,0 +1,19 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#070809"/>
+  <rect width="1600" height="900" fill="url(#paint0_linear)"/>
+  <circle cx="1230" cy="150" r="220" fill="#F2C94C" fill-opacity="0.18"/>
+  <path d="M0 700L260 610L430 650L760 520L1020 590L1260 470L1600 620V900H0V700Z" fill="#14110D"/>
+  <path d="M980 370H1280V630H980V370Z" fill="#0E0E0C" fill-opacity="0.88"/>
+  <path d="M1020 330H1240V660H1020V330Z" stroke="#F2C94C" stroke-opacity="0.3" stroke-width="2"/>
+  <path d="M180 760H1410" stroke="#F2C94C" stroke-opacity="0.15" stroke-width="2"/>
+  <path d="M260 210L1200 210" stroke="#48D1B8" stroke-opacity="0.12" stroke-width="2"/>
+  <text x="130" y="190" fill="#F8E8AA" fill-opacity="0.9" font-family="Arial Black, sans-serif" font-size="102" letter-spacing="8">GTA V</text>
+  <text x="130" y="250" fill="#C7BFA3" fill-opacity="0.8" font-family="Trebuchet MS, sans-serif" font-size="26" letter-spacing="5">HEIST GOLD / LOS SANTOS / MULTI-GENERATION EMPIRE</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="300" y1="120" x2="1250" y2="880" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17120C"/>
+      <stop offset="0.6" stop-color="#0F0D0B"/>
+      <stop offset="1" stop-color="#040404"/>
+    </linearGradient>
+  </defs>
+</svg>

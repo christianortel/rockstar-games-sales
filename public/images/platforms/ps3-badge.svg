@@ -1,0 +1,8 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="160" rx="28" fill="#080808"/>
+  <rect x="10" y="10" width="220" height="140" rx="22" stroke="#DCDCDC" stroke-opacity="0.24"/>
+  <path d="M52 38H72V122H52V38Z" fill="white"/>
+  <path d="M82 38H102V122H82V38Z" fill="white" fill-opacity="0.84"/>
+  <path d="M112 38H132V122H112V38Z" fill="white" fill-opacity="0.64"/>
+  <text x="146" y="92" fill="white" font-family="Arial Black, sans-serif" font-size="44" letter-spacing="4">PS3</text>
+</svg>

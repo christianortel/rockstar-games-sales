@@ -1,0 +1,10 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="160" rx="28" fill="#0B140B"/>
+  <rect x="10" y="10" width="220" height="140" rx="22" stroke="#89E659" stroke-opacity="0.3"/>
+  <rect x="40" y="52" width="68" height="54" rx="18" fill="#89E659"/>
+  <rect x="50" y="104" width="10" height="18" rx="5" fill="#89E659"/>
+  <rect x="88" y="104" width="10" height="18" rx="5" fill="#89E659"/>
+  <circle cx="60" cy="70" r="4" fill="#0B140B"/>
+  <circle cx="88" cy="70" r="4" fill="#0B140B"/>
+  <text x="124" y="88" fill="white" font-family="Arial Black, sans-serif" font-size="24" letter-spacing="3">ANDROID</text>
+</svg>

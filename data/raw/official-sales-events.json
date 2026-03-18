@@ -1,0 +1,60 @@
+[
+  {
+    "id": "evt-gta-series-2026-02",
+    "franchise": "Grand Theft Auto",
+    "metricName": "Franchise sell-in",
+    "metricValueM": 465,
+    "metricUnit": "million_units",
+    "asOfDate": "2026-02-03",
+    "sourceId": "ttwo-investor-feb-2026",
+    "sourceName": "Take-Two Investor Presentation - February 2026",
+    "sourceUrl": "https://ir.take2games.com/static-files/98e1567f-07f8-4e07-9444-2cd954cabe57",
+    "sourceType": "investor_relations",
+    "isOfficial": true,
+    "notes": "Official franchise sell-in milestone from Rockstar Games investor presentation slide."
+  },
+  {
+    "id": "evt-gta-v-2026-02",
+    "gameId": "gta_v",
+    "franchise": "Grand Theft Auto",
+    "metricName": "Lifetime sell-in",
+    "metricValueM": 225,
+    "metricUnit": "million_units",
+    "asOfDate": "2026-02-03",
+    "sourceId": "ttwo-investor-feb-2026",
+    "sourceName": "Take-Two Investor Presentation - February 2026",
+    "sourceUrl": "https://ir.take2games.com/static-files/98e1567f-07f8-4e07-9444-2cd954cabe57",
+    "sourceType": "investor_relations",
+    "isOfficial": true,
+    "notes": "Grand Theft Auto V sell-in milestone is explicitly disclosed in the February 2026 investor presentation."
+  },
+  {
+    "id": "evt-rdr-series-2026-02",
+    "franchise": "Red Dead Redemption",
+    "metricName": "Franchise sell-in",
+    "metricValueM": 110,
+    "metricUnit": "million_units",
+    "asOfDate": "2026-02-03",
+    "sourceId": "ttwo-investor-feb-2026",
+    "sourceName": "Take-Two Investor Presentation - February 2026",
+    "sourceUrl": "https://ir.take2games.com/static-files/98e1567f-07f8-4e07-9444-2cd954cabe57",
+    "sourceType": "investor_relations",
+    "isOfficial": true,
+    "notes": "Official Red Dead Redemption series sell-in milestone."
+  },
+  {
+    "id": "evt-rdr2-2026-02",
+    "gameId": "red_dead_redemption_2",
+    "franchise": "Red Dead Redemption",
+    "metricName": "Lifetime sell-in",
+    "metricValueM": 82,
+    "metricUnit": "million_units",
+    "asOfDate": "2026-02-03",
+    "sourceId": "ttwo-investor-feb-2026",
+    "sourceName": "Take-Two Investor Presentation - February 2026",
+    "sourceUrl": "https://ir.take2games.com/static-files/98e1567f-07f8-4e07-9444-2cd954cabe57",
+    "sourceType": "investor_relations",
+    "isOfficial": true,
+    "notes": "Red Dead Redemption 2 sell-in milestone is explicitly disclosed in the February 2026 investor presentation."
+  }
+]

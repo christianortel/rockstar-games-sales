@@ -1,0 +1,5 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="160" rx="28" fill="#EEF2F5"/>
+  <rect x="10" y="10" width="220" height="140" rx="22" stroke="#8EA0AD" stroke-opacity="0.45"/>
+  <text x="44" y="92" fill="#8EA0AD" font-family="Arial Black, sans-serif" font-size="58" letter-spacing="2">Wii</text>
+</svg>

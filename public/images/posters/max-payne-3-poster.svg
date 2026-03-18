@@ -1,0 +1,11 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1400" fill="#070A10"/><rect width="900" height="1400" fill="url(#a)"/>
+  <circle cx="704" cy="226" r="170" fill="#B3D7FF" fill-opacity="0.12"/>
+  <path d="M0 1048L210 978L430 1008L660 952L900 1024V1400H0V1048Z" fill="#0C0F15"/>
+  <text x="58" y="146" fill="#B3D7FF" font-family="Arial Black, sans-serif" font-size="28" letter-spacing="7">STEEL BLUE / BULLET TIME / LATE-GEN SHOOTER</text>
+  <text x="56" y="364" fill="white" font-family="Arial Black, sans-serif" font-size="110" letter-spacing="4">MAX</text>
+  <text x="56" y="478" fill="white" font-family="Arial Black, sans-serif" font-size="110" letter-spacing="4">PAYNE</text>
+  <text x="56" y="610" fill="#DE4F4F" font-family="Arial Black, sans-serif" font-size="132" letter-spacing="8">3</text>
+  <text x="60" y="1232" fill="#DCEEFF" fill-opacity="0.8" font-family="Trebuchet MS, sans-serif" font-size="28" letter-spacing="5">COLD INTENSITY / ACTION OUTLIER / CONSOLE-LED MIX</text>
+  <defs><linearGradient id="a" x1="120" y1="100" x2="742" y2="1320" gradientUnits="userSpaceOnUse"><stop stop-color="#162130"/><stop offset="0.5" stop-color="#10151D"/><stop offset="1" stop-color="#040405"/></linearGradient></defs>
+</svg>

@@ -1,0 +1,8 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="160" rx="28" fill="#0D1110"/>
+  <rect x="10" y="10" width="220" height="140" rx="22" stroke="#A0FFA8" stroke-opacity="0.24"/>
+  <rect x="30" y="28" width="68" height="104" rx="16" fill="#151A18" stroke="#A0FFA8" stroke-opacity="0.18"/>
+  <circle cx="64" cy="52" r="16" fill="#A0FFA8" fill-opacity="0.2"/>
+  <text x="114" y="72" fill="white" font-family="Arial Black, sans-serif" font-size="24" letter-spacing="3">SERIES</text>
+  <text x="114" y="106" fill="#A0FFA8" font-family="Arial Black, sans-serif" font-size="36" letter-spacing="4">X|S</text>
+</svg>

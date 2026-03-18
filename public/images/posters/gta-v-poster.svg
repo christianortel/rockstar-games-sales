@@ -1,0 +1,13 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1400" fill="#0A0908"/>
+  <rect width="900" height="1400" fill="url(#a)"/>
+  <circle cx="690" cy="210" r="170" fill="#F2C94C" fill-opacity="0.18"/>
+  <path d="M0 1020L180 940L360 970L580 910L900 1020V1400H0V1020Z" fill="#120F0C"/>
+  <path d="M520 260L660 190L742 250L742 612L632 612L632 328L520 384V260Z" fill="#0C0B09"/>
+  <text x="58" y="140" fill="#F2C94C" font-family="Arial Black, sans-serif" font-size="26" letter-spacing="6">LOS SANTOS / HEIST ERA</text>
+  <text x="56" y="348" fill="white" font-family="Arial Black, sans-serif" font-size="120" letter-spacing="4">GRAND</text>
+  <text x="56" y="462" fill="white" font-family="Arial Black, sans-serif" font-size="120" letter-spacing="4">THEFT</text>
+  <text x="56" y="576" fill="white" font-family="Arial Black, sans-serif" font-size="120" letter-spacing="4">AUTO V</text>
+  <text x="60" y="1234" fill="#F5E8C8" fill-opacity="0.8" font-family="Trebuchet MS, sans-serif" font-size="28" letter-spacing="5">BLOCKBUSTER SCALE / THREE GENERATIONS / ROCKSTAR'S LONG-TAIL MONOLITH</text>
+  <defs><linearGradient id="a" x1="120" y1="80" x2="760" y2="1320" gradientUnits="userSpaceOnUse"><stop stop-color="#231A12"/><stop offset="0.5" stop-color="#0D0C0B"/><stop offset="1" stop-color="#050505"/></linearGradient></defs>
+</svg>

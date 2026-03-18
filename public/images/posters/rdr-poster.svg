@@ -1,0 +1,10 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1400" fill="#090403"/><rect width="900" height="1400" fill="url(#a)"/>
+  <circle cx="696" cy="232" r="178" fill="#E8B36C" fill-opacity="0.2"/>
+  <path d="M0 1038L214 968L432 992L650 938L900 1020V1400H0V1038Z" fill="#130907"/>
+  <text x="58" y="146" fill="#E8B36C" font-family="Arial Black, sans-serif" font-size="28" letter-spacing="7">FRONTIER NOIR / DUST & EMBERS</text>
+  <text x="56" y="352" fill="#F7E3C1" font-family="Arial Black, sans-serif" font-size="116" letter-spacing="4">RED DEAD</text>
+  <text x="56" y="470" fill="#F7E3C1" font-family="Arial Black, sans-serif" font-size="98" letter-spacing="4">REDEMPTION</text>
+  <text x="60" y="1232" fill="#F2D8AF" fill-opacity="0.82" font-family="Trebuchet MS, sans-serif" font-size="28" letter-spacing="5">WESTERN MELANCHOLY / CONSOLE HEAVY / CATALOG REVIVAL</text>
+  <defs><linearGradient id="a" x1="120" y1="100" x2="742" y2="1320" gradientUnits="userSpaceOnUse"><stop stop-color="#4A1B13"/><stop offset="0.5" stop-color="#170C09"/><stop offset="1" stop-color="#050404"/></linearGradient></defs>
+</svg>

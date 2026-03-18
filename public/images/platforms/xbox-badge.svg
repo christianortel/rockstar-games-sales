@@ -1,0 +1,8 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="160" rx="28" fill="#08110B"/>
+  <rect x="10" y="10" width="220" height="140" rx="22" stroke="#79FF9A" stroke-opacity="0.3"/>
+  <circle cx="72" cy="80" r="34" fill="#79FF9A" fill-opacity="0.12"/>
+  <path d="M56 58L72 73L88 58L96 66L79 82L96 98L88 106L72 91L56 106L48 98L65 82L48 66L56 58Z" fill="#79FF9A"/>
+  <text x="120" y="75" fill="white" font-family="Arial Black, sans-serif" font-size="34" letter-spacing="3">XBOX</text>
+  <text x="120" y="101" fill="#B8F9C6" fill-opacity="0.82" font-family="Trebuchet MS, sans-serif" font-size="16" letter-spacing="3">MICROSOFT</text>
+</svg>

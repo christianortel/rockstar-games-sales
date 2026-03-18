@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+
+*.log
+npm-path.log
+npm-ver.log
+foo.log
+detached-test.log
+tsconfig.tsbuildinfo
+
+.DS_Store
+Thumbs.db

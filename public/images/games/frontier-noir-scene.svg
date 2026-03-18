@@ -1,0 +1,17 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#0A0504"/>
+  <rect width="1600" height="900" fill="url(#paint0_linear)"/>
+  <circle cx="1210" cy="200" r="180" fill="#E8B36C" fill-opacity="0.22"/>
+  <path d="M0 620L250 570L420 590L650 520L930 570L1180 520L1600 650V900H0V620Z" fill="#1A0D0A"/>
+  <path d="M0 710L220 690L520 720L820 650L1150 700L1450 660L1600 700V900H0V710Z" fill="#110908"/>
+  <path d="M1030 470L1140 390L1165 390L1220 450L1220 640L1110 640L1110 520L1030 520V470Z" fill="#090606"/>
+  <text x="120" y="175" fill="#F4D3A8" fill-opacity="0.92" font-family="Arial Black, sans-serif" font-size="92" letter-spacing="6">RED DEAD</text>
+  <text x="120" y="230" fill="#E6C28A" fill-opacity="0.8" font-family="Trebuchet MS, sans-serif" font-size="24" letter-spacing="5">FRONTIER NOIR / WESTERN SCALE / DUST AND EMBERS</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="200" y1="120" x2="1400" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3B140F"/>
+      <stop offset="0.52" stop-color="#1A0C09"/>
+      <stop offset="1" stop-color="#060404"/>
+    </linearGradient>
+  </defs>
+</svg>

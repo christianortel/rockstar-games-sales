@@ -1,0 +1,8 @@
+<svg width="240" height="160" viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="240" height="160" rx="28" fill="#111317"/>
+  <rect x="18" y="28" width="104" height="72" rx="12" fill="#20252D" stroke="white" stroke-opacity="0.22"/>
+  <rect x="58" y="108" width="24" height="8" rx="4" fill="white" fill-opacity="0.8"/>
+  <rect x="46" y="118" width="48" height="8" rx="4" fill="white" fill-opacity="0.5"/>
+  <text x="136" y="78" fill="white" font-family="Arial Black, sans-serif" font-size="44" letter-spacing="4">PC</text>
+  <text x="138" y="105" fill="white" fill-opacity="0.6" font-family="Trebuchet MS, sans-serif" font-size="14" letter-spacing="3">OPEN PLATFORM</text>
+</svg>
