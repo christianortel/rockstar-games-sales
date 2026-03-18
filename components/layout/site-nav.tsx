@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,7 +14,16 @@ export function SiteNav() {
     <header className="sticky top-0 z-40 border-b border-white/8 bg-black/20 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between md:px-8">
         <Link href="/" className="flex items-center gap-4">
-          <div className="hidden h-10 w-[3px] rounded-full bg-white/60 md:block" />
+          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-[#f6c343] shadow-[0_8px_18px_rgba(0,0,0,0.28)]">
+            <Image
+              alt="Rockstar app mark"
+              className="object-contain"
+              fill
+              sizes="44px"
+              src="/images/logos/rockstar-app-badge.svg"
+              unoptimized
+            />
+          </div>
           <div>
             <p className="font-display text-lg uppercase tracking-[0.3em] text-white">Rockstar Sales Universe</p>
             <p className="text-[11px] uppercase tracking-[0.22em] text-white/42">

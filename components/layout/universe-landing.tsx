@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { Compass, Database, Search, ShieldCheck, Sparkles, Swords, WalletCards } from "lucide-react";
 import { useDeferredValue, useMemo, useState } from "react";
 
 import { CatalogIndexCard } from "@/components/cards/catalog-index-card";
 import { GameUniverseCard } from "@/components/cards/game-universe-card";
+import { GtaSixForecast } from "@/components/layout/gta-six-forecast";
 import { StatCard } from "@/components/cards/stat-card";
 import { SceneBackdrop } from "@/components/layout/scene-backdrop";
 import { SectionShell } from "@/components/ui/section-shell";
@@ -73,37 +75,61 @@ export function UniverseLanding() {
       >
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
         <div className="grid gap-10 xl:grid-cols-[1.12fr,0.88fr]">
-          <div className="max-w-4xl">
-            <p className="text-[11px] uppercase tracking-[0.38em]" style={{ color: activeTheme.accent }}>
-              Rockstar release atlas
-            </p>
-            <h1 className="mt-5 max-w-[13ch] font-display text-5xl uppercase tracking-[0.05em] text-white md:text-7xl">
-              Explore the full Rockstar catalog
-            </h1>
-            <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 md:text-lg">
-              Browse every Rockstar release in one place, then move from the catalog layer into platform mix, release history,
-              commercial estimates, and raw data inspection. The goal is simple: make the catalog easy to explore and the
-              numbers easy to trust.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-xs uppercase tracking-[0.28em] text-white transition hover:bg-white/15"
-                href="#catalog-atlas"
-              >
-                Browse all releases
-              </Link>
-              <Link
-                className="rounded-full border border-white/12 bg-black/25 px-5 py-3 text-xs uppercase tracking-[0.28em] text-white/78 transition hover:border-white/20 hover:text-white"
-                href="/dashboard"
-              >
-                Open atlas
-              </Link>
-              <Link
-                className="rounded-full border border-white/12 bg-black/25 px-5 py-3 text-xs uppercase tracking-[0.28em] text-white/78 transition hover:border-white/20 hover:text-white"
-                href="/data-lab"
-              >
-                Open data lab
-              </Link>
+          <div className="relative overflow-hidden rounded-[2.2rem] border border-white/8 bg-black/30 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] md:p-8">
+            <div className="absolute inset-0">
+              <Image
+                alt=""
+                className="object-cover object-center opacity-38"
+                fill
+                priority
+                sizes="(max-width: 1280px) 100vw, 48vw"
+                src={activeAsset?.heroImage ?? activeAsset?.backgroundImage ?? "/images/fallbacks/no-image.svg"}
+                unoptimized
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `linear-gradient(90deg, rgba(4,4,4,0.94) 0%, rgba(4,4,4,0.84) 42%, rgba(4,4,4,0.56) 100%)`
+                }}
+              />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.08),transparent_34%)]" />
+              <div
+                className="absolute inset-y-0 right-0 w-[34%]"
+                style={{ background: `linear-gradient(180deg, transparent 0%, ${activeTheme.accent}20 35%, transparent 100%)` }}
+              />
+            </div>
+            <div className="relative max-w-4xl">
+              <p className="text-[11px] uppercase tracking-[0.38em]" style={{ color: activeTheme.accent }}>
+                Rockstar release atlas
+              </p>
+              <h1 className="mt-5 max-w-[13ch] font-display text-5xl uppercase tracking-[0.05em] text-white md:text-7xl">
+                Explore the full Rockstar catalog
+              </h1>
+              <p className="mt-6 max-w-2xl text-base leading-8 text-white/74 md:text-lg">
+                Browse every Rockstar release in one place, then move from the catalog layer into platform mix, release history,
+                commercial estimates, and raw data inspection. The goal is simple: make the catalog easy to explore and the
+                numbers easy to trust.
+              </p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  className="rounded-full border border-white/15 bg-white/10 px-5 py-3 text-xs uppercase tracking-[0.28em] text-white transition hover:bg-white/15"
+                  href="#catalog-atlas"
+                >
+                  Browse all releases
+                </Link>
+                <Link
+                  className="rounded-full border border-white/12 bg-black/25 px-5 py-3 text-xs uppercase tracking-[0.28em] text-white/78 transition hover:border-white/20 hover:text-white"
+                  href="/dashboard"
+                >
+                  Open atlas
+                </Link>
+                <Link
+                  className="rounded-full border border-white/12 bg-black/25 px-5 py-3 text-xs uppercase tracking-[0.28em] text-white/78 transition hover:border-white/20 hover:text-white"
+                  href="/data-lab"
+                >
+                  Open data lab
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -191,6 +217,8 @@ export function UniverseLanding() {
           />
         </div>
       </section>
+
+      <GtaSixForecast />
 
       <SectionShell
         accent={activeTheme.accent}
