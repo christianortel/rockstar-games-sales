@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 import { GameCoverArt } from "@/components/ui/game-cover-art";
+import { ProvenanceBadge } from "@/components/ui/provenance-badge";
 import { formatMillions } from "@/lib/formatters";
 import { getGamePoster } from "@/lib/themes/asset-utils";
 import { getTheme } from "@/lib/themes/theme-utils";
@@ -45,10 +46,12 @@ export function CatalogIndexCard({
               <span className="rounded-full border border-white/10 px-2 py-1 text-[9px] uppercase tracking-[0.16em] text-white/50">
                 {row.game.kind.replace(/_/g, " ")}
               </span>
+              <ProvenanceBadge compact provenance={row.game.fieldProvenance.metadata} />
             </div>
             <h3 className="mt-2 line-clamp-2 font-display text-xl uppercase tracking-[0.05em] text-white">{row.game.title}</h3>
             <p className="mt-2 line-clamp-3 text-xs leading-6 text-white/64">{row.game.shortDescription}</p>
-            <p className="mt-2 line-clamp-2 text-[11px] leading-5 text-white/44">{row.game.headlineMetric}</p>
+            <p className="mt-2 line-clamp-2 text-[11px] leading-5 text-white/50">{row.game.releaseContext}</p>
+            <p className="mt-2 line-clamp-2 text-[11px] leading-5 text-white/40">{row.game.headlineMetric}</p>
           </div>
         </div>
 
@@ -60,6 +63,9 @@ export function CatalogIndexCard({
           <div>
             <p className="text-[10px] uppercase tracking-[0.22em] text-white/38">Units</p>
             <p className="mt-1 text-sm text-white/78">{formatMillions(row.blendedUnitsM, 1)}</p>
+            <div className="mt-2">
+              <ProvenanceBadge compact provenance={row.game.fieldProvenance.lifetimeUnits} />
+            </div>
           </div>
           <div className="text-right">
             <p className="text-[10px] uppercase tracking-[0.22em] text-white/38">Coverage</p>

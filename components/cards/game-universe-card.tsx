@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 import { GameCoverArt } from "@/components/ui/game-cover-art";
+import { ProvenanceBadge } from "@/components/ui/provenance-badge";
 import { formatMillions } from "@/lib/formatters";
 import { getGameAsset, getTheme } from "@/lib/themes/theme-utils";
 import { getGamePoster } from "@/lib/themes/asset-utils";
@@ -46,9 +47,7 @@ export function GameUniverseCard({
             <p className="text-[11px] uppercase tracking-[0.35em]" style={{ color: theme.accent }}>
               {row.game.franchise}
             </p>
-            <span className="rounded-full border px-3 py-1 text-[10px] uppercase tracking-[0.24em] text-white/80" style={{ borderColor: `${theme.accent}55`, backgroundColor: `${theme.accent}22` }}>
-              {row.game.confirmedLifetimeUnitsM ? "Official anchor" : "Modeled title"}
-            </span>
+            <ProvenanceBadge provenance={row.game.fieldProvenance.lifetimeUnits} />
           </div>
           <div className="mt-4 grid gap-4 md:grid-cols-[190px,1fr]">
             <div className="relative aspect-[3/4] overflow-hidden rounded-[1.4rem] border border-white/12 bg-black/35 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
@@ -73,7 +72,11 @@ export function GameUniverseCard({
                 {row.game.title}
               </h3>
               <p className="mt-3 max-w-md text-sm leading-7 text-white/78">{row.game.shortDescription}</p>
-              <p className="mt-3 max-w-md text-sm leading-7 text-white/58">{row.game.headlineMetric}</p>
+              <p className="mt-3 max-w-md text-sm leading-7 text-white/64">{row.game.releaseContext}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <ProvenanceBadge compact provenance={row.game.fieldProvenance.metadata} />
+                <ProvenanceBadge compact provenance={row.game.fieldProvenance.coverArt} />
+              </div>
             </div>
           </div>
 
@@ -94,6 +97,9 @@ export function GameUniverseCard({
               <p className="text-[11px] uppercase tracking-[0.28em] text-white/40">Confidence</p>
               <p className="mt-2 text-lg text-white">{Math.round(row.confidence * 100)}%</p>
             </div>
+          </div>
+          <div className="mt-4 rounded-[1.2rem] border border-white/8 bg-black/18 p-4 text-sm leading-7 text-white/64">
+            {row.confidenceReasons[0]}
           </div>
         </div>
       </Link>

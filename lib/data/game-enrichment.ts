@@ -14,6 +14,10 @@ export function getGameEnrichment(gameId: string, parentGameId?: string) {
     ...parentEnrichment,
     ...enrichment,
     summary: enrichment.summary ?? parentEnrichment.summary,
+    releaseContext: enrichment.releaseContext ?? parentEnrichment.releaseContext,
+    roleContext: enrichment.roleContext ?? parentEnrichment.roleContext,
+    precisionNote: enrichment.precisionNote ?? parentEnrichment.precisionNote,
+    legacyNote: enrichment.legacyNote ?? parentEnrichment.legacyNote,
     coverImageUrl: enrichment.coverImageUrl ?? parentEnrichment.coverImageUrl
   };
 }

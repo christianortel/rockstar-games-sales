@@ -17,6 +17,7 @@ export type GameKind = "game" | "mission_pack" | "expansion" | "online_service" 
 export type RockstarRole = "developed" | "published" | "presented";
 export type AnalyticsCoverage = "featured" | "supported" | "catalog_only";
 export type ReleaseDatePrecision = "day" | "year";
+export type ProvenanceTag = "official" | "modeled" | "inherited" | "enriched";
 export type ConsoleGeneration =
   | "gen5"
   | "gen6"
@@ -42,6 +43,10 @@ export interface Game {
   releaseDatePrecision: ReleaseDatePrecision;
   shortDescription: string;
   longDescription: string;
+  releaseContext: string;
+  roleContext: string;
+  precisionNote?: string;
+  legacyNote?: string;
   themeKey: ThemeKey;
   universeStyle: string;
   heroTagline: string;
@@ -54,7 +59,25 @@ export interface Game {
   confirmedLifetimeUnitsM?: number;
   headlineMetric: string;
   galleryCaption: string;
+  fieldProvenance: GameFieldProvenance;
+  confidenceReasons: string[];
   methodologyId: string;
+}
+
+export interface FieldProvenance {
+  tag: ProvenanceTag;
+  label: string;
+  reason: string;
+  sourceIds?: string[];
+  sourceUrl?: string;
+}
+
+export interface GameFieldProvenance {
+  lifetimeUnits: FieldProvenance;
+  revenueEstimate: FieldProvenance;
+  releaseDate: FieldProvenance;
+  coverArt: FieldProvenance;
+  metadata: FieldProvenance;
 }
 
 export interface Platform {
@@ -200,6 +223,7 @@ export interface DashboardGameRow {
   estimatedRevenueUsdM: number;
   platforms: Platform[];
   confidence: number;
+  confidenceReasons: string[];
 }
 
 export interface GameEnrichment {
@@ -207,6 +231,10 @@ export interface GameEnrichment {
   wikipediaTitle?: string;
   wikipediaUrl?: string;
   summary?: string;
+  releaseContext?: string;
+  roleContext?: string;
+  precisionNote?: string;
+  legacyNote?: string;
   coverImageUrl?: string;
   sourceName?: string;
   sourceUrl?: string;

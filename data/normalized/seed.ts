@@ -4,7 +4,9 @@ import rawGameEnrichment from "@/data/raw/game-enrichment.json";
 import { catalogSeeds, featuredGameIds } from "@/data/normalized/catalog";
 import {
   AnalyticsCoverage,
+  FieldProvenance,
   Game,
+  GameEnrichment,
   GameProfile,
   Methodology,
   OfficialSalesEvent,
@@ -17,7 +19,7 @@ import {
 
 export const sources = rawSources as SourceRecord[];
 export const officialSalesEvents = rawOfficialSalesEvents as OfficialSalesEvent[];
-const gameEnrichment = rawGameEnrichment as Record<string, { summary?: string }>;
+const gameEnrichment = rawGameEnrichment as Record<string, GameEnrichment>;
 
 export const methodologies: Methodology[] = [
   {
@@ -171,10 +173,205 @@ function buildCatalogFactLine(seed: (typeof catalogSeeds)[number]) {
   return `${roleLabel} release from ${seed.year}, first tracked on ${summarizePlatforms(seed.platforms)}.`;
 }
 
+function getEnrichmentState(seed: (typeof catalogSeeds)[number]) {
+  const direct = gameEnrichment[seed.id];
+  const inherited = seed.parentGameId ? gameEnrichment[seed.parentGameId] : undefined;
+  const enrichment = direct
+    ? {
+        ...inherited,
+        ...direct,
+        summary: direct.summary ?? inherited?.summary,
+        releaseContext: direct.releaseContext ?? inherited?.releaseContext,
+        roleContext: direct.roleContext ?? inherited?.roleContext,
+        precisionNote: direct.precisionNote ?? inherited?.precisionNote,
+        legacyNote: direct.legacyNote ?? inherited?.legacyNote,
+        coverImageUrl: direct.coverImageUrl ?? inherited?.coverImageUrl
+      }
+    : inherited;
+
+  return {
+    direct,
+    inherited,
+    enrichment,
+    hasDirect: Boolean(direct),
+    inheritedFromParent: Boolean(!direct && inherited)
+  };
+}
+
+function buildRoleContext(seed: (typeof catalogSeeds)[number]) {
+  if (seed.rockstarRole === "developed") {
+    return `${seed.title} was developed inside Rockstar's studio network and treated as a direct part of the company's release identity.`;
+  }
+
+  if (seed.rockstarRole === "published") {
+    return `${seed.title} sits in the catalog as a Rockstar-published release, which matters historically even though it was not a fully in-house Rockstar build.`;
+  }
+
+  return `${seed.title} was presented under the Rockstar label, so it is part of the brand timeline even though Rockstar's direct development role was lighter.`;
+}
+
+function buildReleaseContext(seed: (typeof catalogSeeds)[number]) {
+  if (seed.kind === "online_service") {
+    return `${seed.title} is treated as the live-service commercial layer attached to ${seed.parentGameId ? "its parent title" : "Rockstar's wider premium catalog"}, rather than as a separate boxed launch.`;
+  }
+
+  if (seed.kind === "expansion" || seed.kind === "mission_pack") {
+    return `${seed.title} extends an existing Rockstar release, so its catalog placement is tied to parent-title demand, install base, and release timing rather than a standalone launch curve.`;
+  }
+
+  if (seed.kind === "variant") {
+    return `${seed.title} represents a re-release, port, or format refresh that lengthened the original title's catalog life instead of resetting it as a new mainline event.`;
+  }
+
+  return `${seed.title} entered the catalog in ${seed.year} across ${summarizePlatforms(seed.platforms)}, giving this entry a concrete release-era and platform-footprint anchor.`;
+}
+
+function buildPrecisionNote(seed: (typeof catalogSeeds)[number]) {
+  if ((seed.releaseDatePrecision ?? (seed.releaseDate ? "day" : "year")) === "day") {
+    return `The launch date is tracked to the day (${seed.releaseDate ?? `${seed.year}-01-01`}) from the current catalog seed.`;
+  }
+
+  return `This entry is currently normalized to release year only (${seed.year}) until stronger day-level sourcing is added.`;
+}
+
+function buildLegacyNote(seed: (typeof catalogSeeds)[number]) {
+  if (seed.kind === "mission_pack") {
+    return "Mission packs from Rockstar's early catalog are preserved for historical completeness even when public sales disclosure is sparse.";
+  }
+
+  if (seed.kind === "expansion") {
+    return "Expansion releases inherit much of their commercial gravity from the parent title, so the model treats them as related extensions rather than isolated blockbusters.";
+  }
+
+  if (seed.kind === "variant") {
+    return "Variant entries are kept separate so remasters, portable versions, and later anniversary editions remain visible in the release timeline.";
+  }
+
+  if (seed.year <= 2001) {
+    return "Older Rockstar-era catalog entries often have weaker public metadata and lighter disclosure, so context is surfaced explicitly to keep the catalog honest.";
+  }
+
+  return undefined;
+}
+
+function createProvenance(
+  tag: Game["fieldProvenance"]["lifetimeUnits"]["tag"],
+  label: string,
+  reason: string,
+  sourceIds?: string[],
+  sourceUrl?: string
+): FieldProvenance {
+  return {
+    tag,
+    label,
+    reason,
+    sourceIds,
+    sourceUrl
+  };
+}
+
+function buildFieldProvenance(
+  seed: (typeof catalogSeeds)[number],
+  game: Game,
+  enrichmentState: ReturnType<typeof getEnrichmentState>
+) {
+  const hasOfficialUnits = Boolean(game.confirmedLifetimeUnitsM);
+  const lifetimeTag =
+    hasOfficialUnits ? "official" : seed.parentGameId && seed.kind !== "game" ? "inherited" : "modeled";
+  const metadataTag = enrichmentState.hasDirect
+    ? "enriched"
+    : enrichmentState.inheritedFromParent
+      ? "inherited"
+      : "modeled";
+  const coverTag = enrichmentState.enrichment?.coverImageUrl
+    ? metadataTag
+    : "modeled";
+
+  return {
+    lifetimeUnits: createProvenance(
+      lifetimeTag,
+      hasOfficialUnits ? "Official milestone" : lifetimeTag === "inherited" ? "Inherited commercial model" : "Modeled lifetime units",
+      hasOfficialUnits
+        ? "Headline units are anchored to an official Take-Two / Rockstar disclosure."
+        : lifetimeTag === "inherited"
+          ? "This title's lifetime read inherits structure from a parent release and then scales it down for the connected add-on or variant."
+          : "Lifetime units are modeled from release timing, platform scope, franchise strength, and Rockstar role.",
+      hasOfficialUnits ? ["ttwo-investor-feb-2026"] : ["manual-model-v1"],
+      hasOfficialUnits ? "https://www.take2games.com/ir" : "https://example.com/manual-model-v1"
+    ),
+    revenueEstimate: createProvenance(
+      "modeled",
+      "Modeled revenue",
+      "Revenue is always estimated from units and average selling price assumptions rather than official title P&L disclosure.",
+      ["manual-model-v1"],
+      "https://example.com/manual-model-v1"
+    ),
+    releaseDate: createProvenance(
+      game.releaseDatePrecision === "day" ? "official" : "modeled",
+      game.releaseDatePrecision === "day" ? "Day-level release date" : "Year-level release date",
+      game.releaseDatePrecision === "day"
+        ? "The release date is tracked to a specific day in the current catalog seed."
+        : "Only year-level precision is available in the normalized seed, so the app shows the date conservatively.",
+      ["rockstar-games-catalog", "mobygames-catalog"]
+    ),
+    coverArt: createProvenance(
+      coverTag,
+      coverTag === "enriched" ? "Enriched cover art" : coverTag === "inherited" ? "Inherited parent art" : "Fallback cover treatment",
+      coverTag === "enriched"
+        ? "The cover image comes from the metadata enrichment layer for this exact release."
+        : coverTag === "inherited"
+          ? "This entry borrows art from its parent title because release-specific art is weaker or harder to source."
+          : "No specific cover art is attached yet, so the app falls back to an internal poster treatment.",
+      coverTag === "modeled" ? ["manual-model-v1"] : ["wikipedia-metadata"],
+      enrichmentState.enrichment?.sourceUrl
+    ),
+    metadata: createProvenance(
+      metadataTag,
+      metadataTag === "enriched" ? "Direct enrichment" : metadataTag === "inherited" ? "Inherited enrichment" : "Seed-derived context",
+      metadataTag === "enriched"
+        ? "Summary and context come from the release-specific enrichment layer."
+        : metadataTag === "inherited"
+          ? "Summary and context currently inherit from the parent title because direct metadata is still thinner."
+          : "Summary and context are derived from the local catalog seed until a stronger enrichment record is attached.",
+      metadataTag === "modeled" ? ["rockstar-games-catalog", "manual-model-v1"] : ["wikipedia-metadata"],
+      enrichmentState.enrichment?.sourceUrl
+    )
+  } satisfies Game["fieldProvenance"];
+}
+
+function buildConfidenceReasons(
+  seed: (typeof catalogSeeds)[number],
+  game: Game,
+  enrichmentState: ReturnType<typeof getEnrichmentState>
+) {
+  const reasons = [
+    game.confirmedLifetimeUnitsM
+      ? "Lifetime units are anchored by an official title or franchise milestone."
+      : "Lifetime units remain modeled from release timing, platform mix, and franchise behavior.",
+    game.releaseDatePrecision === "day"
+      ? "Release timing is tracked at day precision."
+      : "Release timing is currently year-only, which lowers certainty around launch cadence.",
+    enrichmentState.hasDirect
+      ? "This release has direct metadata enrichment for summary or art."
+      : enrichmentState.inheritedFromParent
+        ? "Some metadata is inherited from the parent title because direct release coverage is thinner."
+        : "Metadata comes primarily from the normalized catalog seed."
+  ];
+
+  if (seed.kind !== "game") {
+    reasons.push("Variants, expansions, and service layers carry lower standalone certainty than primary boxed releases.");
+  } else if (seed.year <= 2001) {
+    reasons.push("Older catalog titles have thinner public documentation and fewer reliable commercial updates.");
+  }
+
+  return reasons;
+}
+
 function buildCatalogGame(seed: (typeof catalogSeeds)[number]): Game {
   const analyticsCoverage: AnalyticsCoverage = featuredGameIds.includes(seed.id) ? "featured" : "supported";
   const themeKey = inferTheme(seed.franchise, seed.title);
-  const enrichment = gameEnrichment[seed.id] ?? (seed.parentGameId ? gameEnrichment[seed.parentGameId] : undefined);
+  const enrichmentState = getEnrichmentState(seed);
+  const enrichment = enrichmentState.enrichment;
   const roleDeveloperMap = {
     developed: "Rockstar Studios",
     published: "Third-party / Rockstar-published",
@@ -195,6 +392,10 @@ function buildCatalogGame(seed: (typeof catalogSeeds)[number]): Game {
     releaseDatePrecision: seed.releaseDatePrecision ?? (seed.releaseDate ? "day" : "year"),
     shortDescription: enrichment?.summary ?? buildCatalogShortDescription(seed.title, analyticsCoverage, seed.kind),
     longDescription: buildCatalogLongDescription(seed.title, analyticsCoverage, seed.rockstarRole),
+    releaseContext: enrichment?.releaseContext ?? buildReleaseContext(seed),
+    roleContext: enrichment?.roleContext ?? buildRoleContext(seed),
+    precisionNote: enrichment?.precisionNote ?? buildPrecisionNote(seed),
+    legacyNote: enrichment?.legacyNote ?? buildLegacyNote(seed),
     themeKey,
     universeStyle: inferUniverseStyle(themeKey),
     heroTagline: buildCatalogHeroTagline(seed.year, seed.kind, analyticsCoverage),
@@ -206,6 +407,80 @@ function buildCatalogGame(seed: (typeof catalogSeeds)[number]): Game {
     estimatedLifetimeUnitsM: 0,
     headlineMetric: buildCatalogFactLine(seed),
     galleryCaption: "Catalog entry using centralized theme and asset fallbacks.",
+    fieldProvenance: buildFieldProvenance(
+      seed,
+      {
+        id: seed.id,
+        slug: seed.slug,
+        title: seed.title,
+        franchise: seed.franchise,
+        kind: seed.kind,
+        rockstarRole: seed.rockstarRole,
+        analyticsCoverage,
+        parentGameId: seed.parentGameId,
+        releaseYear: seed.year,
+        originalReleaseDate: seed.releaseDate ?? `${seed.year}-01-01`,
+        releaseDatePrecision: seed.releaseDatePrecision ?? (seed.releaseDate ? "day" : "year"),
+        shortDescription: enrichment?.summary ?? buildCatalogShortDescription(seed.title, analyticsCoverage, seed.kind),
+        longDescription: buildCatalogLongDescription(seed.title, analyticsCoverage, seed.rockstarRole),
+        releaseContext: enrichment?.releaseContext ?? buildReleaseContext(seed),
+        roleContext: enrichment?.roleContext ?? buildRoleContext(seed),
+        precisionNote: enrichment?.precisionNote ?? buildPrecisionNote(seed),
+        legacyNote: enrichment?.legacyNote ?? buildLegacyNote(seed),
+        themeKey,
+        universeStyle: inferUniverseStyle(themeKey),
+        heroTagline: buildCatalogHeroTagline(seed.year, seed.kind, analyticsCoverage),
+        status: seed.status ?? "released",
+        developer: roleDeveloperMap[seed.rockstarRole],
+        publisher: "Rockstar Games",
+        criticsAngle: "Catalog-only entry retained for complete Rockstar timeline coverage.",
+        averageSellingPriceUsd: 0,
+        estimatedLifetimeUnitsM: 0,
+        headlineMetric: buildCatalogFactLine(seed),
+        galleryCaption: "Catalog entry using centralized theme and asset fallbacks.",
+        fieldProvenance: {} as Game["fieldProvenance"],
+        confidenceReasons: [],
+        methodologyId: "blend-model-v1"
+      },
+      enrichmentState
+    ),
+    confidenceReasons: buildConfidenceReasons(
+      seed,
+      {
+        id: seed.id,
+        slug: seed.slug,
+        title: seed.title,
+        franchise: seed.franchise,
+        kind: seed.kind,
+        rockstarRole: seed.rockstarRole,
+        analyticsCoverage,
+        parentGameId: seed.parentGameId,
+        releaseYear: seed.year,
+        originalReleaseDate: seed.releaseDate ?? `${seed.year}-01-01`,
+        releaseDatePrecision: seed.releaseDatePrecision ?? (seed.releaseDate ? "day" : "year"),
+        shortDescription: enrichment?.summary ?? buildCatalogShortDescription(seed.title, analyticsCoverage, seed.kind),
+        longDescription: buildCatalogLongDescription(seed.title, analyticsCoverage, seed.rockstarRole),
+        releaseContext: enrichment?.releaseContext ?? buildReleaseContext(seed),
+        roleContext: enrichment?.roleContext ?? buildRoleContext(seed),
+        precisionNote: enrichment?.precisionNote ?? buildPrecisionNote(seed),
+        legacyNote: enrichment?.legacyNote ?? buildLegacyNote(seed),
+        themeKey,
+        universeStyle: inferUniverseStyle(themeKey),
+        heroTagline: buildCatalogHeroTagline(seed.year, seed.kind, analyticsCoverage),
+        status: seed.status ?? "released",
+        developer: roleDeveloperMap[seed.rockstarRole],
+        publisher: "Rockstar Games",
+        criticsAngle: "Catalog-only entry retained for complete Rockstar timeline coverage.",
+        averageSellingPriceUsd: 0,
+        estimatedLifetimeUnitsM: 0,
+        headlineMetric: buildCatalogFactLine(seed),
+        galleryCaption: "Catalog entry using centralized theme and asset fallbacks.",
+        fieldProvenance: {} as Game["fieldProvenance"],
+        confidenceReasons: [],
+        methodologyId: "blend-model-v1"
+      },
+      enrichmentState
+    ),
     methodologyId: "blend-model-v1"
   };
 }
@@ -587,7 +862,7 @@ function estimateConfidenceForSeed(seed: (typeof catalogSeeds)[number]) {
 function buildModeledGameAdjustments(seed: (typeof catalogSeeds)[number]): Partial<Game> {
   if (featuredGameIds.includes(seed.id)) return {};
 
-  const enrichment = gameEnrichment[seed.id] ?? (seed.parentGameId ? gameEnrichment[seed.parentGameId] : undefined);
+  const enrichment = getEnrichmentState(seed).enrichment;
   const estimatedLifetimeUnitsM = getEstimatedUnitsForSeed(seed);
   const averageSellingPriceUsd = estimateAverageSellingPrice(seed);
   const commercialFrame =
@@ -613,11 +888,25 @@ function buildModeledGameAdjustments(seed: (typeof catalogSeeds)[number]): Parti
   };
 }
 
-export const games: Game[] = catalogSeeds.map((seed) => ({
-  ...buildCatalogGame(seed),
-  ...buildModeledGameAdjustments(seed),
-  ...(featuredOverrides[seed.id] ?? {})
-}));
+export const games: Game[] = catalogSeeds.map((seed) => {
+  const builtGame = buildCatalogGame(seed);
+  const game = {
+    ...builtGame,
+    ...buildModeledGameAdjustments(seed),
+    ...(featuredOverrides[seed.id] ?? {})
+  };
+  const enrichmentState = getEnrichmentState(seed);
+
+  return {
+    ...game,
+    releaseContext: enrichmentState.enrichment?.releaseContext ?? buildReleaseContext(seed),
+    roleContext: enrichmentState.enrichment?.roleContext ?? buildRoleContext(seed),
+    precisionNote: enrichmentState.enrichment?.precisionNote ?? buildPrecisionNote(seed),
+    legacyNote: enrichmentState.enrichment?.legacyNote ?? buildLegacyNote(seed),
+    fieldProvenance: buildFieldProvenance(seed, game, enrichmentState),
+    confidenceReasons: buildConfidenceReasons(seed, game, enrichmentState)
+  };
+});
 
 const explicitReleases: Release[] = [
   { id: "rel-gta-v-ps3", gameId: "gta_v", platformId: "ps3", releaseDate: "2013-09-17", releaseDatePrecision: "day", editionType: "base", remaster: false, notes: "Original console launch." },

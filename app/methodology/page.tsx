@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { SceneBackdrop } from "@/components/layout/scene-backdrop";
 import { ProvenanceDrawer } from "@/components/ui/provenance-drawer";
 import { SectionShell } from "@/components/ui/section-shell";
@@ -13,6 +15,12 @@ const methodology = getAllMethodologies()[0];
 const sources = getAllSources();
 const theme = getThemeForGame("la_noire");
 const asset = getAssetForGame("la_noire");
+
+export const metadata: Metadata = {
+  title: "Methodology",
+  description:
+    "Read the trust stack behind the project, including official anchors, modeled layers, confidence logic, and metadata provenance."
+};
 
 export default function MethodologyPage() {
   return (

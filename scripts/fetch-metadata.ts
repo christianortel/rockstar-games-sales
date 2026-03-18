@@ -8,6 +8,31 @@ const WIKIPEDIA_API = "https://en.wikipedia.org/w/api.php";
 const WIKIPEDIA_SUMMARY_API = "https://en.wikipedia.org/api/rest_v1/page/summary";
 const OUTPUT_FILE = path.join(process.cwd(), "data", "raw", "game-enrichment.json");
 const ACCESS_DATE = new Date().toISOString().slice(0, 10);
+const platformLabelById: Record<string, string> = {
+  ps1: "PlayStation",
+  n64: "Nintendo 64",
+  gbc: "Game Boy Color",
+  ps2: "PlayStation 2",
+  xbox: "Xbox",
+  gamecube: "Nintendo GameCube",
+  dreamcast: "Dreamcast",
+  pc: "PC",
+  mac: "Mac",
+  gba: "Game Boy Advance",
+  psp: "PSP",
+  ds: "Nintendo DS",
+  wii: "Wii",
+  ps3: "PlayStation 3",
+  xbox360: "Xbox 360",
+  ps4: "PlayStation 4",
+  xboxone: "Xbox One",
+  ios: "iOS",
+  android: "Android",
+  switch: "Nintendo Switch",
+  ps5: "PlayStation 5",
+  seriesxs: "Xbox Series X|S",
+  vr: "VR"
+};
 
 const wikipediaTitleOverrides: Record<string, string> = {
   gta_1: "Grand Theft Auto (video game)",
@@ -125,6 +150,68 @@ function normalizeSummary(text: string | undefined) {
   return firstSentence.length > 180 ? `${firstSentence.slice(0, 177).trimEnd()}...` : firstSentence;
 }
 
+function summarizePlatforms(platformIds: string[]) {
+  const labels = platformIds.map((platformId) => platformLabelById[platformId] ?? platformId);
+
+  if (labels.length <= 2) return labels.join(" and ");
+  if (labels.length === 3) return `${labels[0]}, ${labels[1]}, and ${labels[2]}`;
+  return `${labels[0]}, ${labels[1]}, and ${labels.length - 2} more`;
+}
+
+function buildReleaseContext(seed: (typeof catalogSeeds)[number]) {
+  if (seed.kind === "online_service") {
+    return `${seed.title} is tracked as the ongoing online layer attached to its parent premium release rather than as a separate boxed launch.`;
+  }
+
+  if (seed.kind === "expansion" || seed.kind === "mission_pack") {
+    return `${seed.title} sits in the catalog as an extension release, so its historical read depends on the parent title's installed base and timing.`;
+  }
+
+  if (seed.kind === "variant") {
+    return `${seed.title} is treated as a re-release or platform refresh that extends the original title's afterlife instead of resetting the catalog clock.`;
+  }
+
+  return `${seed.title} entered Rockstar's catalog in ${seed.year} across ${summarizePlatforms(seed.platforms)}, which gives the app a concrete release-era frame for the title.`;
+}
+
+function buildRoleContext(seed: (typeof catalogSeeds)[number]) {
+  if (seed.rockstarRole === "developed") {
+    return `${seed.title} is treated as a Rockstar-developed release, so it sits inside the company's direct studio lineage.`;
+  }
+
+  if (seed.rockstarRole === "published") {
+    return `${seed.title} remains part of the catalog because Rockstar published it, even though the development role was not fully in-house.`;
+  }
+
+  return `${seed.title} is preserved as a Rockstar-presented release, which keeps the brand timeline complete without overstating direct development ownership.`;
+}
+
+function buildPrecisionNote(seed: (typeof catalogSeeds)[number]) {
+  return (seed.releaseDatePrecision ?? (seed.releaseDate ? "day" : "year")) === "day"
+    ? `Current metadata tracks a specific launch date (${seed.releaseDate ?? `${seed.year}-01-01`}).`
+    : `Current metadata only supports year-level release precision (${seed.year}) for this title.`;
+}
+
+function buildLegacyNote(seed: (typeof catalogSeeds)[number]) {
+  if (seed.kind === "mission_pack") {
+    return "Early Rockstar mission packs are preserved for historical completeness even when modern metadata is thinner than on flagship releases.";
+  }
+
+  if (seed.kind === "expansion") {
+    return "Expansion releases are modeled as connected add-ons rather than standalone mainline titles.";
+  }
+
+  if (seed.kind === "variant") {
+    return "Variant entries are kept separate so remasters, anniversary editions, and platform-specific reissues remain visible in the timeline.";
+  }
+
+  if (seed.year <= 2001) {
+    return "Older catalog entries often need extra manual context because public release coverage and archived art are less consistent.";
+  }
+
+  return undefined;
+}
+
 async function fetchJson<T>(url: string) {
   const response = await fetch(url, {
     headers: {
@@ -165,6 +252,7 @@ function normalizeTitle(text: string) {
 
 function buildEnrichmentFromPage(
   gameId: string,
+  seed: (typeof catalogSeeds)[number],
   page: WikipediaPage,
   summary: WikipediaSummary | undefined,
   override?: Partial<GameEnrichment>
@@ -174,6 +262,10 @@ function buildEnrichmentFromPage(
     wikipediaTitle: override?.wikipediaTitle ?? summary?.title ?? page.title,
     wikipediaUrl: override?.wikipediaUrl ?? summary?.content_urls?.desktop?.page ?? page.fullurl,
     summary: override?.summary ?? normalizeSummary(page.extract),
+    releaseContext: override?.releaseContext ?? buildReleaseContext(seed),
+    roleContext: override?.roleContext ?? buildRoleContext(seed),
+    precisionNote: override?.precisionNote ?? buildPrecisionNote(seed),
+    legacyNote: override?.legacyNote ?? buildLegacyNote(seed),
     coverImageUrl: override?.coverImageUrl ?? summary?.originalimage?.source ?? summary?.thumbnail?.source ?? page.original?.source ?? page.thumbnail?.source,
     sourceName: override?.sourceName ?? "Wikipedia",
     sourceUrl: override?.sourceUrl ?? summary?.content_urls?.desktop?.page ?? page.fullurl,
@@ -272,7 +364,7 @@ async function enrichGame(gameId: string, title: string): Promise<GameEnrichment
 
     if (scoreCandidate(seed, directPage, directTitle) > -200) {
       const directSummary = await fetchSummary(directPage.title ?? directTitle).catch(() => undefined);
-      return buildEnrichmentFromPage(gameId, directPage, directSummary, manualOverride);
+      return buildEnrichmentFromPage(gameId, seed, directPage, directSummary, manualOverride);
     }
   } catch {
     // Fall back to search-based resolution below.
@@ -309,12 +401,16 @@ async function enrichGame(gameId: string, title: string): Promise<GameEnrichment
 
   if (bestPage && bestPage.score > -100) {
     const searchedSummary = await fetchSummary(bestPage.page.title ?? directTitle).catch(() => undefined);
-    return buildEnrichmentFromPage(gameId, bestPage.page, searchedSummary, manualOverride);
+    return buildEnrichmentFromPage(gameId, seed, bestPage.page, searchedSummary, manualOverride);
   }
 
   return manualOverride
     ? {
         gameId,
+        releaseContext: buildReleaseContext(seed),
+        roleContext: buildRoleContext(seed),
+        precisionNote: buildPrecisionNote(seed),
+        legacyNote: buildLegacyNote(seed),
         ...manualOverride,
         accessedAt: manualOverride.accessedAt ?? ACCESS_DATE
       }

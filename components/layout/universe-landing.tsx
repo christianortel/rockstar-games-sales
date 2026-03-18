@@ -11,6 +11,8 @@ import { GtaSixForecast } from "@/components/layout/gta-six-forecast";
 import { ReleaseRevenueTimeline } from "@/components/layout/release-revenue-timeline";
 import { StatCard } from "@/components/cards/stat-card";
 import { SceneBackdrop } from "@/components/layout/scene-backdrop";
+import { ConfidenceMeter } from "@/components/ui/confidence-meter";
+import { ProvenanceBadge } from "@/components/ui/provenance-badge";
 import { SectionShell } from "@/components/ui/section-shell";
 import { buildInsights } from "@/lib/metrics/aggregations";
 import { formatCurrencyMillions, formatMillions } from "@/lib/formatters";
@@ -167,6 +169,30 @@ export function UniverseLanding() {
                   Open data lab
                 </Link>
               </div>
+              <div className="mt-8 grid gap-3 md:grid-cols-3">
+                <div className="rounded-[1.25rem] border border-white/10 bg-black/25 p-4">
+                  <p className="text-[11px] uppercase tracking-[0.24em] text-white/45">Trust rail</p>
+                  <div className="mt-3">
+                    <ProvenanceBadge provenance={activeRow.game.fieldProvenance.lifetimeUnits} />
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-white/66">{activeRow.game.fieldProvenance.lifetimeUnits.reason}</p>
+                </div>
+                <div className="rounded-[1.25rem] border border-white/10 bg-black/25 p-4">
+                  <p className="text-[11px] uppercase tracking-[0.24em] text-white/45">Metadata layer</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <ProvenanceBadge provenance={activeRow.game.fieldProvenance.metadata} />
+                    <ProvenanceBadge provenance={activeRow.game.fieldProvenance.coverArt} />
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-white/66">{activeRow.game.roleContext}</p>
+                </div>
+                <div className="rounded-[1.25rem] border border-white/10 bg-black/25 p-4">
+                  <p className="text-[11px] uppercase tracking-[0.24em] text-white/45">Date precision</p>
+                  <div className="mt-3">
+                    <ProvenanceBadge provenance={activeRow.game.fieldProvenance.releaseDate} />
+                  </div>
+                  <p className="mt-3 text-sm leading-7 text-white/66">{activeRow.game.precisionNote}</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -185,7 +211,7 @@ export function UniverseLanding() {
             <div className="mt-5 grid gap-3 md:grid-cols-2">
               <div className="rounded-[1.3rem] border border-white/10 bg-black/20 p-4">
                 <p className="text-[11px] uppercase tracking-[0.24em] text-white/45">Read</p>
-                <p className="mt-2 text-sm leading-7 text-white/72">{activeRow.game.headlineMetric}</p>
+                <p className="mt-2 text-sm leading-7 text-white/72">{activeRow.game.releaseContext}</p>
               </div>
               <div className="rounded-[1.3rem] border border-white/10 bg-black/20 p-4">
                 <p className="text-[11px] uppercase tracking-[0.24em] text-white/45">Coverage</p>
@@ -204,7 +230,10 @@ export function UniverseLanding() {
               <span className="rounded-full border border-white/12 px-3 py-1 text-[11px] uppercase tracking-[0.22em] text-white/66">
                 {activeRow.platforms.length} platforms
               </span>
+              <ProvenanceBadge compact provenance={activeRow.game.fieldProvenance.lifetimeUnits} />
+              <ProvenanceBadge compact provenance={activeRow.game.fieldProvenance.metadata} />
             </div>
+            <ConfidenceMeter accent={activeTheme.accent} className="mt-5" reasons={activeRow.confidenceReasons} score={activeRow.confidence} />
             <div className="mt-6 space-y-3">
               {insights.map((insight) => (
                 <div key={insight} className="rounded-[1.4rem] border border-white/8 bg-black/20 p-4 text-sm leading-7 text-white/72">
@@ -291,6 +320,7 @@ export function UniverseLanding() {
             icon={<Compass className="h-4 w-4 text-white/40" />}
             label="Catalog Units"
             accent={activeTheme.accent}
+            provenance={activeRow.game.fieldProvenance.lifetimeUnits}
             value={summary.totalTrackedLifetimeUnits}
           />
           <StatCard
@@ -300,6 +330,7 @@ export function UniverseLanding() {
             icon={<WalletCards className="h-4 w-4 text-white/40" />}
             label="Modeled Revenue"
             accent={activeTheme.accentStrong}
+            provenance={activeRow.game.fieldProvenance.revenueEstimate}
             value={summary.totalEstimatedRevenue}
           />
           <StatCard
@@ -318,6 +349,7 @@ export function UniverseLanding() {
             icon={<ShieldCheck className="h-4 w-4 text-white/40" />}
             label="Lead Franchise"
             accent={activeTheme.accentStrong}
+            provenance={activeRow.game.fieldProvenance.metadata}
             value={1}
           />
         </div>

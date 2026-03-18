@@ -50,6 +50,16 @@
     "notes": "Tier 2 structured metadata reference for platform release history when not explicitly exposed in investor relations materials."
   },
   {
+    "id": "wikipedia-metadata",
+    "sourceName": "Wikipedia Metadata Enrichment",
+    "sourceUrl": "https://en.wikipedia.org/",
+    "sourceType": "metadata_api",
+    "trustTier": 2,
+    "accessedAt": "2026-03-17",
+    "attributionRequired": true,
+    "notes": "Supplemental metadata layer used for short summaries, older-release context, and cover art when official catalog assets are sparse."
+  },
+  {
     "id": "manual-model-v1",
     "sourceName": "Manual Modeling Layer v1",
     "sourceUrl": "https://example.com/manual-model-v1",

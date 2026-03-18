@@ -1,7 +1,9 @@
 import { ReactNode } from "react";
 
 import { AnimatedCounter } from "@/components/ui/animated-counter";
+import { ProvenanceBadge } from "@/components/ui/provenance-badge";
 import { cn } from "@/lib/utils";
+import { FieldProvenance } from "@/types/domain";
 
 export function StatCard({
   label,
@@ -11,7 +13,8 @@ export function StatCard({
   icon,
   className,
   detail,
-  accent
+  accent,
+  provenance
 }: {
   label: string;
   value: number;
@@ -21,6 +24,7 @@ export function StatCard({
   className?: string;
   detail?: string;
   accent?: string;
+  provenance?: FieldProvenance;
 }) {
   return (
     <div
@@ -31,10 +35,13 @@ export function StatCard({
         <div className="pointer-events-none absolute inset-x-0 top-0 h-14 opacity-60" style={{ background: `linear-gradient(180deg, ${accent}26 0%, transparent 100%)` }} />
       ) : null}
       <div className="flex items-center justify-between gap-4">
-        <p className="text-[11px] uppercase tracking-[0.28em] text-white/45" style={accent ? { color: accent } : undefined}>
-          {label}
-        </p>
-        {icon}
+        <div className="space-y-2">
+          <p className="text-[11px] uppercase tracking-[0.28em] text-white/45" style={accent ? { color: accent } : undefined}>
+            {label}
+          </p>
+          {provenance ? <ProvenanceBadge compact provenance={provenance} /> : null}
+        </div>
+        <div className="shrink-0">{icon}</div>
       </div>
       <p className="mt-4 font-display text-3xl uppercase tracking-[0.04em] text-white">
         <AnimatedCounter formatter={formatter} value={value} />

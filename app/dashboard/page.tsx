@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { DashboardClient } from "@/components/dashboard/dashboard-client";
+
+export const metadata: Metadata = {
+  title: "Atlas",
+  description:
+    "Filter Rockstar's catalog by franchise, platform, era, and data mode with visible provenance and confidence reads."
+};
 
 export default function DashboardPage() {
   return (

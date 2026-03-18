@@ -12,7 +12,9 @@ import { SceneBackdrop } from "@/components/layout/scene-backdrop";
 import { GameCoverArt } from "@/components/ui/game-cover-art";
 import { DataBadge } from "@/components/ui/data-badge";
 import { ConfidenceMeter } from "@/components/ui/confidence-meter";
+import { ProvenanceBadge } from "@/components/ui/provenance-badge";
 import { ProvenanceDrawer } from "@/components/ui/provenance-drawer";
+import { ProvenanceList } from "@/components/ui/provenance-list";
 import { SectionShell } from "@/components/ui/section-shell";
 import {
   getAssetForGame,
@@ -114,6 +116,12 @@ export function GameDetailClient({ gameId }: { gameId: string }) {
             )}
             <p className="mt-5 max-w-3xl text-lg leading-8 text-white/70">{game.heroTagline}</p>
             <p className="mt-4 max-w-3xl text-sm leading-8 text-white/64">{game.longDescription}</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <ProvenanceBadge provenance={game.fieldProvenance.lifetimeUnits} />
+              <ProvenanceBadge provenance={game.fieldProvenance.metadata} />
+              <ProvenanceBadge provenance={game.fieldProvenance.coverArt} />
+              <ProvenanceBadge provenance={game.fieldProvenance.releaseDate} />
+            </div>
 
             <div className="mt-6 flex flex-wrap gap-3">
               {[
@@ -180,15 +188,15 @@ export function GameDetailClient({ gameId }: { gameId: string }) {
                   src={asset?.heroImage ?? "/images/fallbacks/no-image.svg"}
                   unoptimized
                 />
-              <div className={`absolute inset-0 ${theme.overlayGradient}`} />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: theme.accent }}>
-                  {theme.label}
-                </p>
-                <p className="mt-2 max-w-md text-sm leading-7 text-white/76">{game.universeStyle}</p>
+                <div className={`absolute inset-0 ${theme.overlayGradient}`} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                  <p className="text-[11px] uppercase tracking-[0.22em]" style={{ color: theme.accent }}>
+                    {theme.label}
+                  </p>
+                  <p className="mt-2 max-w-md text-sm leading-7 text-white/76">{game.universeStyle}</p>
+                </div>
               </div>
-            </div>
             </div>
             <div className="mt-4 grid gap-3">
               {insights.map((insight) => (
@@ -197,7 +205,7 @@ export function GameDetailClient({ gameId }: { gameId: string }) {
                 </div>
               ))}
             </div>
-            <ConfidenceMeter accent={theme.accent} className="mt-5" score={row.confidence} />
+            <ConfidenceMeter accent={theme.accent} className="mt-5" reasons={row.confidenceReasons} score={row.confidence} />
             <div className="mt-5">
               <ProvenanceDrawer
                 lastVerifiedAt={getLastVerifiedAt()}
@@ -225,6 +233,7 @@ export function GameDetailClient({ gameId }: { gameId: string }) {
             }
             formatter={formatMillions}
             label="Lifetime Units"
+            provenance={game.fieldProvenance.lifetimeUnits}
             value={row.blendedUnitsM}
           />
           <StatCard
@@ -232,6 +241,7 @@ export function GameDetailClient({ gameId }: { gameId: string }) {
             detail={hasAnalytics ? "Revenue remains an estimate in every mode." : "Catalog coverage does not imply invented revenue figures."}
             formatter={formatCurrencyMillions}
             label="Revenue Estimate"
+            provenance={game.fieldProvenance.revenueEstimate}
             value={row.estimatedRevenueUsdM}
           />
           <StatCard
@@ -256,10 +266,44 @@ export function GameDetailClient({ gameId }: { gameId: string }) {
             }
             formatter={(value) => `${Math.round(value * 100)}%`}
             label="Confidence"
+            provenance={game.fieldProvenance.metadata}
             value={row.confidence}
           />
         </div>
       </section>
+
+      <SectionShell
+        accent={theme.accent}
+        description="This module explains where the title sits in Rockstar's catalog and why the trust read looks the way it does."
+        eyebrow="Release context"
+        title="Why this title matters in the catalog"
+      >
+        <div className="grid gap-4 xl:grid-cols-[1.05fr,0.95fr]">
+          <div className="rounded-[1.6rem] border border-white/10 bg-white/5 p-5">
+            <h3 className="font-display text-2xl uppercase tracking-[0.05em] text-white">Catalog read</h3>
+            <div className="mt-4 space-y-3 text-sm leading-7 text-white/68">
+              <p>{game.releaseContext}</p>
+              <p>{game.roleContext}</p>
+              {game.precisionNote ? <p>{game.precisionNote}</p> : null}
+              {game.legacyNote ? <p>{game.legacyNote}</p> : null}
+            </div>
+          </div>
+          <div className="rounded-[1.6rem] border border-white/10 bg-white/5 p-5">
+            <h3 className="font-display text-2xl uppercase tracking-[0.05em] text-white">Field provenance</h3>
+            <div className="mt-4">
+              <ProvenanceList
+                items={[
+                  { label: "Lifetime units", provenance: game.fieldProvenance.lifetimeUnits },
+                  { label: "Revenue estimate", provenance: game.fieldProvenance.revenueEstimate },
+                  { label: "Release date precision", provenance: game.fieldProvenance.releaseDate },
+                  { label: "Cover art", provenance: game.fieldProvenance.coverArt },
+                  { label: "Summary and metadata", provenance: game.fieldProvenance.metadata }
+                ]}
+              />
+            </div>
+          </div>
+        </div>
+      </SectionShell>
 
       <SectionShell
         accent={theme.accent}

@@ -7,10 +7,12 @@ import { cn } from "@/lib/utils";
 export function ConfidenceMeter({
   score,
   accent,
+  reasons,
   className
 }: {
   score: number;
   accent: string;
+  reasons?: string[];
   className?: string;
 }) {
   const percent = Math.max(0, Math.min(100, Math.round(score * 100)));
@@ -33,6 +35,15 @@ export function ConfidenceMeter({
           whileInView={{ width: `${percent}%` }}
         />
       </div>
+      {reasons?.length ? (
+        <div className="grid gap-2 pt-1">
+          {reasons.slice(0, 3).map((reason) => (
+            <p key={reason} className="text-xs leading-6 text-white/56">
+              {reason}
+            </p>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

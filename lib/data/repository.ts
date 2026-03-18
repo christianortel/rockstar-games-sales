@@ -99,7 +99,8 @@ const dashboardRowsCache: DashboardGameRow[] = games.map((game) => {
     blendedUnitsM: game.confirmedLifetimeUnitsM ?? game.estimatedLifetimeUnitsM,
     estimatedRevenueUsdM: Number((game.estimatedLifetimeUnitsM * game.averageSellingPriceUsd).toFixed(1)),
     platforms: getPlatformsForGame(game.id),
-    confidence: Number(confidence.toFixed(2))
+    confidence: Number(confidence.toFixed(2)),
+    confidenceReasons: game.confidenceReasons
   };
 });
 
@@ -174,8 +175,12 @@ export function getOfficialEventsForFranchise(franchise: string) {
 export function getSourceIdsForGame(gameId: string) {
   const factSourceIds = getFactsForGame(gameId).flatMap((fact) => fact.sourceIds);
   const eventSourceIds = getOfficialEventsForGame(gameId).map((event) => event.sourceId);
+  const game = getGameById(gameId);
+  const provenanceSourceIds = game
+    ? Object.values(game.fieldProvenance).flatMap((item) => item.sourceIds ?? [])
+    : [];
 
-  return Array.from(new Set([...factSourceIds, ...eventSourceIds]));
+  return Array.from(new Set([...factSourceIds, ...eventSourceIds, ...provenanceSourceIds]));
 }
 
 export function getDashboardRows(): DashboardGameRow[] {

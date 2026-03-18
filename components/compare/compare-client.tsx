@@ -4,12 +4,13 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { startTransition, useDeferredValue, useMemo, useState, useTransition } from "react";
-import { Layers3, Search, ShieldCheck, Swords, X } from "lucide-react";
+import { Copy, Layers3, Search, ShieldCheck, Swords, X } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { ChartLoadingCard } from "@/components/charts/chart-loading-card";
 import { SceneBackdrop } from "@/components/layout/scene-backdrop";
 import { DataBadge } from "@/components/ui/data-badge";
+import { ProvenanceBadge } from "@/components/ui/provenance-badge";
 import { ProvenanceDrawer } from "@/components/ui/provenance-drawer";
 import { SectionShell } from "@/components/ui/section-shell";
 import {
@@ -25,7 +26,7 @@ import { buildCompareInsights } from "@/lib/metrics/insights";
 import { buildComparisonTrend, buildGamePlatformBreakdown, buildGameRegionBreakdown } from "@/lib/metrics/presenters";
 import { getGamePoster, getPlatformAsset } from "@/lib/themes/asset-utils";
 import { blendThemeKeys } from "@/lib/themes/theme-utils";
-import { parseCompareGameIds, updateCompareGameIds } from "@/lib/url-state";
+import { parseCompareFilters, parseCompareGameIds, updateCompareSearchParams } from "@/lib/url-state";
 import { DashboardGameRow } from "@/types/domain";
 
 const rows = getDashboardRows();
@@ -45,11 +46,9 @@ export function CompareClient() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startUiTransition] = useTransition();
-  const [libraryQuery, setLibraryQuery] = useState("");
-  const [libraryFranchise, setLibraryFranchise] = useState("all");
-  const [libraryKind, setLibraryKind] = useState("all");
-  const [libraryCoverage, setLibraryCoverage] = useState<"all" | "featured" | "supported">("all");
-  const deferredLibraryQuery = useDeferredValue(libraryQuery);
+  const [copied, setCopied] = useState(false);
+  const filters = useMemo(() => parseCompareFilters(searchParams), [searchParams]);
+  const deferredLibraryQuery = useDeferredValue(filters.search);
 
   const selectedIds = useMemo(() => parseCompareGameIds(searchParams, rows.map((row) => row.game.id)), [searchParams]);
   const selectedRows = useMemo(
@@ -67,11 +66,11 @@ export function CompareClient() {
             !query ||
             row.game.title.toLowerCase().includes(query) ||
             row.game.franchise.toLowerCase().includes(query);
-          const matchesFranchise = libraryFranchise === "all" || row.game.franchise === libraryFranchise;
-          const matchesKind = libraryKind === "all" || row.game.kind === libraryKind;
+          const matchesFranchise = filters.franchise === "all" || row.game.franchise === filters.franchise;
+          const matchesKind = filters.kind === "all" || row.game.kind === filters.kind;
           const matchesCoverage =
-            libraryCoverage === "all" ||
-            (libraryCoverage === "featured"
+            filters.coverage === "all" ||
+            (filters.coverage === "featured"
               ? row.game.analyticsCoverage === "featured"
               : row.game.analyticsCoverage === "supported");
 
@@ -83,7 +82,7 @@ export function CompareClient() {
           if (leftSelected !== rightSelected) return rightSelected - leftSelected;
           return right.blendedUnitsM - left.blendedUnitsM;
         }),
-    [deferredLibraryQuery, libraryCoverage, libraryFranchise, libraryKind, selectedIds]
+    [deferredLibraryQuery, filters.coverage, filters.franchise, filters.kind, selectedIds]
   );
   const primaryRow = selectedRows[0] ?? rows[0];
   const primaryAsset = primaryRow ? getAssetForGame(primaryRow.game.id) : undefined;
@@ -107,10 +106,28 @@ export function CompareClient() {
 
     startUiTransition(() => {
       startTransition(() => {
-        const next = updateCompareGameIds(new URLSearchParams(searchParams.toString()), nextIds);
+        const next = updateCompareSearchParams(new URLSearchParams(searchParams.toString()), { games: nextIds });
         router.replace(`${pathname}?${next.toString()}`, { scroll: false });
       });
     });
+  };
+
+  const commitFilters = (patch: Partial<typeof filters>) => {
+    startUiTransition(() => {
+      startTransition(() => {
+        const next = updateCompareSearchParams(new URLSearchParams(searchParams.toString()), patch);
+        const query = next.toString();
+        router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+      });
+    });
+  };
+
+  const copyShareLink = async () => {
+    const query = searchParams.toString();
+    const target = typeof window === "undefined" ? pathname : `${window.location.origin}${pathname}${query ? `?${query}` : ""}`;
+    await navigator.clipboard.writeText(target);
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1600);
   };
 
   const compareSourceIds = Array.from(new Set(selectedIds.flatMap((id) => getSourceIdsForGame(id))));
@@ -148,6 +165,14 @@ export function CompareClient() {
             >
               Return to dashboard
             </Link>
+            <button
+              className="rounded-full border border-white/12 bg-black/25 px-5 py-3 text-xs uppercase tracking-[0.26em] text-white/78 transition hover:border-white/20 hover:text-white"
+              onClick={() => void copyShareLink()}
+              type="button"
+            >
+              <Copy className="mr-2 inline-flex h-4 w-4" />
+              {copied ? "Link copied" : "Copy share link"}
+            </button>
             <ProvenanceDrawer
               methodology={methodologies[0]}
               sources={compareSources}
@@ -189,6 +214,9 @@ export function CompareClient() {
                         <p className="text-[10px] uppercase tracking-[0.2em] text-white/42">Slot {index + 1}</p>
                         <p className="mt-1 truncate font-semibold text-white">{row.game.title}</p>
                         <p className="mt-1 text-xs uppercase tracking-[0.16em] text-white/45">{formatMillions(row.blendedUnitsM, 1)}</p>
+                        <div className="mt-2">
+                          <ProvenanceBadge compact provenance={row.game.fieldProvenance.lifetimeUnits} />
+                        </div>
                       </div>
                     </div>
                     <button
@@ -227,9 +255,9 @@ export function CompareClient() {
               <Search className="h-4 w-4 text-white/38" />
               <input
                 className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/28"
-                onChange={(event) => setLibraryQuery(event.target.value)}
+                onChange={(event) => commitFilters({ search: event.target.value })}
                 placeholder="Find a title, service, mission pack, or franchise"
-                value={libraryQuery}
+                value={filters.search}
               />
             </div>
           </label>
@@ -237,8 +265,8 @@ export function CompareClient() {
             <span className="text-[11px] uppercase tracking-[0.28em] text-white/45">Franchise</span>
             <select
               className="w-full rounded-[1rem] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
-              onChange={(event) => setLibraryFranchise(event.target.value)}
-              value={libraryFranchise}
+              onChange={(event) => commitFilters({ franchise: event.target.value })}
+              value={filters.franchise}
             >
               <option value="all">All franchises</option>
               {compareFranchises.map((franchise) => (
@@ -252,8 +280,8 @@ export function CompareClient() {
             <span className="text-[11px] uppercase tracking-[0.28em] text-white/45">Release type</span>
             <select
               className="w-full rounded-[1rem] border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none"
-              onChange={(event) => setLibraryKind(event.target.value)}
-              value={libraryKind}
+              onChange={(event) => commitFilters({ kind: event.target.value })}
+              value={filters.kind}
             >
               <option value="all">All release types</option>
               {compareKinds.map((kind) => (
@@ -274,11 +302,11 @@ export function CompareClient() {
                 <button
                   key={option.value}
                   className={`rounded-[1rem] border px-3 py-3 text-[11px] uppercase tracking-[0.22em] transition ${
-                    libraryCoverage === option.value
+                    filters.coverage === option.value
                       ? "border-white/22 bg-white/12 text-white"
                       : "border-white/10 bg-white/5 text-white/58 hover:border-white/16 hover:bg-white/8"
                   }`}
-                  onClick={() => setLibraryCoverage(option.value as typeof libraryCoverage)}
+                  onClick={() => commitFilters({ coverage: option.value as typeof filters.coverage })}
                   type="button"
                 >
                   {option.label}
@@ -294,10 +322,10 @@ export function CompareClient() {
           </p>
           <div className="flex flex-wrap gap-2">
             {[
-              { label: "Full catalog", onClick: () => { setLibraryCoverage("all"); setLibraryKind("all"); setLibraryFranchise("all"); } },
-              { label: "Mission packs", onClick: () => setLibraryKind("mission_pack") },
-              { label: "Expansions", onClick: () => setLibraryKind("expansion") },
-              { label: "Online", onClick: () => setLibraryKind("online_service") }
+              { label: "Full catalog", onClick: () => commitFilters({ coverage: "all", kind: "all", franchise: "all", search: "" }) },
+              { label: "Mission packs", onClick: () => commitFilters({ kind: "mission_pack" }) },
+              { label: "Expansions", onClick: () => commitFilters({ kind: "expansion" }) },
+              { label: "Online", onClick: () => commitFilters({ kind: "online_service" }) }
             ].map((action) => (
               <button
                 key={action.label}
@@ -341,6 +369,7 @@ export function CompareClient() {
                   <span className="rounded-full border border-white/10 px-2 py-1 text-[10px] uppercase tracking-[0.18em] text-white/50">
                     {row.game.kind.replace(/_/g, " ")}
                   </span>
+                  <ProvenanceBadge compact provenance={row.game.fieldProvenance.lifetimeUnits} />
                 </div>
                 <h3 className="mt-3 font-display text-xl uppercase tracking-[0.04em] text-white">{row.game.title}</h3>
                 <div className="mt-3 flex items-center justify-between gap-3 text-sm text-white/62">
@@ -396,6 +425,10 @@ export function CompareClient() {
                     <div>
                       <h3 className="font-display text-3xl uppercase tracking-[0.05em] text-white">{row.game.title}</h3>
                       <p className="mt-3 text-sm leading-7 text-white/68">{row.game.shortDescription}</p>
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        <ProvenanceBadge compact provenance={row.game.fieldProvenance.lifetimeUnits} />
+                        <ProvenanceBadge compact provenance={row.game.fieldProvenance.metadata} />
+                      </div>
                       <div className="mt-4 flex items-center gap-3">
                         {topPlatformAsset ? (
                           <div className="flex min-h-12 min-w-[132px] items-center overflow-hidden rounded-xl border border-white/10 bg-black/25 px-2.5 py-2">

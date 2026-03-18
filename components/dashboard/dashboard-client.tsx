@@ -15,7 +15,9 @@ import { StatCard } from "@/components/cards/stat-card";
 import { DashboardFilterBar } from "@/components/dashboard/filter-bar";
 import { RankingTable } from "@/components/dashboard/ranking-table";
 import { SceneBackdrop } from "@/components/layout/scene-backdrop";
+import { ConfidenceMeter } from "@/components/ui/confidence-meter";
 import { DataBadge } from "@/components/ui/data-badge";
+import { ProvenanceBadge } from "@/components/ui/provenance-badge";
 import { ProvenanceDrawer } from "@/components/ui/provenance-drawer";
 import { SectionShell } from "@/components/ui/section-shell";
 import {
@@ -255,6 +257,16 @@ export function DashboardClient() {
           <p className="mt-4 text-sm leading-7 text-white/68">
             {leadRow?.game.longDescription ?? "No titles match the current filter stack."}
           </p>
+          {leadRow ? (
+            <div className="mt-4 flex flex-wrap gap-2">
+              <ProvenanceBadge compact provenance={leadRow.game.fieldProvenance.lifetimeUnits} />
+              <ProvenanceBadge compact provenance={leadRow.game.fieldProvenance.metadata} />
+              <ProvenanceBadge compact provenance={leadRow.game.fieldProvenance.revenueEstimate} />
+            </div>
+          ) : null}
+          {leadRow ? (
+            <ConfidenceMeter accent={backdropTheme.accent} className="mt-5" reasons={leadRow.confidenceReasons} score={leadRow.confidence} />
+          ) : null}
           <div className="mt-5 space-y-3">
             {insights.map((insight) => (
               <div key={insight} className="rounded-[1.2rem] border border-white/8 bg-black/20 p-4 text-sm leading-7 text-white/70">
@@ -317,6 +329,11 @@ export function DashboardClient() {
           icon={<WalletCards className="h-4 w-4 text-white/40" />}
           label={filters.metricMode === "revenue" ? "Total Revenue" : "Total Units"}
           accent={backdropTheme.accent}
+          provenance={
+            filters.metricMode === "revenue"
+              ? leadRow?.game.fieldProvenance.revenueEstimate
+              : leadRow?.game.fieldProvenance.lifetimeUnits
+          }
           value={totalMetricValue}
         />
         <StatCard
@@ -344,6 +361,7 @@ export function DashboardClient() {
           icon={<ShieldCheck className="h-4 w-4 text-white/40" />}
           label="Average Confidence"
           accent={backdropTheme.accentStrong}
+          provenance={leadRow?.game.fieldProvenance.metadata}
           value={averageConfidence}
         />
       </div>

@@ -94,6 +94,26 @@ export function updateDashboardSearchParams(
 }
 
 export const defaultCompareIds = ["gta_v", "red_dead_redemption_2", "san_andreas"];
+export interface CompareFilterState {
+  search: string;
+  franchise: string;
+  kind: string;
+  coverage: "all" | "featured" | "supported";
+}
+
+export function parseCompareFilters(searchParams: SearchParamReader): CompareFilterState {
+  return {
+    search: searchParams.get("search") ?? "",
+    franchise: searchParams.get("franchise") ?? "all",
+    kind: searchParams.get("kind") ?? "all",
+    coverage:
+      searchParams.get("coverage") === "featured"
+        ? "featured"
+        : searchParams.get("coverage") === "supported"
+          ? "supported"
+          : "all"
+  };
+}
 
 export function parseCompareGameIds(searchParams: SearchParamReader, availableIds: string[]) {
   const requested = (searchParams.get("games") ?? "")
@@ -111,5 +131,32 @@ export function parseCompareGameIds(searchParams: SearchParamReader, availableId
 export function updateCompareGameIds(current: URLSearchParams, gameIds: string[]) {
   const next = new URLSearchParams(current.toString());
   next.set("games", gameIds.join(","));
+  return next;
+}
+
+export function updateCompareSearchParams(
+  current: URLSearchParams,
+  patch: Partial<CompareFilterState> & { games?: string[] }
+) {
+  const next = new URLSearchParams(current.toString());
+
+  const assign = (key: string, value: string, fallback: string) => {
+    if (!value || value === fallback) {
+      next.delete(key);
+      return;
+    }
+
+    next.set(key, value);
+  };
+
+  if (patch.games) {
+    next.set("games", patch.games.join(","));
+  }
+
+  assign("search", patch.search ?? current.get("search") ?? "", "");
+  assign("franchise", patch.franchise ?? current.get("franchise") ?? "all", "all");
+  assign("kind", patch.kind ?? current.get("kind") ?? "all", "all");
+  assign("coverage", patch.coverage ?? current.get("coverage") ?? "all", "all");
+
   return next;
 }

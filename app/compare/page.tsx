@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 
 import { CompareClient } from "@/components/compare/compare-client";
+
+export const metadata: Metadata = {
+  title: "Compare",
+  description:
+    "Build a shareable Rockstar head-to-head slate and compare lifetime scale, platform spread, regional mix, and confidence."
+};
 
 export default function ComparePage() {
   return (

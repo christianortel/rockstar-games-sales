@@ -231,8 +231,47 @@ I wanted something that could still feel cinematic and opinionated without hidin
 
 ## Roadmap
 
-- improve long-tail metadata and cover quality even more
-- add more release-specific context to older titles
-- expand provenance and source surfacing in the UI
-- make compare mode and dashboard states more shareable
-- move the project onto a persistent backend later if the dataset grows
+This is not the final state of the project.
+
+If I were treating the next phase more like a serious product roadmap instead of a loose wishlist, this is where I would push it:
+
+### 1. Data quality and catalog depth
+
+- improve long-tail cover art and metadata quality so older and lower-visibility titles feel less like second-class entries
+- add tighter release-specific context for legacy games, including better release dates, platform notes, and edition lineage
+- expand enrichment beyond short summaries into developer history, release context, and notable production facts
+- tighten title matching and fallback logic in the metadata pipeline so edge-case releases need less manual cleanup
+
+### 2. Provenance and trust layer
+
+- surface sources more aggressively in the UI instead of keeping most of the trust model tucked into methodology and drawers
+- show which fields are official, inferred, inherited, or modeled at the component level
+- make confidence easier to understand by tying it to visible reasons instead of only a score
+- add clearer source trails for covers, metadata, revenue assumptions, and release chronology
+
+### 3. Product and interaction improvements
+
+- keep making the homepage feel more alive with stronger transitions, richer title switching, and better world-to-world navigation
+- expand compare mode into something more shareable with saved presets, deep links, and clearer matchup summaries
+- add more title-specific detail modules so older games have stronger identity instead of relying mostly on the shared system
+- improve mobile presentation for the densest surfaces so the app still feels intentional on smaller screens
+
+### 4. Performance, accessibility, and technical polish
+
+- reduce dashboard and heavy route cost further through more aggressive code-splitting and asset discipline
+- audit image delivery, caching behavior, and large-art loading so the visual side stays strong without dragging the app down
+- improve keyboard navigation, contrast checks, semantics, and screen-reader clarity across interactive areas
+- treat Core Web Vitals, bundle size, and route-level rendering behavior as first-class product quality concerns
+
+### 5. SEO and discoverability
+
+- add stronger metadata, social cards, and route-specific descriptions for the major app surfaces
+- improve structured page content so title pages and methodology pages are more indexable and easier to understand at a glance
+- make the project easier to share externally with cleaner screenshots, richer README documentation, and better route previews
+
+### 6. Platform and backend evolution
+
+- move to a persistent backend if the dataset grows beyond what local seed files handle comfortably
+- separate raw ingestion, normalized entities, derived facts, and presentation data more cleanly for future updates
+- add admin-style workflows for source updates and enrichment review if the project becomes a living dataset
+- preserve the current product layer so frontend components stay mostly data-source agnostic during that transition
