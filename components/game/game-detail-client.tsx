@@ -9,6 +9,7 @@ import { ChartLoadingCard } from "@/components/charts/chart-loading-card";
 import { StatCard } from "@/components/cards/stat-card";
 import { PlatformCard } from "@/components/game/platform-card";
 import { SceneBackdrop } from "@/components/layout/scene-backdrop";
+import { GameCoverArt } from "@/components/ui/game-cover-art";
 import { DataBadge } from "@/components/ui/data-badge";
 import { ConfidenceMeter } from "@/components/ui/confidence-meter";
 import { ProvenanceDrawer } from "@/components/ui/provenance-drawer";
@@ -62,7 +63,7 @@ export function GameDetailClient({ gameId }: { gameId: string }) {
   const insights = buildGameInsights(gameId, game.title);
   const firstOfficialEvent = officialEvents[0];
   const gameLogo = getGameLogo(gameId);
-  const gamePoster = getGamePoster(gameId);
+  const gamePoster = getGamePoster(gameId, game.parentGameId);
   const hasAnalytics = game.analyticsCoverage !== "catalog_only" && trend.length > 0;
 
   return (
@@ -161,8 +162,14 @@ export function GameDetailClient({ gameId }: { gameId: string }) {
             </p>
             <div className="mt-4 grid gap-4 md:grid-cols-[220px,1fr]">
               <div className="relative aspect-[3/4] overflow-hidden rounded-[1.4rem] border border-white/10 bg-black/35 shadow-[0_18px_50px_rgba(0,0,0,0.45)]">
-                <Image alt={game.title} className="object-contain object-center" fill sizes="(max-width: 1280px) 100vw, 18vw" src={gamePoster} unoptimized />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
+                {gamePoster === "/images/fallbacks/no-image.svg" ? (
+                  <GameCoverArt game={game} sizes="(max-width: 1280px) 100vw, 18vw" variant="feature" />
+                ) : (
+                  <>
+                    <Image alt={game.title} className="object-contain object-center" fill sizes="(max-width: 1280px) 100vw, 18vw" src={gamePoster} unoptimized />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
+                  </>
+                )}
               </div>
               <div className="relative min-h-[180px] overflow-hidden rounded-[1.4rem] border border-white/10">
                 <Image

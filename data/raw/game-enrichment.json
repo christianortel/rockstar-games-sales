@@ -1,0 +1,541 @@
+{
+  "gta_1": {
+    "gameId": "gta_1",
+    "wikipediaTitle": "Grand Theft Auto (video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_(video_game)",
+    "summary": "Grand Theft Auto is a 1997 action-adventure game developed by DMA Design and published by BMG Interactive.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/e/e7/GTA_-_Box_Front.jpg/250px-GTA_-_Box_Front.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "gta_london_1969": {
+    "gameId": "gta_london_1969",
+    "wikipediaTitle": "Grand Theft Auto: London 1969",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_London_1969",
+    "summary": "Grand Theft Auto Mission Pack #1: London 1969 is an expansion pack for the 1997 action-adventure game Grand Theft Auto, developed by Rockstar Canada and published by Rockstar Ga...",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/d/de/Grand_Theft_Auto_London_1969.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_London_1969",
+    "accessedAt": "2026-03-18"
+  },
+  "gta_london_1961": {
+    "gameId": "gta_london_1961",
+    "wikipediaTitle": "Grand Theft Auto: London 1961",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto:_London_1961",
+    "summary": "Grand Theft Auto: London 1961 was a free PC-only mission pack released in 1999 that expanded London 1969 with new missions, vehicles, and a multiplayer map.",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://pt.wikipedia.org/wiki/Grand_Theft_Auto%3A_London_1961",
+    "accessedAt": "2026-03-18"
+  },
+  "monster_truck_madness_64": {
+    "gameId": "monster_truck_madness_64",
+    "wikipediaTitle": "Monster Truck Madness 64",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Monster_Truck_Madness_2",
+    "summary": "Monster Truck Madness 64 was Rockstar's 1999 Nintendo 64 version of Monster Truck Madness 2, adapted by Edge of Reality for console release.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/2/22/Monster_Truck_Madness_2_Coverart.png",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Monster_Truck_Madness_2",
+    "accessedAt": "2026-03-18"
+  },
+  "gta_2": {
+    "gameId": "gta_2",
+    "wikipediaTitle": "Grand Theft Auto 2",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_2",
+    "summary": "Grand Theft Auto 2 (stylized as GTA2) is a 1999 action-adventure game developed by DMA Design and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/2/2e/GTA2_Box_art.jpg/250px-GTA2_Box_art.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_2",
+    "accessedAt": "2026-03-18"
+  },
+  "earthworm_jim_3d": {
+    "gameId": "earthworm_jim_3d",
+    "wikipediaTitle": "Earthworm Jim 3D",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Earthworm_Jim_3D",
+    "summary": "Earthworm Jim 3D is a 1999 platform game developed by VIS Interactive and published by Interplay Entertainment for the Nintendo 64.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/6/6f/Earthworm_Jim_3D_N64.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Earthworm_Jim_3D",
+    "accessedAt": "2026-03-18"
+  },
+  "thrasher_skate_and_destroy": {
+    "gameId": "thrasher_skate_and_destroy",
+    "wikipediaTitle": "Thrasher Presents Skate and Destroy",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Thrasher_Presents_Skate_and_Destroy",
+    "summary": "Thrasher Presents Skate and Destroy, also known as Thrasher: Skate and Destroy, is a skateboard video game developed by Z-Axis and published by Rockstar Games for the PlayStation.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/1/18/Thrasher_-_Skate_and_Destroy_Coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Thrasher_Presents_Skate_and_Destroy",
+    "accessedAt": "2026-03-18"
+  },
+  "evel_knievel": {
+    "gameId": "evel_knievel",
+    "wikipediaTitle": "Evel Knievel (video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Evel_Knievel_(video_game)",
+    "summary": "Evel Knievel is an action-adventure racing video game for the Game Boy Color developed by Tarantula Studios.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/b/b8/Evel_Knievel_GBC.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Evel_Knievel_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "wild_metal": {
+    "gameId": "wild_metal",
+    "wikipediaTitle": "Wild Metal Country",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Wild_Metal_Country",
+    "summary": "Wild Metal Country is an action video game developed by DMA Design.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/7/7d/Wild_Metal_Country_cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Wild_Metal_Country",
+    "accessedAt": "2026-03-18"
+  },
+  "austin_powers_oh_behave": {
+    "gameId": "austin_powers_oh_behave",
+    "wikipediaTitle": "Austin Powers: Oh, Behave! and Welcome to My Underground Lair!",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Austin_Powers%3A_Oh%2C_Behave!_and_Welcome_to_My_Underground_Lair!",
+    "summary": "Austin Powers: Oh, Behave!",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/2/2c/Austin_Powers_Oh_Behave.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Austin_Powers%3A_Oh%2C_Behave!_and_Welcome_to_My_Underground_Lair!",
+    "accessedAt": "2026-03-18"
+  },
+  "austin_powers_underground_lair": {
+    "gameId": "austin_powers_underground_lair",
+    "wikipediaTitle": "Austin Powers: Oh, Behave! and Welcome to My Underground Lair!",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Austin_Powers%3A_Oh%2C_Behave!_and_Welcome_to_My_Underground_Lair!",
+    "summary": "Austin Powers: Oh, Behave!",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/2/2c/Austin_Powers_Oh_Behave.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Austin_Powers%3A_Oh%2C_Behave!_and_Welcome_to_My_Underground_Lair!",
+    "accessedAt": "2026-03-18"
+  },
+  "midnight_club_street_racing": {
+    "gameId": "midnight_club_street_racing",
+    "wikipediaTitle": "Midnight Club: Street Racing",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Midnight_Club%3A_Street_Racing",
+    "summary": "Midnight Club: Street Racing is a 2000 racing video game developed by Angel Studios and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/1/1d/Midnight_Club_-_Street_Racing_Coverart.jpg/250px-Midnight_Club_-_Street_Racing_Coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Midnight_Club%3A_Street_Racing",
+    "accessedAt": "2026-03-18"
+  },
+  "smugglers_run": {
+    "gameId": "smugglers_run",
+    "wikipediaTitle": "Smuggler's Run",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Smuggler's_Run",
+    "summary": "Smuggler's Run is a racing video game developed by Angel Studios and published by Rockstar Games as a launch title for the PlayStation 2 on October 26, 2000.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/b/b4/Smugglers_Run_PS2.jpg/250px-Smugglers_Run_PS2.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Smuggler's_Run",
+    "accessedAt": "2026-03-18"
+  },
+  "surfing_h3o": {
+    "gameId": "surfing_h3o",
+    "wikipediaTitle": "Surfing H3O",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Surfing_H3O",
+    "summary": "Surfing H3O, known in Japan as Surfroid: Densetsu no Surfer , is a surfing video game developed by Opus and published by ASCII Entertainment in Japan and Rockstar Games internat...",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/8/85/Surfingh30cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Surfing_H3O",
+    "accessedAt": "2026-03-18"
+  },
+  "oni": {
+    "gameId": "oni",
+    "wikipediaTitle": "Oni (video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Oni_(video_game)",
+    "summary": "Oni is a third-person action video game developed by Bungie West, a division of Bungie.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/2/2e/Oni_Coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Oni_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "you_dont_know_jack": {
+    "gameId": "you_dont_know_jack",
+    "wikipediaTitle": "You Don't Know Jack (1999 video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/You_Don't_Know_Jack_(1999_video_game)",
+    "summary": "You Don't Know Jack is a video game developed by Starsphere and published by Sierra Attractions for the PlayStation in 1999.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/f/f2/You_Don%27t_Know_Jack_1999_cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/You_Don't_Know_Jack_(1999_video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "gta_iii": {
+    "gameId": "gta_iii",
+    "wikipediaTitle": "Grand Theft Auto III",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_III",
+    "summary": "Grand Theft Auto III is a 2001 action-adventure game developed by DMA Design and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/b/be/GTA3boxcover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_III",
+    "accessedAt": "2026-03-18"
+  },
+  "smugglers_run_2": {
+    "gameId": "smugglers_run_2",
+    "wikipediaTitle": "Smuggler's Run 2",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Smuggler's_Run_2",
+    "summary": "Smuggler's Run 2: Hostile Territory or simply Smuggler's Run 2 is a racing video game released for the PlayStation 2 in 2001.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/4/4c/Smuggler%27s_Run_2.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Smuggler's_Run_2",
+    "accessedAt": "2026-03-18"
+  },
+  "max_payne": {
+    "gameId": "max_payne",
+    "wikipediaTitle": "Max Payne (video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Max_Payne_(video_game)",
+    "summary": "Max Payne is a 2001 third-person shooter game developed by Remedy Entertainment.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/4/4c/Maxpaynebox.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Max_Payne_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "state_of_emergency": {
+    "gameId": "state_of_emergency",
+    "wikipediaTitle": "State of Emergency (video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/State_of_Emergency_(video_game)",
+    "summary": "State of Emergency is a beat 'em up video game developed by VIS Entertainment and published by Rockstar Games for PlayStation 2 and Xbox, and by Global Star Software for Microso...",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/8/89/State-of-emergency-cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/State_of_Emergency_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "the_italian_job": {
+    "gameId": "the_italian_job",
+    "wikipediaTitle": "The Italian Job (2001 video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/The_Italian_Job_(2001_video_game)",
+    "summary": "The Italian Job is a video game based on the 1969 film of the same name, developed by Pixelogic and first published for PlayStation to European markets by SCi and Sold Out in 20...",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/7/7c/The_Italian_Job_%282001%29_coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/The_Italian_Job_(2001_video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "smugglers_run_warzones": {
+    "gameId": "smugglers_run_warzones",
+    "wikipediaTitle": "Smuggler's Run: Warzones",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Smuggler%27s_Run_2",
+    "summary": "Smuggler's Run: Warzones was the 2002 GameCube adaptation of Rockstar's off-road smuggling racer, bringing the series to Nintendo hardware.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/4/4c/Smuggler%27s_Run_2.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Smuggler%27s_Run_2",
+    "accessedAt": "2026-03-18"
+  },
+  "vice_city": {
+    "gameId": "vice_city",
+    "wikipediaTitle": "Grand Theft Auto: Vice City",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_Vice_City",
+    "summary": "Grand Theft Auto: Vice City is a 2002 action-adventure game developed by Rockstar North and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/c/ce/Vice-city-cover.jpg/250px-Vice-city-cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_Vice_City",
+    "accessedAt": "2026-03-18"
+  },
+  "midnight_club_ii": {
+    "gameId": "midnight_club_ii",
+    "wikipediaTitle": "Midnight Club II",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Midnight_Club_II",
+    "summary": "Midnight Club II is a 2003 racing video game developed by Rockstar San Diego and published by Rockstar Games for PlayStation 2, Xbox and Microsoft Windows.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Midnight_Club_II_Coverart.jpg/250px-Midnight_Club_II_Coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Midnight_Club_II",
+    "accessedAt": "2026-03-18"
+  },
+  "max_payne_2": {
+    "gameId": "max_payne_2",
+    "wikipediaTitle": "Max Payne 2: The Fall of Max Payne",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Max_Payne_2%3A_The_Fall_of_Max_Payne",
+    "summary": "Max Payne 2: The Fall of Max Payne is a 2003 third-person shooter game developed by Remedy Entertainment and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/2/21/Max_Payne_2.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Max_Payne_2%3A_The_Fall_of_Max_Payne",
+    "accessedAt": "2026-03-18"
+  },
+  "manhunt": {
+    "gameId": "manhunt",
+    "wikipediaTitle": "Manhunt (video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Manhunt_(video_game)",
+    "summary": "Manhunt is a 2003 stealth game developed by Rockstar North and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/2/21/Manhuntbox.jpg/250px-Manhuntbox.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Manhunt_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "red_dead_revolver": {
+    "gameId": "red_dead_revolver",
+    "wikipediaTitle": "Red Dead Revolver",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Red_Dead_Revolver",
+    "summary": "Red Dead Revolver is a 2004 action-adventure game developed by Rockstar San Diego and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/c/c1/Red_Dead_Revolver_Coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Red_Dead_Revolver",
+    "accessedAt": "2026-03-18"
+  },
+  "gta_advance": {
+    "gameId": "gta_advance",
+    "wikipediaTitle": "Grand Theft Auto Advance",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_Advance",
+    "summary": "Grand Theft Auto Advance (also marketed as Grand Theft Auto) is a 2004 action-adventure game developed by Digital Eclipse and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/93/Grand_Theft_Auto_Advance_logo.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_Advance",
+    "accessedAt": "2026-03-18"
+  },
+  "san_andreas": {
+    "gameId": "san_andreas",
+    "wikipediaTitle": "Grand Theft Auto: San Andreas",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_San_Andreas",
+    "summary": "Grand Theft Auto: San Andreas is a 2004 action-adventure game developed by Rockstar North and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/c/c4/GTASABOX.jpg/250px-GTASABOX.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_San_Andreas",
+    "accessedAt": "2026-03-18"
+  },
+  "midnight_club_3": {
+    "gameId": "midnight_club_3",
+    "wikipediaTitle": "Midnight Club 3: Dub Edition",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Midnight_Club_3%3A_Dub_Edition",
+    "summary": "Midnight Club 3: Dub Edition is a 2005 racing video game developed by Rockstar San Diego and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/6/69/Midnight_Club_3_-_DUB_Edition_Coverart.jpg/250px-Midnight_Club_3_-_DUB_Edition_Coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Midnight_Club_3%3A_Dub_Edition",
+    "accessedAt": "2026-03-18"
+  },
+  "the_warriors": {
+    "gameId": "the_warriors",
+    "wikipediaTitle": "The Warriors (video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/The_Warriors_(video_game)",
+    "summary": "The Warriors is a 2005 beat 'em up video game developed by Rockstar Toronto and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/e/e4/Thewarriorscover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/The_Warriors_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "liberty_city_stories": {
+    "gameId": "liberty_city_stories",
+    "wikipediaTitle": "Grand Theft Auto: Liberty City Stories",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_Liberty_City_Stories",
+    "summary": "Grand Theft Auto: Liberty City Stories is a 2005 action-adventure game developed in a collaboration between Rockstar Leeds and Rockstar North, and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/e/ea/Grand_Theft_Auto_Liberty_City_Stories_box.jpg/250px-Grand_Theft_Auto_Liberty_City_Stories_box.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_Liberty_City_Stories",
+    "accessedAt": "2026-03-18"
+  },
+  "midnight_club_3_remix": {
+    "gameId": "midnight_club_3_remix",
+    "wikipediaTitle": "Midnight Club 3: Dub Edition",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Midnight_Club_3%3A_Dub_Edition",
+    "summary": "Midnight Club 3: Dub Edition is a 2005 racing video game developed by Rockstar San Diego and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/6/69/Midnight_Club_3_-_DUB_Edition_Coverart.jpg/250px-Midnight_Club_3_-_DUB_Edition_Coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Midnight_Club_3%3A_Dub_Edition",
+    "accessedAt": "2026-03-18"
+  },
+  "table_tennis": {
+    "gameId": "table_tennis",
+    "wikipediaTitle": "Rockstar Games Presents Table Tennis",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Rockstar_Games_Presents_Table_Tennis",
+    "summary": "Rockstar Games Presents Table Tennis is a 2006 table tennis simulation video game developed by Rockstar San Diego and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/3/33/Rockstar_Table_Tennis_Game_Cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Rockstar_Games_Presents_Table_Tennis",
+    "accessedAt": "2026-03-18"
+  },
+  "bully": {
+    "gameId": "bully",
+    "wikipediaTitle": "Bully (video game)",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bully_(video_game)",
+    "summary": "Bully (released in the PAL region as Canis Canem Edit; Latin for \"dog eat dog\") is a 2006 action-adventure video game developed by Rockstar Vancouver and published by Rockstar G...",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/6/63/Bully_frontcover.jpg/250px-Bully_frontcover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Bully_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "vice_city_stories": {
+    "gameId": "vice_city_stories",
+    "wikipediaTitle": "Grand Theft Auto: Vice City Stories",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_Vice_City_Stories",
+    "summary": "Grand Theft Auto: Vice City Stories is a 2006 action-adventure game developed by Rockstar Leeds and Rockstar North, and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/3/3e/GTA_Vice_City_Stories_PSP_boxart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_Vice_City_Stories",
+    "accessedAt": "2026-03-18"
+  },
+  "manhunt_2": {
+    "gameId": "manhunt_2",
+    "wikipediaTitle": "Manhunt 2",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Manhunt_2",
+    "summary": "Manhunt 2 is a 2007 stealth game by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/0/07/Manhunt_2_Wii_Box_Art_FINAL.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Manhunt_2",
+    "accessedAt": "2026-03-18"
+  },
+  "bully_scholarship_edition": {
+    "gameId": "bully_scholarship_edition",
+    "wikipediaTitle": "Bully: Scholarship Edition",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bully_(video_game)",
+    "summary": "Bully: Scholarship Edition was Rockstar's expanded 2008 re-release, adding new classes, missions, and multiplayer modes to the original campus cult hit.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/6/63/Bully_frontcover.jpg/250px-Bully_frontcover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Bully_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "gta_iv": {
+    "gameId": "gta_iv",
+    "wikipediaTitle": "Grand Theft Auto IV",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_IV",
+    "summary": "Grand Theft Auto IV is a 2008 action-adventure game developed by Rockstar North and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/b/b7/Grand_Theft_Auto_IV_cover.jpg/250px-Grand_Theft_Auto_IV_cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_IV",
+    "accessedAt": "2026-03-18"
+  },
+  "midnight_club_los_angeles": {
+    "gameId": "midnight_club_los_angeles",
+    "wikipediaTitle": "Midnight Club: Los Angeles",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Midnight_Club%3A_Los_Angeles",
+    "summary": "Midnight Club: Los Angeles is a 2008 racing video game developed by Rockstar San Diego and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/e/ea/Midnight_Club-Los_Angeles.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Midnight_Club%3A_Los_Angeles",
+    "accessedAt": "2026-03-18"
+  },
+  "lost_and_damned": {
+    "gameId": "lost_and_damned",
+    "wikipediaTitle": "Grand Theft Auto IV: The Lost and Damned",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_IV%3A_The_Lost_and_Damned",
+    "summary": "Grand Theft Auto IV: The Lost and Damned is the first of two episodic expansion packs of the 2008 video game Grand Theft Auto IV, developed by Rockstar North and published by Ro...",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/4/4d/Grand_Theft_Auto_IV_coverart.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_IV%3A_The_Lost_and_Damned",
+    "accessedAt": "2026-03-18"
+  },
+  "chinatown_wars": {
+    "gameId": "chinatown_wars",
+    "wikipediaTitle": "Grand Theft Auto: Chinatown Wars",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_Chinatown_Wars",
+    "summary": "Grand Theft Auto: Chinatown Wars is a 2009 action-adventure game developed by Rockstar Leeds in conjunction with Rockstar North and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/7/75/ChinatownWars.jpg/250px-ChinatownWars.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_Chinatown_Wars",
+    "accessedAt": "2026-03-18"
+  },
+  "beaterator": {
+    "gameId": "beaterator",
+    "wikipediaTitle": "Beaterator",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Beaterator",
+    "summary": "Beaterator is a music mixer released in September 2009 by Rockstar Games for the PlayStation Portable and in December 2009 for iOS.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/e/ea/Beaterator_cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Beaterator",
+    "accessedAt": "2026-03-18"
+  },
+  "ballad_of_gay_tony": {
+    "gameId": "ballad_of_gay_tony",
+    "wikipediaTitle": "Grand Theft Auto: The Ballad of Gay Tony",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_The_Ballad_of_Gay_Tony",
+    "summary": "Grand Theft Auto: The Ballad of Gay Tony is the second of two episodic expansion packs for the 2008 video game Grand Theft Auto IV, developed by Rockstar North and published by...",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/0/0e/The_Ballad_of_Gay_Tony_cover.jpg/250px-The_Ballad_of_Gay_Tony_cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto%3A_The_Ballad_of_Gay_Tony",
+    "accessedAt": "2026-03-18"
+  },
+  "red_dead_redemption": {
+    "gameId": "red_dead_redemption",
+    "wikipediaTitle": "Red Dead Redemption",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Red_Dead_Redemption",
+    "summary": "Red Dead Redemption is a 2010 action-adventure game developed by Rockstar San Diego and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/a/a7/Red_Dead_Redemption.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Red_Dead_Redemption",
+    "accessedAt": "2026-03-18"
+  },
+  "undead_nightmare": {
+    "gameId": "undead_nightmare",
+    "wikipediaTitle": "Undead Nightmare",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Undead_Nightmare",
+    "summary": "Red Dead Redemption: Undead Nightmare is a 2010 action-adventure game developed by Rockstar San Diego and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/5/59/Red_Dead_Redemption_-_Undead_Nightmare_cover.JPG",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Undead_Nightmare",
+    "accessedAt": "2026-03-18"
+  },
+  "la_noire": {
+    "gameId": "la_noire",
+    "wikipediaTitle": "L.A. Noire",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/L.A._Noire",
+    "summary": "L.A.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/3/3c/LA-Noire-Box-Art.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/L.A._Noire",
+    "accessedAt": "2026-03-18"
+  },
+  "max_payne_3": {
+    "gameId": "max_payne_3",
+    "wikipediaTitle": "Max Payne 3",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Max_Payne_3",
+    "summary": "Max Payne 3 is a 2012 third-person shooter game developed and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/2/21/Max_Payne_3_Cover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Max_Payne_3",
+    "accessedAt": "2026-03-18"
+  },
+  "gta_v": {
+    "gameId": "gta_v",
+    "wikipediaTitle": "Grand Theft Auto V",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_V",
+    "summary": "Grand Theft Auto V is a 2013 action-adventure game developed by Rockstar North and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/a/a5/Grand_Theft_Auto_V.png/250px-Grand_Theft_Auto_V.png",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_V",
+    "accessedAt": "2026-03-18"
+  },
+  "gta_online": {
+    "gameId": "gta_online",
+    "wikipediaTitle": "Grand Theft Auto Online",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_Online",
+    "summary": "Grand Theft Auto Online is an online multiplayer action-adventure game developed by Rockstar North and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/a/ab/Grand_Theft_Auto_Online.jpg/330px-Grand_Theft_Auto_Online.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Grand_Theft_Auto_Online",
+    "accessedAt": "2026-03-18"
+  },
+  "bully_anniversary": {
+    "gameId": "bully_anniversary",
+    "wikipediaTitle": "Bully: Anniversary Edition",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Bully_(video_game)",
+    "summary": "Bully: Anniversary Edition was Rockstar's 2016 mobile update, built from Scholarship Edition content and redesigned for touchscreen play.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/thumb/6/63/Bully_frontcover.jpg/250px-Bully_frontcover.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Bully_(video_game)",
+    "accessedAt": "2026-03-18"
+  },
+  "la_noire_vr_case_files": {
+    "gameId": "la_noire_vr_case_files",
+    "wikipediaTitle": "L.A. Noire: The VR Case Files",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/L.A._Noire:_The_VR_Case_Files",
+    "summary": "L.A. Noire: The VR Case Files was Rockstar's 2017 virtual-reality adaptation, rebuilding a curated set of cases from the original detective game for VR headsets.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/3/3c/LA-Noire-Box-Art.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://ru.wikipedia.org/wiki/L.A._Noire%3A_The_VR_Case_Files",
+    "accessedAt": "2026-03-18"
+  },
+  "red_dead_redemption_2": {
+    "gameId": "red_dead_redemption_2",
+    "wikipediaTitle": "Red Dead Redemption 2",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Red_Dead_Redemption_2",
+    "summary": "Red Dead Redemption 2 is a 2018 action-adventure game developed and published by Rockstar Games.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/4/44/Red_Dead_Redemption_II.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Red_Dead_Redemption_2",
+    "accessedAt": "2026-03-18"
+  },
+  "red_dead_online": {
+    "gameId": "red_dead_online",
+    "wikipediaTitle": "Red Dead Online",
+    "wikipediaUrl": "https://en.wikipedia.org/wiki/Red_Dead_Online",
+    "summary": "Red Dead Online is a 2019 action-adventure game developed and published by Rockstar Games as the online component of Red Dead Redemption 2.",
+    "coverImageUrl": "https://upload.wikimedia.org/wikipedia/en/2/23/Red_Dead_Online.jpg",
+    "sourceName": "Wikipedia",
+    "sourceUrl": "https://en.wikipedia.org/wiki/Red_Dead_Online",
+    "accessedAt": "2026-03-18"
+  }
+}

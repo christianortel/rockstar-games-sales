@@ -19,7 +19,7 @@ export function GameUniverseCard({
 }) {
   const asset = getGameAsset(row.game.id);
   const theme = getTheme(row.game.themeKey);
-  const poster = getGamePoster(row.game.id);
+  const poster = getGamePoster(row.game.id, row.game.parentGameId);
 
   return (
     <motion.div className="h-full" transition={{ duration: 0.24, ease: "easeOut" }} whileHover={{ y: -8 }}>

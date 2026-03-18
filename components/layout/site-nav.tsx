@@ -14,13 +14,13 @@ export function SiteNav() {
     <header className="sticky top-0 z-40 border-b border-white/8 bg-black/20 backdrop-blur-xl">
       <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-4 px-5 py-4 md:flex-row md:items-center md:justify-between md:px-8">
         <Link href="/" className="flex items-center gap-4">
-          <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-[#f6c343] shadow-[0_8px_18px_rgba(0,0,0,0.28)]">
+          <div className="relative h-11 w-12 shrink-0 overflow-hidden">
             <Image
-              alt="Rockstar app mark"
+              alt="Official Rockstar Games logo"
               className="object-contain"
               fill
-              sizes="44px"
-              src="/images/logos/rockstar-app-badge.svg"
+              sizes="48px"
+              src="/images/logos/rockstar-rstar-official.svg"
               unoptimized
             />
           </div>

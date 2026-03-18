@@ -201,3 +201,14 @@ export interface DashboardGameRow {
   platforms: Platform[];
   confidence: number;
 }
+
+export interface GameEnrichment {
+  gameId: string;
+  wikipediaTitle?: string;
+  wikipediaUrl?: string;
+  summary?: string;
+  coverImageUrl?: string;
+  sourceName?: string;
+  sourceUrl?: string;
+  accessedAt?: string;
+}

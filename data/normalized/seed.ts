@@ -1,5 +1,6 @@
 import rawOfficialSalesEvents from "@/data/raw/official-sales-events.json";
 import rawSources from "@/data/raw/sources.json";
+import rawGameEnrichment from "@/data/raw/game-enrichment.json";
 import { catalogSeeds, featuredGameIds } from "@/data/normalized/catalog";
 import {
   AnalyticsCoverage,
@@ -16,6 +17,7 @@ import {
 
 export const sources = rawSources as SourceRecord[];
 export const officialSalesEvents = rawOfficialSalesEvents as OfficialSalesEvent[];
+const gameEnrichment = rawGameEnrichment as Record<string, { summary?: string }>;
 
 export const methodologies: Methodology[] = [
   {
@@ -132,9 +134,47 @@ function buildCatalogHeadline(kind: Game["kind"]) {
   return "Low-confidence title estimate built from release-era and platform context.";
 }
 
+function summarizePlatforms(platformIds: string[]) {
+  const names = platformIds.map((platformId) => platformById.get(platformId)?.name ?? platformId);
+
+  if (names.length <= 2) {
+    return names.join(" and ");
+  }
+
+  if (names.length === 3) {
+    return `${names[0]}, ${names[1]}, and ${names[2]}`;
+  }
+
+  return `${names[0]}, ${names[1]}, and ${names.length - 2} more`;
+}
+
+function buildCatalogFactLine(seed: (typeof catalogSeeds)[number]) {
+  if (seed.kind === "online_service") {
+    return `Launched in ${seed.year} as a live-service layer tied to ${seed.parentGameId ? "its parent title" : "Rockstar's wider catalog"}.`;
+  }
+
+  if (seed.kind === "expansion" || seed.kind === "mission_pack") {
+    return `Released in ${seed.year} as an add-on, first tracked on ${summarizePlatforms(seed.platforms)}.`;
+  }
+
+  if (seed.kind === "variant") {
+    return `Re-release from ${seed.year}, tracked across ${summarizePlatforms(seed.platforms)}.`;
+  }
+
+  const roleLabel =
+    seed.rockstarRole === "developed"
+      ? "Rockstar-developed"
+      : seed.rockstarRole === "published"
+        ? "Rockstar-published"
+        : "Rockstar-presented";
+
+  return `${roleLabel} release from ${seed.year}, first tracked on ${summarizePlatforms(seed.platforms)}.`;
+}
+
 function buildCatalogGame(seed: (typeof catalogSeeds)[number]): Game {
   const analyticsCoverage: AnalyticsCoverage = featuredGameIds.includes(seed.id) ? "featured" : "supported";
   const themeKey = inferTheme(seed.franchise, seed.title);
+  const enrichment = gameEnrichment[seed.id] ?? (seed.parentGameId ? gameEnrichment[seed.parentGameId] : undefined);
   const roleDeveloperMap = {
     developed: "Rockstar Studios",
     published: "Third-party / Rockstar-published",
@@ -153,7 +193,7 @@ function buildCatalogGame(seed: (typeof catalogSeeds)[number]): Game {
     releaseYear: seed.year,
     originalReleaseDate: seed.releaseDate ?? `${seed.year}-01-01`,
     releaseDatePrecision: seed.releaseDatePrecision ?? (seed.releaseDate ? "day" : "year"),
-    shortDescription: buildCatalogShortDescription(seed.title, analyticsCoverage, seed.kind),
+    shortDescription: enrichment?.summary ?? buildCatalogShortDescription(seed.title, analyticsCoverage, seed.kind),
     longDescription: buildCatalogLongDescription(seed.title, analyticsCoverage, seed.rockstarRole),
     themeKey,
     universeStyle: inferUniverseStyle(themeKey),
@@ -164,7 +204,7 @@ function buildCatalogGame(seed: (typeof catalogSeeds)[number]): Game {
     criticsAngle: "Catalog-only entry retained for complete Rockstar timeline coverage.",
     averageSellingPriceUsd: 0,
     estimatedLifetimeUnitsM: 0,
-    headlineMetric: buildCatalogHeadline(seed.kind),
+    headlineMetric: buildCatalogFactLine(seed),
     galleryCaption: "Catalog entry using centralized theme and asset fallbacks.",
     methodologyId: "blend-model-v1"
   };
@@ -547,6 +587,7 @@ function estimateConfidenceForSeed(seed: (typeof catalogSeeds)[number]) {
 function buildModeledGameAdjustments(seed: (typeof catalogSeeds)[number]): Partial<Game> {
   if (featuredGameIds.includes(seed.id)) return {};
 
+  const enrichment = gameEnrichment[seed.id] ?? (seed.parentGameId ? gameEnrichment[seed.parentGameId] : undefined);
   const estimatedLifetimeUnitsM = getEstimatedUnitsForSeed(seed);
   const averageSellingPriceUsd = estimateAverageSellingPrice(seed);
   const commercialFrame =
@@ -561,11 +602,14 @@ function buildModeledGameAdjustments(seed: (typeof catalogSeeds)[number]): Parti
   return {
     estimatedLifetimeUnitsM,
     averageSellingPriceUsd,
-    headlineMetric: `${commercialFrame} Estimated lifetime volume: ${estimatedLifetimeUnitsM.toFixed(1)}M units.`,
+    shortDescription: enrichment?.summary ?? buildCatalogShortDescription(seed.title, "supported", seed.kind),
+    headlineMetric: `${buildCatalogFactLine(seed)} Estimated lifetime revenue: $${(estimatedLifetimeUnitsM * averageSellingPriceUsd).toFixed(0)}M.`,
     criticsAngle: `${commercialFrame} Confidence remains lower than the flagship Rockstar set.`,
     galleryCaption: `${seed.title} uses transparent modeled coverage rather than a direct official milestone.`,
     longDescription: `${buildCatalogLongDescription(seed.title, "supported", seed.rockstarRole)} ${commercialFrame}`,
-    shortDescription: buildCatalogShortDescription(seed.title, "supported", seed.kind)
+    heroTagline: enrichment?.summary
+      ? `${enrichment.summary} First tracked release year: ${seed.year}.`
+      : buildCatalogHeroTagline(seed.year, seed.kind, "supported")
   };
 }
 

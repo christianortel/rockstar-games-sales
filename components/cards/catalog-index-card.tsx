@@ -5,9 +5,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 import { GameCoverArt } from "@/components/ui/game-cover-art";
-import { getTheme } from "@/lib/themes/theme-utils";
-import { gameAssets } from "@/config/gameAssets";
 import { formatMillions } from "@/lib/formatters";
+import { getGamePoster } from "@/lib/themes/asset-utils";
+import { getTheme } from "@/lib/themes/theme-utils";
 import { DashboardGameRow } from "@/types/domain";
 
 export function CatalogIndexCard({
@@ -18,7 +18,7 @@ export function CatalogIndexCard({
   onHover?: (gameId: string) => void;
 }) {
   const theme = getTheme(row.game.themeKey);
-  const poster = gameAssets[row.game.id]?.posterImage;
+  const poster = getGamePoster(row.game.id, row.game.parentGameId);
 
   return (
     <motion.div className="h-full" transition={{ duration: 0.2, ease: "easeOut" }} whileHover={{ y: -4 }}>
@@ -30,7 +30,7 @@ export function CatalogIndexCard({
       >
         <div className="mb-4 grid min-h-[104px] gap-3 grid-cols-[84px,1fr]">
           <div className="relative overflow-hidden rounded-[1rem] border border-white/10 bg-black/30">
-            {poster ? (
+            {poster !== "/images/fallbacks/no-image.svg" ? (
               <Image alt={row.game.title} className="object-cover object-center" fill sizes="84px" src={poster} unoptimized />
             ) : (
               <GameCoverArt game={row.game} sizes="84px" variant="catalog" />
@@ -47,7 +47,8 @@ export function CatalogIndexCard({
               </span>
             </div>
             <h3 className="mt-2 line-clamp-2 font-display text-xl uppercase tracking-[0.05em] text-white">{row.game.title}</h3>
-            <p className="mt-2 text-xs leading-6 text-white/60">{row.game.headlineMetric}</p>
+            <p className="mt-2 line-clamp-3 text-xs leading-6 text-white/64">{row.game.shortDescription}</p>
+            <p className="mt-2 line-clamp-2 text-[11px] leading-5 text-white/44">{row.game.headlineMetric}</p>
           </div>
         </div>
 

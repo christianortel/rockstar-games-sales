@@ -23,14 +23,15 @@ export function GtaSixForecast() {
           <div className="absolute inset-0">
             <Image
               alt=""
-              className="object-cover object-center opacity-45"
+              className="scale-[1.03] object-cover object-center opacity-58"
               fill
               sizes="(max-width: 1280px) 100vw, 48vw"
-              src="/images/games/vice-neon-scene.svg"
+              src="/images/games/gta-vi-jason-lucia-01.jpg"
               unoptimized
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/72 to-black/35" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,79,145,0.18),transparent_28%)]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/95 via-black/72 to-black/28" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,79,145,0.22),transparent_28%)]" />
+            <div className="absolute inset-y-0 right-0 w-[36%] bg-gradient-to-l from-[#ff9cc4]/18 via-transparent to-transparent" />
           </div>
 
           <div className="relative">

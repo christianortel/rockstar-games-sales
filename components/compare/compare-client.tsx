@@ -183,7 +183,7 @@ export function CompareClient() {
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex min-w-0 items-center gap-3">
                       <div className="relative h-16 w-12 overflow-hidden rounded-lg border border-white/10 bg-black/30">
-                        <Image alt={row.game.title} className="object-cover object-center" fill sizes="48px" src={getGamePoster(row.game.id)} unoptimized />
+                        <Image alt={row.game.title} className="object-cover object-center" fill sizes="48px" src={getGamePoster(row.game.id, row.game.parentGameId)} unoptimized />
                       </div>
                       <div className="min-w-0">
                         <p className="text-[10px] uppercase tracking-[0.2em] text-white/42">Slot {index + 1}</p>
@@ -331,7 +331,7 @@ export function CompareClient() {
                     className="object-contain object-center"
                     fill
                     sizes="(max-width: 768px) 70vw, (max-width: 1280px) 40vw, 16vw"
-                    src={getGamePoster(row.game.id)}
+                    src={getGamePoster(row.game.id, row.game.parentGameId)}
                     unoptimized
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
@@ -388,7 +388,7 @@ export function CompareClient() {
                         className="object-contain object-center"
                         fill
                         sizes="(max-width: 768px) 70vw, 220px"
-                        src={getGamePoster(row.game.id)}
+                        src={getGamePoster(row.game.id, row.game.parentGameId)}
                         unoptimized
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/15 via-transparent to-transparent" />
