@@ -8,6 +8,8 @@ I kept coming back to three questions while building it:
 - Which figures are official, which are modeled, and how confident should the user be in them?
 - How do you make a data-heavy catalog feel like a product instead of a spreadsheet with charts?
 
+![ROCKSTAR SALES UNIVERSE homepage](./docs/screenshots/landing-homepage.png)
+
 ## Overview
 
 This project is structured as a multi-surface explorer rather than a single dashboard:

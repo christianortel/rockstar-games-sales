@@ -8,6 +8,7 @@ npm-ver.log
 foo.log
 detached-test.log
 tsconfig.tsbuildinfo
+docs/screenshots/chrome-profile/
 
 .DS_Store
 Thumbs.db
