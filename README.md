@@ -1,90 +1,128 @@
 # ROCKSTAR SALES UNIVERSE
 
-`ROCKSTAR SALES UNIVERSE` is an interactive release atlas for Rockstar Games. It combines a full catalog browser, themed title pages, comparison tools, a modeled sales layer, and a raw SQL data lab in one product.
+`ROCKSTAR SALES UNIVERSE` is a Next.js project I built around Rockstar Games' release history, sales estimates, platform breakdowns, and a browser-based SQL lab.
 
-The project is built to answer three questions clearly:
+I kept coming back to three questions while building it:
 
-- What did Rockstar release, and on which platforms?
-- Which numbers are official, which are estimated, and how strong is that estimate?
-- How do you turn a data-heavy catalog into something worth exploring instead of another BI dashboard?
+- What did Rockstar release, and where did each title land?
+- Which figures are official, which are modeled, and how confident should the user be in them?
+- How do you make a data-heavy catalog feel like a product instead of a spreadsheet with charts?
 
-## Product Overview
+## Overview
 
-This app is structured as a multi-surface explorer rather than a single dashboard:
+This project is structured as a multi-surface explorer rather than a single dashboard:
 
-- The homepage is a release atlas with search, filters, and a full Rockstar catalog browser.
-- The dashboard is the broad analytics view for slicing the catalog by franchise, platform family, generation, role, status, and data mode.
-- Game detail pages turn a title into its own themed environment with platform breakdowns, trend charts, release timelines, and provenance.
-- Compare mode builds head-to-head matchups from the full catalog.
-- Data Lab exposes the local dataset through a read-only SQL interface.
-- Methodology explains the trust model, source hierarchy, confidence scoring, and limits.
+- `Homepage`: a full release atlas with search, filters, featured worlds, and direct entry points into the rest of the app
+- `Dashboard`: the broad analytics surface for slicing the catalog by franchise, platform family, generation, role, status, and data mode
+- `Game detail pages`: themed title-specific environments with platform breakdowns, trends, release timelines, and provenance
+- `Compare`: head-to-head matchups built from the full Rockstar catalog
+- `Data Lab`: a read-only SQL interface over the local dataset
+- `Methodology`: the trust model, source hierarchy, confidence framing, and modeling limits
 
-## Why This Project Exists
+## Why I Built It
 
-Most analytics projects stop at correctness and most fan projects stop at vibe. This project tries to do both.
+I did not want this to feel like a generic game sales dashboard.
 
-The design goal was to make the interface feel like a Rockstar companion product while keeping the data contract explicit. That means:
+I wanted it to feel closer to a Rockstar companion product while still being clear about what is official, what is estimated, and where the weak spots are. So the whole project is built around a few rules:
 
-- themed visuals without hiding uncertainty
-- dramatic transitions without sacrificing readability
+- strong visual identity without hiding uncertainty
 - modeled data that is always labeled as modeled
-- a product flow that supports browsing, analysis, comparison, and raw inspection
+- different ways to move through the app depending on whether someone wants to browse, compare, analyze, or inspect raw rows
+- a codebase that works as both a frontend project and a data-modeling project
 
-## Core Product Decisions
+## Feature Highlights
 
-### 1. Full Catalog First
+### 1. Full Catalog Coverage
 
-The catalog includes every Rockstar release in the supplied list, not just the largest commercial hits.
-
-That includes:
+The catalog is not limited to the largest commercial hits. It includes:
 
 - mainline games
 - mission packs
 - expansions
 - online-service layers
-- variants and re-releases
+- variants, remasters, and re-releases
 
-Those release types are modeled separately so the app does not pretend `GTA V`, `GTA Online`, `The Lost and Damned`, and `Bully: Scholarship Edition` are the same kind of thing.
+This matters because `GTA V`, `GTA Online`, `The Lost and Damned`, and `Bully: Scholarship Edition` should not be flattened into the same type of release.
 
-### 2. Honest Data Layers
+### 2. Honest Data Modes
 
-The app supports three modes:
+The app supports three explicit data modes:
 
-- `Confirmed`: direct title-level official milestones only
-- `Estimated`: full modeled commercial layer
-- `Blended`: official anchors where available, modeled detail where disclosure stops
+- `Confirmed`: title-level official milestones only
+- `Estimated`: the full modeled commercial layer
+- `Blended`: official anchors where public, modeled detail where disclosure stops
 
-This separation is a core product feature, not a footnote.
+That separation matters to me because I did not want estimated numbers dressed up like hard facts.
 
-### 3. Theme System Over One-Off Styling
+### 3. Theme and Asset System
 
-Each game world is driven through a reusable theme and asset system, so the product can shift atmosphere without duplicating layout logic.
+Each title world is driven by reusable theme and asset configuration instead of one-off styling.
 
 Themes control:
 
 - accents
-- overlay gradients
+- gradients and overlays
 - panel treatment
 - chart palettes
-- backdrop behavior
+- atmosphere
 
 Assets control:
 
 - poster art
 - hero imagery
 - logos
-- gallery images
+- gallery strips
 - fallbacks
 
-### 4. Raw Data Should Be Reachable
+That lets the app shift tone from `Red Dead Redemption` to `L.A. Noire` to `Midnight Club` without rebuilding the same page over and over.
 
-The new `Data Lab` route exists because polished charts should not be the only way to inspect the project. Users can query the local seed and derived fact tables directly in SQL.
+### 4. SQL Data Lab
 
-That makes the app stronger as:
+The `Data Lab` route exists because polished charts should not be the only way to inspect the project. Users can query the local seed and derived tables directly in-browser through a read-only SQL interface.
 
-- an exploration tool
-- a data-engineering portfolio piece
+That also makes the project more useful as:
+
 - a frontend portfolio piece
+- a data-modeling portfolio piece
+- an exploration tool instead of just a presentation layer
+
+## Screens and Product Flow
+
+### Homepage
+
+- searchable release explorer
+- franchise quick filters
+- featured title worlds
+- direct entry into dashboard, compare mode, and data lab
+
+### Dashboard
+
+- multi-filter control surface
+- KPI cards
+- charts for titles, franchises, trends, platform mix, and regions
+- ranked table with CSV export
+
+### Game Detail
+
+- title-specific visual treatment
+- platform cards
+- trend charts
+- release timeline
+- provenance and confidence surfaces
+
+### Compare
+
+- selection roster
+- full library search
+- matchup cards
+- comparative trend overlay
+
+### Data Lab
+
+- SQL presets
+- editable query surface
+- raw table counts
+- result grid
 
 ## Tech Stack
 
@@ -94,9 +132,9 @@ That makes the app stronger as:
 - Framer Motion
 - Recharts
 - AlaSQL for the in-browser SQL lab
-- Local typed seed data and derived facts
+- local typed seed data and derived fact tables
 
-## Folder Structure
+## Project Structure
 
 ```text
 app/
@@ -135,7 +173,7 @@ types/
 
 ## Data Model
 
-The project uses typed normalized entities in [`types/domain.ts`](./types/domain.ts):
+Typed domain entities live in [`types/domain.ts`](./types/domain.ts). Core entities include:
 
 - `Game`
 - `Platform`
@@ -156,21 +194,27 @@ Important modeling fields include:
 - `releaseDatePrecision`
 - `confidenceScore`
 
-Those fields are what let the app represent the full catalog honestly instead of flattening everything into a single leaderboard.
+Those fields are what keep the catalog from turning into one flattened leaderboard.
 
 ## Data Pipeline
 
-The current build is seed-first. The app ships with a local dataset so it runs immediately, but the repository is organized so the seed can be replaced later.
+The current build is seed-first. It ships with a local dataset so the app runs immediately, but the repo is organized so the source layer can evolve later.
 
 Current flow:
 
 1. Raw source references live under [`data/raw`](./data/raw)
-2. Catalog and typed seed entities live under [`data/normalized`](./data/normalized)
-3. Repository helpers shape the dataset for the product layer
-4. Presenter utilities generate chart-friendly and card-friendly views
-5. The SQL lab exposes the raw table layer directly
+2. Catalog entities and typed normalized seed data live under [`data/normalized`](./data/normalized)
+3. Repository helpers shape that dataset for the product layer
+4. Presenter utilities generate card-ready and chart-ready views
+5. The SQL lab exposes the table layer directly
 
-Scripts included:
+Available scripts:
+
+- `npm run data:fetch`
+- `npm run data:normalize`
+- `npm run data:derived`
+
+Script entry points:
 
 - [`scripts/fetch-metadata.ts`](./scripts/fetch-metadata.ts)
 - [`scripts/normalize-data.ts`](./scripts/normalize-data.ts)
@@ -182,7 +226,7 @@ Scripts included:
 
 - Take-Two investor relations materials
 - Rockstar official catalog references
-- official title or franchise milestone disclosures
+- official title-level or franchise-level milestone disclosures
 
 ### Tier 2
 
@@ -192,13 +236,13 @@ Scripts included:
 ### Tier 3
 
 - internal modeling assumptions
-- manual allocation logic used for unsupported commercial layers
+- manual allocation logic for titles without direct disclosure
 
-The app keeps those categories visible in the UI instead of blending them into one implied truth.
+I wanted those categories to stay visible in the UI instead of getting blended into fake certainty.
 
 ## Modeling Approach
 
-Not every Rockstar title has a public title-level sales milestone. For those titles, the app uses a clearly labeled low-confidence model.
+Not every Rockstar title has a public title-level sales milestone. When that disclosure does not exist, the app falls back to a clearly labeled lower-confidence model.
 
 The modeled layer considers:
 
@@ -207,7 +251,7 @@ The modeled layer considers:
 - platform spread
 - release type
 - Rockstar role on the title
-- parent-title inheritance for mission packs, expansions, variants, and online layers
+- inheritance from parent titles for mission packs, expansions, variants, and online-service layers
 
 What is modeled:
 
@@ -223,101 +267,72 @@ What is not claimed:
 - official revenue reporting
 - false precision on unsupported legacy titles
 
-## UX Structure
+## Performance Notes
 
-### Homepage
-
-- full release explorer
-- searchable catalog atlas
-- featured high-detail worlds
-- direct entry into atlas, compare, and data lab
-
-### Dashboard
-
-- sticky multi-filter control surface
-- scope summary
-- KPIs
-- charts for titles, franchises, trends, platform mix, and regions
-- ranking table with CSV export
-
-### Game Detail
-
-- world-specific presentation
-- platform cards
-- trend charts
-- release timeline
-- provenance and confidence UI
-
-### Compare
-
-- selection roster
-- full library search
-- matchup cards
-- comparative trend overlay
-
-### Data Lab
-
-- SQL presets
-- raw table counts
-- editable query surface
-- result grid
-
-## Theme and Asset System
-
-Theme configuration lives in [`config/gameThemes.ts`](./config/gameThemes.ts).
-
-Asset configuration lives in [`config/gameAssets.ts`](./config/gameAssets.ts).
-
-This split matters because it lets the app evolve in two directions independently:
-
-- new visual art can be swapped in without restructuring components
-- theme behavior can change without touching the underlying data
-
-## Performance Decisions
-
-Recent cleanup focused on making the app feel less heavy:
+Recent cleanup focused on keeping the app visually ambitious without making it feel heavy:
 
 - charts are lazy-loaded behind lightweight loading shells
-- backdrop transitions avoid expensive blur-based motion
+- backdrop transitions avoid expensive blur-heavy motion
 - counters animate from the previous state instead of restarting from zero
-- shared repository helpers reduce repeated data work across the UI
+- repository helpers reduce repeated data work across the UI
 
-The app is still visually ambitious, but it now stages heavy UI work more carefully.
+## Running Locally
 
-## How To Run
+Install dependencies and start the app:
 
 ```bash
 npm install
 npm run dev
 ```
 
+Build and run the production server:
+
+```bash
+npm run build
+npm run start
+```
+
 Verification:
 
 ```bash
 npm run lint
-npm run build
 ```
 
-## How To Swap To Supabase Later
+Note: `npm run lint` currently runs `tsc --noEmit`.
 
-1. Mirror the normalized entities into Supabase tables.
-2. Replace repository reads in [`lib/data/repository.ts`](./lib/data/repository.ts) with Supabase queries.
-3. Keep presenter logic intact so components do not care where the data came from.
-4. Move provenance timestamps and attribution data into database rows.
-5. Preserve the SQL lab as a read-only inspection surface on top of real database exports.
+## Screenshots
+
+Screenshot placeholders and naming guidance live in [`docs/screenshots/README.md`](./docs/screenshots/README.md).
+
+## Future Backend Migration
+
+If I move this to Supabase later, the plan is:
+
+1. mirror normalized entities into database tables
+2. replace repository reads in [`lib/data/repository.ts`](./lib/data/repository.ts) with database queries
+3. keep presenter logic intact so components remain data-source agnostic
+4. move provenance timestamps and attribution metadata into persistent rows
+5. preserve the SQL lab as a read-only inspection surface on top of real exports
 
 ## Known Limits
 
-- Many non-flagship titles still rely on low-confidence modeled commercial coverage.
-- Asset richness is uneven because real cover art is stronger for some titles than others.
-- The visual language is much stronger on the featured worlds than on every legacy catalog entry.
-- Some legacy dates remain year-level references until stronger per-platform release normalization is added.
+- many non-flagship titles still rely on lower-confidence modeled commercial coverage
+- asset richness remains stronger for flagship titles than for the entire long tail
+- some legacy release dates are still represented at year precision
+- the featured worlds are visually richer than the oldest catalog entries
 
 ## Roadmap
 
-- improve cover-art coverage for the long tail of the catalog
+- improve long-tail cover art coverage further
 - expand platform-specific release metadata
 - enrich source-level attribution and inline provenance badges
-- add saved compare presets and share snapshots
-- add Supabase-backed updates and editing workflows
-- tighten dashboard bundle size further by splitting more heavy client surfaces
+- add saved compare presets and shareable snapshots
+- introduce Supabase-backed updates and editing workflows
+- reduce dashboard bundle weight further by splitting more heavy client surfaces
+
+## Why This Repo Matters To Me
+
+- it let me combine product design, frontend work, and data modeling in one project instead of splitting those ideas across smaller demos
+- it gave me a way to treat uncertainty as part of the UX instead of hiding it in tiny footnotes
+- it pushed me to build a cleaner structure around repository helpers, presenter logic, themes, and assets
+- it feels more like a real product than a chart dump, which was the whole point
