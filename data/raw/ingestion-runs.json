@@ -1,0 +1,17 @@
+[
+  {
+    "id": "ingest-2026-04-29",
+    "startedAt": "2026-04-29T18:32:59.126Z",
+    "completedAt": "2026-04-29T18:33:00.408Z",
+    "status": "warning",
+    "sourceCount": 7,
+    "officialEventCount": 4,
+    "enrichmentCount": 54,
+    "modelVersion": "blend-model-v1.2.0",
+    "notes": [
+      "Official baseline: Take-Two Q3 FY2026 / February 2026 investor materials (2026-02-03).",
+      "Next official refresh checkpoint: Take-Two Q4 and fiscal year 2026 results on 2026-05-21.",
+      "This run stores hashes and review status for source auditability; it does not store copyrighted source bodies."
+    ]
+  }
+]

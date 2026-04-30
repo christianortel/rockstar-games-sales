@@ -1,0 +1,72 @@
+[
+  {
+    "id": "ttwo-investor-feb-2026-2026-04-29",
+    "sourceId": "ttwo-investor-feb-2026",
+    "sourceUrl": "https://ir.take2games.com/static-files/98e1567f-07f8-4e07-9444-2cd954cabe57",
+    "capturedAt": "2026-04-29T18:32:59.126Z",
+    "contentHash": "76120c0c30934aafd6366299197a43fb556e13fbfd4bca073df47f6e163a3f44",
+    "extractionMethod": "http_fetch_hash_only",
+    "reviewStatus": "approved",
+    "notes": "Fetched source and stored a content hash for auditability. Full source text is not stored in the repo."
+  },
+  {
+    "id": "ttwo-q3-2026-release-2026-04-29",
+    "sourceId": "ttwo-q3-2026-release",
+    "sourceUrl": "https://www.take2games.com/ir/news/take-two-interactive-software-inc-reports-results-fiscal-third-4",
+    "capturedAt": "2026-04-29T18:32:59.170Z",
+    "contentHash": "8d06a0855712448655b10f525b234e473d8a2278d42f4a831aaf92a4cf71382e",
+    "extractionMethod": "http_fetch_hash_only",
+    "reviewStatus": "approved",
+    "notes": "Fetched source and stored a content hash for auditability. Full source text is not stored in the repo."
+  },
+  {
+    "id": "rockstar-games-catalog-2026-04-29",
+    "sourceId": "rockstar-games-catalog",
+    "sourceUrl": "https://www.rockstargames.com/games",
+    "capturedAt": "2026-04-29T18:32:59.172Z",
+    "contentHash": "50a4fec06eb205077384ab3d5410356a95322ca2ff2851e2a1c3dabaa4fcc962",
+    "extractionMethod": "http_fetch_hash_only",
+    "reviewStatus": "approved",
+    "notes": "Fetched source and stored a content hash for auditability. Full source text is not stored in the repo."
+  },
+  {
+    "id": "take-two-ir-home-2026-04-29",
+    "sourceId": "take-two-ir-home",
+    "sourceUrl": "https://www.take2games.com/ir",
+    "capturedAt": "2026-04-29T18:32:59.172Z",
+    "contentHash": "ff6a6cf8288c2a93dbf5d7d8391734fe686791ba7515b15f06c52dd3b503e762",
+    "extractionMethod": "http_fetch_hash_only",
+    "reviewStatus": "approved",
+    "notes": "Fetched source and stored a content hash for auditability. Full source text is not stored in the repo."
+  },
+  {
+    "id": "mobygames-catalog-2026-04-29",
+    "sourceId": "mobygames-catalog",
+    "sourceUrl": "https://www.mobygames.com/",
+    "capturedAt": "2026-04-29T18:32:59.173Z",
+    "contentHash": "11875a676c0377198062ac963dff7d073c632ae252cb0908f522baa7ff0f2cea",
+    "extractionMethod": "http_fetch_hash_only",
+    "reviewStatus": "documented_exception",
+    "notes": "Direct unauthenticated fetch returns HTTP 403. This source is retained as a Tier 2 metadata reference only, not as an official sales source."
+  },
+  {
+    "id": "wikipedia-metadata-2026-04-29",
+    "sourceId": "wikipedia-metadata",
+    "sourceUrl": "https://en.wikipedia.org/",
+    "capturedAt": "2026-04-29T18:32:59.174Z",
+    "contentHash": "ab1109bc12b3b1554535a6801956efcd09ce14dd44fa2a94e1e75f98a8f4e886",
+    "extractionMethod": "http_fetch_hash_only",
+    "reviewStatus": "approved",
+    "notes": "Fetched source and stored a content hash for auditability. Full source text is not stored in the repo."
+  },
+  {
+    "id": "manual-model-v1-2026-04-29",
+    "sourceId": "manual-model-v1",
+    "sourceUrl": "https://example.com/manual-model-v1",
+    "capturedAt": "2026-04-29T18:32:59.175Z",
+    "contentHash": "049a2c4736d8ff1d52df238ac1ae76021a9cc90b8d6e2f596375a68926ea67dc",
+    "extractionMethod": "internal_model_hash",
+    "reviewStatus": "approved",
+    "notes": "Internal modeling source is hashed from the local methodology notes and model version."
+  }
+]

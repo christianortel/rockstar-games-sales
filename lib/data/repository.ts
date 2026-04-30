@@ -1,6 +1,9 @@
 import { gameAssets } from "@/config/gameAssets";
 import { gameThemes } from "@/config/gameThemes";
+import rawIngestionRuns from "@/data/raw/ingestion-runs.json";
+import rawSourceSnapshots from "@/data/raw/source-snapshots.json";
 import {
+  currentModelVersion,
   gameProfiles,
   games,
   methodologies,
@@ -8,7 +11,8 @@ import {
   platforms,
   regions,
   releases,
-  sources
+  sources,
+  buildUncertaintyRange
 } from "@/data/normalized/seed";
 import {
   DashboardGameRow,
@@ -18,10 +22,18 @@ import {
   Platform,
   Region,
   Release,
-  SourceRecord
+  SourceRecord,
+  DashboardSummary,
+  FieldAudit,
+  IngestionRun,
+  SourceSnapshot
 } from "@/types/domain";
+import { filterDashboardRows } from "@/lib/metrics/aggregations";
+import { officialDataFreshness } from "@/lib/data/freshness";
 
 const lastVerifiedAt = "2026-03-17";
+const ingestionRuns = rawIngestionRuns as IngestionRun[];
+const sourceSnapshots = rawSourceSnapshots as SourceSnapshot[];
 
 function getProfile(gameId: string) {
   return gameProfiles.find((profile) => profile.gameId === gameId);
@@ -52,6 +64,10 @@ function buildDerivedSalesFacts(): DerivedSalesFact[] {
         years.forEach((year, index) => {
           const yearlyWeight = weightTotal > 0 ? normalizedWeights[index] / weightTotal : 0;
           const units = totalUnits * platformShare * regionShare * yearlyWeight;
+          const confidenceValue =
+            profile.confidenceBase *
+            (game.confirmedLifetimeUnitsM ? 1 : 0.82) *
+            (year < 2010 ? 0.95 : 1);
           cumulative += units;
 
           rows.push({
@@ -63,14 +79,10 @@ function buildDerivedSalesFacts(): DerivedSalesFact[] {
             estimatedUnitsSoldM: Number(units.toFixed(4)),
             cumulativeUnitsSoldM: Number(cumulative.toFixed(4)),
             estimatedRevenueUsdM: Number((units * game.averageSellingPriceUsd).toFixed(3)),
-            confidenceScore: Number(
-              (
-                profile.confidenceBase *
-                (game.confirmedLifetimeUnitsM ? 1 : 0.82) *
-                (year < 2010 ? 0.95 : 1)
-              ).toFixed(2)
-            ),
+            confidenceScore: Number(confidenceValue.toFixed(2)),
             methodologyId: game.methodologyId,
+            modelVersion: currentModelVersion,
+            uncertaintyRange: buildUncertaintyRange(units, confidenceValue),
             sourceIds: game.confirmedLifetimeUnitsM
               ? ["ttwo-investor-feb-2026", "manual-model-v1"]
               : ["manual-model-v1", "mobygames-catalog"],
@@ -114,6 +126,20 @@ export function getAllGames() {
 
 export function getGameBySlug(slug: string) {
   return games.find((game) => game.slug === slug);
+}
+
+export function getGameDetail(slug: string) {
+  const game = getGameBySlug(slug);
+  if (!game) return undefined;
+
+  return {
+    game,
+    row: getDashboardRows().find((item) => item.game.id === game.id),
+    releases: getReleasesForGame(game.id),
+    sources: getSourceRecords(getSourceIdsForGame(game.id)),
+    officialEvents: getOfficialEventsForGame(game.id),
+    modelAudit: getModelAudit(game.id)
+  };
 }
 
 export function getGameById(gameId: string) {
@@ -181,6 +207,114 @@ export function getSourceIdsForGame(gameId: string) {
     : [];
 
   return Array.from(new Set([...factSourceIds, ...eventSourceIds, ...provenanceSourceIds]));
+}
+
+export function getSourcesForField(gameId: string, fieldName: keyof Game["fieldProvenance"]) {
+  const game = getGameById(gameId);
+  const sourceIds = game?.fieldProvenance[fieldName]?.sourceIds ?? [];
+  return getSourceRecords(sourceIds);
+}
+
+export function getFieldAudits(gameId?: string): FieldAudit[] {
+  return games
+    .filter((game) => !gameId || game.id === gameId)
+    .flatMap((game) =>
+      Object.entries(game.fieldProvenance).map(([fieldName, provenance]) => ({
+        id: `${game.id}-${fieldName}`,
+        gameId: game.id,
+        fieldName: fieldName as FieldAudit["fieldName"],
+        provenance,
+        modelVersion: provenance.tag === "modeled" || provenance.tag === "inherited" ? currentModelVersion : undefined,
+        reviewedAt: getLastVerifiedAt(),
+        reviewStatus: provenance.tag === "modeled" ? "pending" : "approved",
+        notes:
+          provenance.tag === "official"
+            ? "Official field-level anchor is backed by a primary source."
+            : "Field is documented for review and can be upgraded as stronger sourcing becomes available."
+      }))
+    );
+}
+
+export function getModelAudit(gameId: string) {
+  const game = getGameById(gameId);
+  const profile = getProfile(gameId);
+  const facts = getFactsForGame(gameId);
+  const methodology = game ? getMethodology(game.methodologyId) : undefined;
+
+  return {
+    gameId,
+    modelVersion: currentModelVersion,
+    methodology,
+    profile,
+    fieldAudits: getFieldAudits(gameId),
+    derivedFactCount: facts.length,
+    modeledFactCount: facts.filter((fact) => fact.isModeled).length,
+    averageConfidence: facts.length
+      ? Number((facts.reduce((sum, fact) => sum + fact.confidenceScore, 0) / facts.length).toFixed(2))
+      : 0,
+    sourceIds: getSourceIdsForGame(gameId)
+  };
+}
+
+export function getIngestionStatus() {
+  const latestRun = ingestionRuns.slice().sort((a, b) => b.startedAt.localeCompare(a.startedAt))[0];
+
+  return {
+    latestRun,
+    runs: ingestionRuns,
+    sourceSnapshots,
+    latestOfficialAsOfDate: officialDataFreshness.latestOfficialAsOfDate,
+    nextOfficialReportDate: officialDataFreshness.nextOfficialReportDate,
+    modelVersion: currentModelVersion,
+    databaseConfigured: Boolean(process.env.DATABASE_URL)
+  };
+}
+
+function buildDashboardKpiValue(
+  value: number,
+  unit: string,
+  row: DashboardGameRow | undefined,
+  field: keyof Game["fieldProvenance"]
+) {
+  const provenance =
+    row?.game.fieldProvenance[field] ??
+    games[0].fieldProvenance[field];
+  const confidence = row?.confidence ?? 0.5;
+
+  return {
+    value: Number(value.toFixed(2)),
+    unit,
+    provenance,
+    confidence,
+    sourceIds: provenance.sourceIds ?? [],
+    modelVersion: currentModelVersion,
+    range: buildUncertaintyRange(value, confidence)
+  };
+}
+
+export function getDashboardSummary(filters?: Parameters<typeof filterDashboardRows>[1]): DashboardSummary {
+  const rows = filters ? filterDashboardRows(getDashboardRows(), filters) : getDashboardRows();
+  const officialRows = rows.filter((row) => row.confirmedUnitsM);
+  const modeledRows = rows.filter((row) => !row.confirmedUnitsM);
+  const totalUnits = rows.reduce((sum, row) => sum + row.blendedUnitsM, 0);
+  const totalRevenue = rows.reduce((sum, row) => sum + row.estimatedRevenueUsdM, 0);
+  const averageConfidence = rows.reduce((sum, row) => sum + row.confidence, 0) / Math.max(rows.length, 1);
+  const strongestOfficialAnchor = officialRows.slice().sort((a, b) => b.blendedUnitsM - a.blendedUnitsM)[0];
+  const highestUncertaintyTitle = rows.slice().sort((a, b) => a.confidence - b.confidence)[0];
+  const latestRun = getIngestionStatus().latestRun;
+
+  return {
+    totalUnits: buildDashboardKpiValue(totalUnits, "million_units", strongestOfficialAnchor ?? rows[0], "lifetimeUnits"),
+    totalRevenue: buildDashboardKpiValue(totalRevenue, "usd_millions", strongestOfficialAnchor ?? rows[0], "revenueEstimate"),
+    officialAnchorCount: buildDashboardKpiValue(officialRows.length, "titles", strongestOfficialAnchor ?? rows[0], "lifetimeUnits"),
+    modeledTitleCount: buildDashboardKpiValue(modeledRows.length, "titles", highestUncertaintyTitle ?? rows[0], "metadata"),
+    averageConfidence: buildDashboardKpiValue(averageConfidence, "score", highestUncertaintyTitle ?? rows[0], "metadata"),
+    strongestOfficialAnchor,
+    highestUncertaintyTitle,
+    latestOfficialAsOfDate: officialDataFreshness.latestOfficialAsOfDate,
+    latestEnrichmentRunDate: latestRun?.completedAt ?? lastVerifiedAt,
+    latestModelRunDate: latestRun?.completedAt ?? lastVerifiedAt
+  };
 }
 
 export function getDashboardRows(): DashboardGameRow[] {

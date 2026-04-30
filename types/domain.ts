@@ -12,6 +12,9 @@ export type ThemeKey =
 export type DataMode = "confirmed" | "estimated" | "blended";
 export type MetricMode = "units" | "revenue";
 export type SourceType = "investor_relations" | "official_catalog" | "metadata_api" | "manual_model";
+export type ReviewStatus = "pending" | "approved" | "needs_review" | "documented_exception";
+export type IngestionStatus = "success" | "warning" | "failed";
+export type ModelStep = "lifetime_title_estimate" | "platform_allocation" | "regional_allocation" | "annual_cadence" | "revenue_estimate";
 export type EditionType = "base" | "special" | "complete" | "port" | "remaster";
 export type GameKind = "game" | "mission_pack" | "expansion" | "online_service" | "variant";
 export type RockstarRole = "developed" | "published" | "presented";
@@ -135,6 +138,8 @@ export interface DerivedSalesFact {
   estimatedRevenueUsdM: number;
   confidenceScore: number;
   methodologyId: string;
+  modelVersion: string;
+  uncertaintyRange?: UncertaintyRange;
   sourceIds: string[];
   isModeled: boolean;
   lastVerifiedAt: string;
@@ -147,6 +152,11 @@ export interface Methodology {
   assumptions: string[];
   formulaNotes: string[];
   version: string;
+  modelSteps?: ModelStep[];
+  inputs?: string[];
+  knownWeaknesses?: string[];
+  lastReviewedAt?: string;
+  exampleGameIds?: string[];
 }
 
 export interface SourceRecord {
@@ -158,6 +168,98 @@ export interface SourceRecord {
   accessedAt: string;
   attributionRequired: boolean;
   notes: string;
+}
+
+export interface UncertaintyRange {
+  low: number;
+  base: number;
+  high: number;
+}
+
+export interface OfficialValue {
+  value: number;
+  unit: string;
+  provenance: FieldProvenance;
+  confidence: number;
+  sourceIds: string[];
+  asOfDate: string;
+}
+
+export interface ModeledValue {
+  value: number;
+  unit: string;
+  provenance: FieldProvenance;
+  confidence: number;
+  sourceIds: string[];
+  modelVersion: string;
+  range: UncertaintyRange;
+}
+
+export interface SourceSnapshot {
+  id: string;
+  sourceId: string;
+  sourceUrl: string;
+  capturedAt: string;
+  contentHash: string;
+  extractionMethod: string;
+  reviewStatus: ReviewStatus;
+  notes: string;
+}
+
+export interface IngestionRun {
+  id: string;
+  startedAt: string;
+  completedAt?: string;
+  status: IngestionStatus;
+  sourceCount: number;
+  officialEventCount: number;
+  enrichmentCount: number;
+  modelVersion: string;
+  notes: string[];
+}
+
+export interface ModelVersion {
+  id: string;
+  label: string;
+  createdAt: string;
+  methodologyId: string;
+  steps: ModelStep[];
+  assumptions: string[];
+  knownWeaknesses: string[];
+}
+
+export interface FieldAudit {
+  id: string;
+  gameId: string;
+  fieldName: keyof GameFieldProvenance | "platformAllocation" | "regionalAllocation" | "annualCadence";
+  provenance: FieldProvenance;
+  modelVersion?: string;
+  reviewedAt?: string;
+  reviewStatus: ReviewStatus;
+  notes: string;
+}
+
+export interface DashboardKpiValue {
+  value: number;
+  unit: string;
+  provenance: FieldProvenance;
+  confidence: number;
+  sourceIds: string[];
+  modelVersion: string;
+  range?: UncertaintyRange;
+}
+
+export interface DashboardSummary {
+  totalUnits: DashboardKpiValue;
+  totalRevenue: DashboardKpiValue;
+  officialAnchorCount: DashboardKpiValue;
+  modeledTitleCount: DashboardKpiValue;
+  averageConfidence: DashboardKpiValue;
+  strongestOfficialAnchor?: DashboardGameRow;
+  highestUncertaintyTitle?: DashboardGameRow;
+  latestOfficialAsOfDate: string;
+  latestEnrichmentRunDate: string;
+  latestModelRunDate: string;
 }
 
 export interface GameAsset {

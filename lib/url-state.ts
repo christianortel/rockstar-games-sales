@@ -8,6 +8,63 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
 }
 
+export type DashboardTab = "overview" | "franchises" | "titles" | "platforms" | "sources" | "model-audit";
+export type RankingSortKey = "rank" | "title" | "franchise" | "year" | "metric" | "confidence" | "provenance";
+export type SortDirection = "asc" | "desc";
+
+export interface DashboardViewState {
+  tab: DashboardTab;
+  sort: RankingSortKey;
+  direction: SortDirection;
+}
+
+export function parseDashboardViewState(searchParams: SearchParamReader): DashboardViewState {
+  const tabParam = searchParams.get("tab");
+  const sortParam = searchParams.get("sort");
+  const directionParam = searchParams.get("dir");
+
+  const tab: DashboardTab =
+    tabParam === "franchises" ||
+    tabParam === "titles" ||
+    tabParam === "platforms" ||
+    tabParam === "sources" ||
+    tabParam === "model-audit"
+      ? tabParam
+      : "overview";
+  const sort: RankingSortKey =
+    sortParam === "title" ||
+    sortParam === "franchise" ||
+    sortParam === "year" ||
+    sortParam === "metric" ||
+    sortParam === "confidence" ||
+    sortParam === "provenance"
+      ? sortParam
+      : "rank";
+
+  return {
+    tab,
+    sort,
+    direction: directionParam === "asc" ? "asc" : "desc"
+  };
+}
+
+export function updateDashboardViewSearchParams(current: URLSearchParams, patch: Partial<DashboardViewState>) {
+  const next = new URLSearchParams(current.toString());
+  const currentView = parseDashboardViewState(current);
+  const values = { ...currentView, ...patch };
+
+  if (values.tab === "overview") next.delete("tab");
+  else next.set("tab", values.tab);
+
+  if (values.sort === "rank") next.delete("sort");
+  else next.set("sort", values.sort);
+
+  if (values.direction === "desc") next.delete("dir");
+  else next.set("dir", values.direction);
+
+  return next;
+}
+
 export function parseDashboardFilters(
   searchParams: SearchParamReader,
   bounds: { min: number; max: number }

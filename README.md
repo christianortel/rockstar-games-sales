@@ -77,6 +77,8 @@ The homepage is the quickest way to understand the project. It lets you browse t
 
 The dashboard is the broadest analytics view. It is where the full catalog can be sliced by franchise, platform family, generation, role, and release type.
 
+![Dashboard sources and provenance](./docs/screenshots/readme-dashboard-sources.png)
+
 ### Game Pages
 
 Each title page is treated more like its own little world than a generic template. That includes key art, logo treatment, platform cards, timeline context, and provenance.
@@ -91,9 +93,11 @@ Compare mode is for building a short slate and seeing how those games stack up a
 
 The SQL lab is there because I did not want polished charts to be the only way someone could inspect the project. You can query the local tables directly in-browser.
 
+![Data lab](./docs/screenshots/readme-data-lab.png)
+
 ## Tech Stack
 
-- Next.js App Router
+- Next.js 16 App Router
 - TypeScript
 - Tailwind CSS
 - Framer Motion
@@ -169,8 +173,45 @@ Useful scripts:
 - `npm run data:fetch`
 - `npm run data:normalize`
 - `npm run data:derived`
+- `npm run data:ingest`
+- `npm run data:validate`
+- `npm run data:official-anchors`
+- `npm run audit:queue`
+- `npm run audit:strict-blocker`
+- `npm run audit:health`
+- `npm run audit:enrichment-dry-run`
+- `npm run release:verify`
+- `npm run release:verify:strict`
+- `npm run app:verify`
+- `npm run app:visual`
+- `npm run docs:screenshots`
 - `npm run dev`
 - `npm run build`
+
+For production setup, database import, and interview-demo readiness, see [`docs/PRODUCTION_RUNBOOK.md`](./docs/PRODUCTION_RUNBOOK.md).
+
+## Production Readiness
+
+The project is set up for a Supabase Postgres backend, but it still runs locally without a database through the seed-data fallback.
+
+Current production status:
+
+- Drizzle schema and migration files are in place.
+- Import and smoke-test scripts are in place.
+- `/api/health` checks real database connectivity when `DATABASE_URL` is configured.
+- `npm run release:verify` runs the standard local release gate.
+- `npm run release:verify:strict` is the final gate after Supabase is connected.
+- The remaining external blocker is a real Supabase `DATABASE_URL` so `db:push`, `db:import`, `db:smoke`, and strict readiness can run against the production database.
+
+Before calling the project full-stack complete, I would run:
+
+```bash
+npm run db:push
+npm run db:import
+npm run db:smoke
+npm run audit:readiness:strict
+npm run release:verify:strict
+```
 
 ## Modeling Approach
 
@@ -216,6 +257,19 @@ npm run lint
 Note: `npm run lint` currently runs `tsc --noEmit`.
 
 Also, do not run `npm run build` while a dev server is already running against the same workspace. Both commands write to `.next`, and on Windows that can blow up the dev server cache.
+
+## Interview Demo Path
+
+If I were walking someone through the project in an interview, I would not start with the code. I would show the product first, then back into the technical choices.
+
+1. Start on the homepage and use the `Active World` panel to show that this is an interactive catalog, not a static landing page.
+2. Open the dashboard and switch between `Overview`, `Sources`, and `Model Audit` to show the trust layer, official anchors, and modeled boundaries.
+3. Use a preset like `GTA vs Red Dead` or `Official anchors only` to show that the dashboard state is shareable through the URL.
+4. Open `Grand Theft Auto V` or `Red Dead Redemption 2` and point out the release context, field provenance, confidence reasons, and title-level presentation.
+5. Open compare mode and build a short matchup so the app feels like a tool instead of just a report.
+6. End in the Data Lab or source review page to show that the polished UI still has an inspectable data layer behind it.
+
+The main talking point is that official Take-Two/Rockstar disclosures are treated as anchors, while undisclosed title/platform/region details are clearly marked as modeled. That is the difference between making a flashy chart and making a defensible data product.
 
 ## Why I Built It
 

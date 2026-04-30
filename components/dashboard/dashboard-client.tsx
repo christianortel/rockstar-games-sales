@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { startTransition, useDeferredValue, useMemo, useTransition } from "react";
-import { BarChart3, Compass, Layers3, ShieldCheck, Sparkles, Swords, WalletCards } from "lucide-react";
+import { Activity, BarChart3, Clock3, Compass, Database, FileSearch, Layers3, LineChart, ShieldCheck, Sparkles, Swords, TableProperties, WalletCards } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import {
@@ -24,7 +24,9 @@ import {
   getAllMethodologies,
   getAllSources,
   getAssetForGame,
+  getDashboardSummary,
   getDashboardRows,
+  getFieldAudits,
   getFranchiseNames,
   getGameKindOptions,
   getGenerationOptions,
@@ -34,6 +36,7 @@ import {
   getRegionOptions,
   getRockstarRoleOptions,
   getStatusOptions,
+  getIngestionStatus,
   getThemeForGame,
   getYearBounds
 } from "@/lib/data/repository";
@@ -48,7 +51,7 @@ import {
   buildRegionBreakdownForRows,
   buildTopTitleData
 } from "@/lib/metrics/presenters";
-import { parseDashboardFilters, updateDashboardSearchParams } from "@/lib/url-state";
+import { parseDashboardFilters, parseDashboardViewState, updateDashboardSearchParams, updateDashboardViewSearchParams } from "@/lib/url-state";
 import { FilterState } from "@/types/domain";
 
 const dashboardRows = getDashboardRows();
@@ -63,6 +66,8 @@ const statusOptions = getStatusOptions();
 const yearBounds = getYearBounds();
 const methodologies = getAllMethodologies();
 const sources = getAllSources();
+const ingestionStatus = getIngestionStatus();
+const fieldAudits = getFieldAudits();
 const TopTitlesChart = dynamic(() => import("@/components/charts/overview-charts").then((mod) => mod.TopTitlesChart), {
   loading: () => <ChartLoadingCard subtitle="Preparing the ranking view." title="Top Titles" />,
   ssr: false
@@ -91,6 +96,7 @@ export function DashboardClient() {
   const [isPending, startUiTransition] = useTransition();
 
   const filters = useMemo(() => parseDashboardFilters(searchParams, yearBounds), [searchParams]);
+  const viewState = useMemo(() => parseDashboardViewState(searchParams), [searchParams]);
   const deferredSearch = useDeferredValue(filters.search);
   const effectiveFilters = useMemo<FilterState>(() => ({ ...filters, search: deferredSearch }), [deferredSearch, filters]);
 
@@ -107,6 +113,7 @@ export function DashboardClient() {
         .sort((a, b) => resolveMetricValue(b, filters.metricMode, filters.dataMode) - resolveMetricValue(a, filters.metricMode, filters.dataMode)),
     [filters.dataMode, filters.metricMode, scopedRows]
   );
+  const dashboardSummary = useMemo(() => getDashboardSummary(effectiveFilters), [effectiveFilters]);
 
   const leadRow = sortedRows[0] ?? dashboardRows[0];
   const backdropAsset = leadRow ? getAssetForGame(leadRow.game.id) : undefined;
@@ -166,11 +173,29 @@ export function DashboardClient() {
     });
   };
 
+  const commitView = (patch: Partial<typeof viewState>) => {
+    startUiTransition(() => {
+      startTransition(() => {
+        const next = updateDashboardViewSearchParams(new URLSearchParams(searchParams.toString()), patch);
+        const query = next.toString();
+        router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
+      });
+    });
+  };
+
   const resetFilters = () => {
     startUiTransition(() => router.replace(pathname, { scroll: false }));
   };
 
   const metricFormatter = filters.metricMode === "revenue" ? formatCurrencyMillions : formatMillions;
+  const tabs = [
+    { key: "overview", label: "Overview", icon: Activity },
+    { key: "franchises", label: "Franchises", icon: LineChart },
+    { key: "titles", label: "Titles", icon: TableProperties },
+    { key: "platforms", label: "Platforms", icon: BarChart3 },
+    { key: "sources", label: "Sources", icon: FileSearch },
+    { key: "model-audit", label: "Model Audit", icon: Database }
+  ] as const;
 
   return (
     <div className="space-y-8">
@@ -197,14 +222,14 @@ export function DashboardClient() {
           </div>
           <div>
             <p className="text-[11px] uppercase tracking-[0.32em]" style={{ color: backdropTheme.accent }}>
-              Catalog atlas
+              Production dashboard
             </p>
             <h1 className="mt-3 max-w-[14ch] font-display text-4xl uppercase tracking-[0.05em] text-white md:text-6xl">
-              Read the full release map
+              Rockstar sales intelligence cockpit
             </h1>
             <p className="mt-4 max-w-3xl text-base leading-8 text-white/68">
-              Filter Rockstar's catalog by franchise, platform family, generation, release type, role, and data mode. The
-              interface stays visual, but the source and confidence model remain visible at every level.
+              Filter the catalog by franchise, platform family, generation, release type, role, and data mode while keeping
+              official anchors, modeled layers, freshness, and source provenance visible.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
@@ -301,6 +326,48 @@ export function DashboardClient() {
         statuses={statusOptions}
       />
 
+      <section className="grid gap-4 rounded-[1.2rem] border border-white/10 bg-black/20 p-5 backdrop-blur-xl lg:grid-cols-4">
+        {[
+          {
+            label: "Official data as of",
+            value: dashboardSummary.latestOfficialAsOfDate,
+            detail: "Take-Two / Rockstar primary-source baseline.",
+            icon: ShieldCheck
+          },
+          {
+            label: "Enrichment run",
+            value: dashboardSummary.latestEnrichmentRunDate.slice(0, 10),
+            detail: `${ingestionStatus.latestRun?.status ?? "local seed"} ingestion status.`,
+            icon: FileSearch
+          },
+          {
+            label: "Model run",
+            value: dashboardSummary.latestModelRunDate.slice(0, 10),
+            detail: ingestionStatus.modelVersion,
+            icon: Database
+          },
+          {
+            label: "Next official checkpoint",
+            value: ingestionStatus.nextOfficialReportDate,
+            detail: "Refresh official anchors after Take-Two reports.",
+            icon: Clock3
+          }
+        ].map((item) => {
+          const Icon = item.icon;
+
+          return (
+            <div key={item.label} className="rounded-[0.75rem] border border-white/10 bg-white/5 p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-[11px] uppercase tracking-[0.24em] text-white/42">{item.label}</p>
+                <Icon className="h-4 w-4 text-white/42" />
+              </div>
+              <p className="mt-3 font-display text-2xl uppercase tracking-[0.04em] text-white">{item.value}</p>
+              <p className="mt-2 text-sm leading-6 text-white/58">{item.detail}</p>
+            </div>
+          );
+        })}
+      </section>
+
       <section className="grid gap-4 rounded-[1.8rem] border border-white/10 bg-black/20 p-5 backdrop-blur-xl xl:grid-cols-[0.9fr,1.1fr]">
         <div>
           <p className="text-[11px] uppercase tracking-[0.28em] text-white/45">Scope summary</p>
@@ -366,65 +433,203 @@ export function DashboardClient() {
         />
       </div>
 
-      <SectionShell
-        accent={backdropTheme.accent}
-        description="The dashboard keeps the metrics analytical while preserving a game-world presentation layer."
-        eyebrow="Overview"
-        title="Cross-title performance"
-      >
-        <div className="grid gap-5 xl:grid-cols-[1.15fr,0.85fr]">
-          <TopTitlesChart accent={backdropTheme.accent} data={topTitleData} formatter={chartFormatter} />
-          <FranchiseChart data={franchiseData} colors={backdropTheme.chartPalette} formatter={chartFormatter} />
-          <TrendChart
-            accent={backdropTheme.accent}
-            data={annualTrend}
-            formatter={chartFormatter}
-            secondary={backdropTheme.accentStrong}
-            subtitle="Annual velocity and cumulative climb for the filtered universe."
-            title="Sales over time"
-          />
-          <PlatformMixChart colors={backdropTheme.chartPalette} data={platformMix} />
-        </div>
-      </SectionShell>
+      <div className="flex flex-wrap gap-2 border-y border-white/10 py-4">
+        {tabs.map((tab) => {
+          const Icon = tab.icon;
+          const active = viewState.tab === tab.key;
 
-      <SectionShell
-        accent={backdropTheme.accentStrong}
-        description="Regional and hardware-generation cuts help reveal how Rockstar's catalog concentration changes by era."
-        eyebrow="Mix analysis"
-        title="Regions, generations, and standout patterns"
-      >
-        <div className="grid gap-5 xl:grid-cols-[0.8fr,1.2fr]">
-          <RegionDonutChart colors={backdropTheme.chartPalette} data={regionBreakdown} />
-          <div className="grid gap-5">
+          return (
+            <button
+              key={tab.key}
+              aria-pressed={active}
+              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-xs uppercase tracking-[0.22em] transition ${
+                active
+                  ? "border-white/24 bg-white/14 text-white"
+                  : "border-white/10 bg-white/5 text-white/62 hover:border-white/18 hover:text-white"
+              }`}
+              onClick={() => commitView({ tab: tab.key })}
+              type="button"
+            >
+              <Icon className="h-4 w-4" />
+              {tab.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {viewState.tab === "overview" ? (
+        <SectionShell
+          accent={backdropTheme.accent}
+          description="Official anchors, modeled totals, confidence, and source freshness are grouped into a single interview-ready readout."
+          eyebrow="Overview"
+          title="Cross-title performance"
+        >
+          <div className="grid gap-5 xl:grid-cols-[1.15fr,0.85fr]">
+            <TopTitlesChart accent={backdropTheme.accent} data={topTitleData} formatter={chartFormatter} />
+            <FranchiseChart data={franchiseData} colors={backdropTheme.chartPalette} formatter={chartFormatter} />
+            <TrendChart
+              accent={backdropTheme.accent}
+              data={annualTrend}
+              formatter={chartFormatter}
+              secondary={backdropTheme.accentStrong}
+              subtitle="Annual velocity and cumulative climb for the filtered universe."
+              title="Sales over time"
+            />
+            <div className="grid gap-4">
+              <div className="rounded-[0.75rem] border border-white/10 bg-white/5 p-5">
+                <p className="text-[11px] uppercase tracking-[0.26em] text-white/45">Strongest official anchor</p>
+                <h3 className="mt-3 font-display text-3xl uppercase tracking-[0.04em] text-white">
+                  {dashboardSummary.strongestOfficialAnchor?.game.title ?? "No official anchor"}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-white/64">
+                  {dashboardSummary.strongestOfficialAnchor
+                    ? `${formatMillions(dashboardSummary.strongestOfficialAnchor.blendedUnitsM)} from a Tier 1 source-backed milestone.`
+                    : "The current filter stack does not include an official title milestone."}
+                </p>
+              </div>
+              <div className="rounded-[0.75rem] border border-white/10 bg-white/5 p-5">
+                <p className="text-[11px] uppercase tracking-[0.26em] text-white/45">Highest uncertainty</p>
+                <h3 className="mt-3 font-display text-3xl uppercase tracking-[0.04em] text-white">
+                  {dashboardSummary.highestUncertaintyTitle?.game.title ?? "No title"}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-white/64">
+                  {dashboardSummary.highestUncertaintyTitle?.confidenceReasons[0] ?? "No uncertainty read available."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </SectionShell>
+      ) : null}
+
+      {viewState.tab === "franchises" ? (
+        <SectionShell
+          accent={backdropTheme.accentStrong}
+          description="Franchise totals and generation splits reveal where the catalog is concentrated under the current filter stack."
+          eyebrow="Franchises"
+          title="Franchise and generation performance"
+        >
+          <div className="grid gap-5 xl:grid-cols-2">
+            <FranchiseChart data={franchiseData} colors={backdropTheme.chartPalette} formatter={chartFormatter} />
             <FranchiseChart data={generationBreakdown} colors={backdropTheme.chartPalette.slice().reverse()} formatter={formatMillions} />
-            <div className="rounded-[1.7rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
-              <div className="flex items-center gap-3">
-                <BarChart3 className="h-5 w-5 text-white/45" />
-                <div>
-                  <p className="text-[11px] uppercase tracking-[0.28em] text-white/45">Insight engine</p>
-                  <h3 className="mt-2 font-display text-2xl uppercase tracking-[0.05em] text-white">Contextual reads</h3>
+          </div>
+        </SectionShell>
+      ) : null}
+
+      {viewState.tab === "platforms" ? (
+        <SectionShell
+          accent={backdropTheme.accentStrong}
+          description="Regional and hardware-generation cuts help reveal how Rockstar's catalog concentration changes by era."
+          eyebrow="Platforms"
+          title="Regions, platforms, and standout patterns"
+        >
+          <div className="grid gap-5 xl:grid-cols-[0.8fr,1.2fr]">
+            <RegionDonutChart colors={backdropTheme.chartPalette} data={regionBreakdown} />
+            <div className="grid gap-5">
+              <PlatformMixChart colors={backdropTheme.chartPalette} data={platformMix} />
+              <div className="rounded-[0.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+                <div className="flex items-center gap-3">
+                  <BarChart3 className="h-5 w-5 text-white/45" />
+                  <div>
+                    <p className="text-[11px] uppercase tracking-[0.28em] text-white/45">Insight engine</p>
+                    <h3 className="mt-2 font-display text-2xl uppercase tracking-[0.05em] text-white">Contextual reads</h3>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-3">
+                  {insights.map((insight) => (
+                    <div key={insight} className="rounded-[0.75rem] border border-white/8 bg-black/20 p-4 text-sm leading-7 text-white/68">
+                      {insight}
+                    </div>
+                  ))}
                 </div>
               </div>
+            </div>
+          </div>
+        </SectionShell>
+      ) : null}
+
+      {viewState.tab === "titles" ? (
+        <SectionShell
+          accent={backdropTheme.accent}
+          description="The ranking table supports URL state, sortable columns, provenance fields, confidence, and CSV export."
+          eyebrow="Titles"
+          title="Source-aware ranking view"
+        >
+          <RankingTable
+            dataMode={filters.dataMode}
+            direction={viewState.direction}
+            metricMode={filters.metricMode}
+            onSort={(sort, direction) => commitView({ sort, direction })}
+            rows={sortedRows}
+            sort={viewState.sort}
+          />
+        </SectionShell>
+      ) : null}
+
+      {viewState.tab === "sources" ? (
+        <SectionShell
+          accent={backdropTheme.accent}
+          description="Source freshness and review status are visible because data trust is part of the product surface."
+          eyebrow="Sources"
+          title="Source stack and ingestion status"
+        >
+          <div className="grid gap-4 lg:grid-cols-3">
+            {sources.map((source) => (
+              <div key={source.id} className="rounded-[0.75rem] border border-white/10 bg-white/5 p-5">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-white/55">
+                    Tier {source.trustTier}
+                  </span>
+                  <span className="rounded-full border border-white/10 px-3 py-1 text-[11px] uppercase tracking-[0.2em] text-white/55">
+                    {source.sourceType.replace(/_/g, " ")}
+                  </span>
+                </div>
+                <h3 className="mt-4 text-lg font-semibold text-white">{source.sourceName}</h3>
+                <p className="mt-2 text-sm leading-7 text-white/64">{source.notes}</p>
+                <p className="mt-4 text-[11px] uppercase tracking-[0.22em] text-white/42">Accessed {source.accessedAt}</p>
+              </div>
+            ))}
+          </div>
+        </SectionShell>
+      ) : null}
+
+      {viewState.tab === "model-audit" ? (
+        <SectionShell
+          accent={backdropTheme.accentStrong}
+          description="This is the review layer: model version, assumptions, weaknesses, and field-level provenance checks."
+          eyebrow="Model audit"
+          title="Methodology and field audit"
+        >
+          <div className="grid gap-5 xl:grid-cols-[0.9fr,1.1fr]">
+            <div className="rounded-[0.75rem] border border-white/10 bg-white/5 p-5">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-white/45">Current model</p>
+              <h3 className="mt-3 font-display text-3xl uppercase tracking-[0.04em] text-white">{methodologies[0]?.name}</h3>
+              <p className="mt-3 text-sm leading-7 text-white/64">{methodologies[0]?.description}</p>
+              <p className="mt-5 text-[11px] uppercase tracking-[0.28em] text-white/45">Known weaknesses</p>
               <div className="mt-5 grid gap-3">
-                {insights.map((insight) => (
-                  <div key={insight} className="rounded-[1.2rem] border border-white/8 bg-black/20 p-4 text-sm leading-7 text-white/68">
-                    {insight}
+                {(methodologies[0]?.knownWeaknesses ?? []).map((weakness) => (
+                  <div key={weakness} className="rounded-[0.75rem] border border-white/8 bg-black/20 p-4 text-sm leading-7 text-white/66">
+                    {weakness}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-[0.75rem] border border-white/10 bg-white/5 p-5">
+              <p className="text-[11px] uppercase tracking-[0.28em] text-white/45">Field audit sample</p>
+              <div className="mt-4 grid gap-3">
+                {fieldAudits.slice(0, 12).map((audit) => (
+                  <div key={audit.id} className="rounded-[0.75rem] border border-white/8 bg-black/20 p-4">
+                    <div className="flex flex-wrap items-center justify-between gap-3">
+                      <p className="text-sm font-semibold text-white">{audit.gameId} / {audit.fieldName}</p>
+                      <span className="text-[11px] uppercase tracking-[0.2em] text-white/48">{audit.reviewStatus}</span>
+                    </div>
+                    <p className="mt-2 text-sm leading-6 text-white/62">{audit.provenance.reason}</p>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        </div>
-      </SectionShell>
-
-      <SectionShell
-        accent={backdropTheme.accent}
-        description="The ranking table supports URL state and CSV export so the current cut of the catalog can be reviewed outside the app."
-        eyebrow="Table"
-        title="Searchable ranking view"
-      >
-        <RankingTable dataMode={filters.dataMode} metricMode={filters.metricMode} rows={sortedRows} />
-      </SectionShell>
+        </SectionShell>
+      ) : null}
 
       <SectionShell
         accent={backdropTheme.accentStrong}

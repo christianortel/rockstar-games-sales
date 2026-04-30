@@ -20,6 +20,7 @@ import {
 export const sources = rawSources as SourceRecord[];
 export const officialSalesEvents = rawOfficialSalesEvents as OfficialSalesEvent[];
 const gameEnrichment = rawGameEnrichment as Record<string, GameEnrichment>;
+export const currentModelVersion = "blend-model-v1.2.0";
 
 export const methodologies: Methodology[] = [
   {
@@ -39,7 +40,21 @@ export const methodologies: Methodology[] = [
       "platformYearUnits = lifetimeUnits * platformShare * yearlyWeight * regionShare",
       "confidenceScore combines source tier, official coverage, and release-era distance"
     ],
-    version: "1.1.0"
+    version: "1.2.0",
+    modelSteps: ["lifetime_title_estimate", "platform_allocation", "regional_allocation", "annual_cadence", "revenue_estimate"],
+    inputs: [
+      "Official title and franchise sell-in milestones",
+      "Release timing and platform footprint",
+      "Rockstar role, franchise strength, and parent-title inheritance",
+      "Average selling price assumptions"
+    ],
+    knownWeaknesses: [
+      "Most platform and regional splits are not officially disclosed.",
+      "Older catalog titles have thinner primary-source sales coverage.",
+      "Revenue is a modeled premium-software estimate, not official title-level reporting."
+    ],
+    lastReviewedAt: "2026-04-29",
+    exampleGameIds: ["gta_v", "red_dead_redemption_2", "gta_1", "gta_london_1961"]
   }
 ];
 
@@ -857,6 +872,16 @@ function estimateConfidenceForSeed(seed: (typeof catalogSeeds)[number]) {
     (seed.kind === "online_service" ? 0.04 : 0);
 
   return Number(clamp(profileConfidence, 0.31, 0.67).toFixed(2));
+}
+
+export function buildUncertaintyRange(base: number, confidence: number) {
+  const spread = clamp(0.34 - confidence * 0.18, 0.12, 0.28);
+
+  return {
+    low: Number((base * (1 - spread)).toFixed(4)),
+    base: Number(base.toFixed(4)),
+    high: Number((base * (1 + spread)).toFixed(4))
+  };
 }
 
 function buildModeledGameAdjustments(seed: (typeof catalogSeeds)[number]): Partial<Game> {

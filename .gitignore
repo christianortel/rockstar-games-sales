@@ -2,6 +2,10 @@ node_modules/
 .next/
 out/
 
+.env
+.env.local
+.env.*.local
+
 *.log
 npm-path.log
 npm-ver.log
@@ -9,6 +13,8 @@ foo.log
 detached-test.log
 tsconfig.tsbuildinfo
 docs/screenshots/chrome-profile/
+playwright-report/
+test-results/
 
 .DS_Store
 Thumbs.db

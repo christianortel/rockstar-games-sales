@@ -2,12 +2,17 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 import { catalogSeeds } from "@/data/normalized/catalog";
+import rawGameEnrichment from "@/data/raw/game-enrichment.json";
+import { validateGameEnrichment } from "@/lib/data/enrichment-validation";
 import { GameEnrichment } from "@/types/domain";
 
 const WIKIPEDIA_API = "https://en.wikipedia.org/w/api.php";
 const WIKIPEDIA_SUMMARY_API = "https://en.wikipedia.org/api/rest_v1/page/summary";
 const OUTPUT_FILE = path.join(process.cwd(), "data", "raw", "game-enrichment.json");
 const ACCESS_DATE = new Date().toISOString().slice(0, 10);
+const dryRun = process.argv.includes("--dry-run");
+const limitArg = process.argv.find((argument) => argument.startsWith("--limit="));
+const limit = limitArg ? Number(limitArg.replace("--limit=", "")) : undefined;
 const platformLabelById: Record<string, string> = {
   ps1: "PlayStation",
   n64: "Nintendo 64",
@@ -418,17 +423,43 @@ async function enrichGame(gameId: string, title: string): Promise<GameEnrichment
 }
 
 async function main() {
-  const enrichment: Record<string, GameEnrichment> = {};
+  const existingEnrichment = rawGameEnrichment as Record<string, GameEnrichment>;
+  const enrichment: Record<string, GameEnrichment> = { ...existingEnrichment };
+  const seeds = Number.isFinite(limit) && limit ? catalogSeeds.slice(0, limit) : catalogSeeds;
 
-  for (const seed of catalogSeeds) {
+  for (const seed of seeds) {
     const result = await enrichGame(seed.id, seed.title);
 
     if (result) {
-      enrichment[seed.id] = result;
+      enrichment[seed.id] = {
+        ...enrichment[seed.id],
+        ...result
+      };
       console.log(`enriched ${seed.id} -> ${result.wikipediaTitle ?? "unknown page"}`);
+    } else if (enrichment[seed.id]) {
+      console.log(`kept existing enrichment for ${seed.id}`);
     } else {
       console.log(`no enrichment found for ${seed.id}`);
     }
+  }
+
+  const { errors, warnings } = validateGameEnrichment(enrichment);
+  const touchedIds = new Set(seeds.map((seed) => seed.id));
+  const validationErrors = limit ? errors.filter((error) => touchedIds.has(error.split(" ")[0])) : errors;
+
+  if (warnings.length) {
+    console.warn(warnings.map((warning) => `warning: ${warning}`).join("\n"));
+  }
+
+  if (validationErrors.length) {
+    console.error(validationErrors.map((error) => `error: ${error}`).join("\n"));
+    process.exitCode = 1;
+    return;
+  }
+
+  if (dryRun) {
+    console.log(`dry run complete: resolved ${Object.keys(enrichment).length} enrichment records; ${OUTPUT_FILE} was not changed.`);
+    return;
   }
 
   mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });

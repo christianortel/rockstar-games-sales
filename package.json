@@ -7,29 +7,62 @@
     "build": "next build",
     "start": "next start",
     "lint": "tsc --noEmit",
-    "data:normalize": "tsx scripts/normalize-data.ts",
-    "data:derived": "tsx scripts/build-derived-sales.ts",
-    "data:fetch": "tsx scripts/fetch-metadata.ts"
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:import": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/import-db.ts",
+    "db:smoke": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/smoke-db.ts",
+    "data:ingest": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/ingest-data.ts",
+    "data:validate": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/validate-data.ts",
+    "data:official-anchors": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/validate-official-anchors.ts",
+    "data:official-extraction": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/validate-official-anchor-extraction.ts",
+    "data:enrichment:validate": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/validate-enrichment.ts",
+    "audit:queue": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/audit-queue.ts",
+    "audit:readiness": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/check-production-readiness.ts",
+    "audit:readiness:strict": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/check-production-readiness.ts --strict",
+    "audit:strict-blocker": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/verify-strict-readiness-blocker.ts",
+    "audit:health": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/verify-health.ts",
+    "audit:enrichment-dry-run": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/verify-enrichment-dry-run.ts",
+    "audit:browser": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/check-browser-readiness.ts",
+    "audit:browser:strict": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/check-browser-readiness.ts --strict",
+    "release:verify": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/verify-release.ts",
+    "release:verify:strict": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/verify-release.ts --strict",
+    "app:verify": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/verify-runtime.ts",
+    "app:visual": "playwright test",
+    "docs:screenshots": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/capture-readme-screenshots.ts",
+    "data:normalize": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/normalize-data.ts",
+    "data:derived": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/build-derived-sales.ts",
+    "data:fetch": "node --no-warnings --loader ./scripts/alias-loader.mjs scripts/fetch-metadata.ts"
   },
   "dependencies": {
     "alasql": "^4.17.0",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.2",
     "framer-motion": "^12.9.2",
     "lucide-react": "^0.511.0",
-    "next": "^15.3.3",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "next": "16.2.4",
+    "postgres": "^3.4.9",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "recharts": "^2.15.3",
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/node": "^22.15.30",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.5",
     "autoprefixer": "^10.4.21",
+    "drizzle-kit": "^0.31.10",
     "postcss": "^8.5.4",
     "tailwindcss": "^3.4.17",
-    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "@esbuild-kit/core-utils": {
+      "esbuild": "0.25.12"
+    },
+    "next": {
+      "postcss": "8.5.10"
+    }
   }
 }

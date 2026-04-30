@@ -35,11 +35,11 @@ export function DashboardFilterBar({
 }) {
   const years = Array.from({ length: bounds.max - bounds.min + 1 }, (_, index) => bounds.min + index);
   const presets: Array<{ label: string; patch: Partial<FilterState> }> = [
-    { label: "Full catalog", patch: { coverage: "all", kind: "all", status: "all", family: "all", role: "all" } },
-    { label: "Flagships", patch: { coverage: "analytics", kind: "all", status: "all" } },
-    { label: "PS2 era", patch: { generation: "gen6", yearStart: 2000, yearEnd: 2006 } },
-    { label: "Portable", patch: { generation: "portable", coverage: "all" } },
-    { label: "Services", patch: { kind: "online_service", status: "active", coverage: "all" } }
+    { label: "Interview default", patch: { coverage: "analytics", dataMode: "blended", metricMode: "units", kind: "all", franchise: "all", generation: "all" } },
+    { label: "GTA vs Red Dead", patch: { coverage: "analytics", franchise: "Grand Theft Auto", dataMode: "blended", metricMode: "units" } },
+    { label: "Official anchors only", patch: { coverage: "analytics", dataMode: "confirmed", metricMode: "units", franchise: "all" } },
+    { label: "Highest uncertainty", patch: { coverage: "all", dataMode: "estimated", metricMode: "units", yearStart: bounds.min, yearEnd: 2001 } },
+    { label: "Platform era", patch: { generation: "gen6", yearStart: 2000, yearEnd: 2006, dataMode: "blended" } }
   ];
 
   return (
